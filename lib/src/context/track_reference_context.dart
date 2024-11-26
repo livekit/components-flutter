@@ -50,12 +50,20 @@ class TrackReferenceContext extends ChangeNotifier {
               'TrackContext: TrackStreamStateUpdatedEvent for ${_participant.sid}');
           notifyListeners();
         }
+      })
+      ..on<AudioVisualizerEvent>((event) {
+        if (event.track.sid == pub?.sid) {
+          Debug.event(
+              'TrackContext: AudioVisualizerEvent for ${_participant.sid}');
+          notifyListeners();
+        }
       });
   }
 
   @override
   void dispose() {
     super.dispose();
+    _listener.cancelAll();
     _listener.dispose();
     if (_statsListener != null) {
       _statsListener!.dispose();
@@ -88,6 +96,10 @@ class TrackReferenceContext extends ChangeNotifier {
   bool _showStatistics = false;
 
   bool get showStatistics => _showStatistics;
+
+  AudioVisualizerEvent? _audioVisualizerEvent;
+
+  AudioVisualizerEvent? get audioVisualizerEvent => _audioVisualizerEvent;
 
   set showStatistics(bool value) {
     if (_showStatistics != value) {

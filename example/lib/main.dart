@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
-  final url = 'wss://livekit.example.com';
-  final token = 'your_token_here';
+  final url = 'ws://192.168.2.188:7880';
+  final token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzQzODg4MTQsImlzcyI6IkFQSXJramtRYVZRSjVERSIsIm5hbWUiOiJtYWMiLCJuYmYiOjE3MzI1ODg4MTQsInN1YiI6Im1hYyIsInZpZGVvIjp7ImNhblVwZGF0ZU93bk1ldGFkYXRhIjp0cnVlLCJyb29tIjoibGl2ZSIsInJvb21Kb2luIjp0cnVlfX0.KlBNQgA-75zviLLdzMzEP6T19Lv1JWvU54dfSgF2Cdw';
 
   /// handle join button pressed, fetch connection details and connect to room.
   // ignore: unused_element
@@ -48,9 +48,9 @@ class MyHomePage extends StatelessWidget {
       print('Joining room: name=$name, roomName=$roomName');
     }
     try {
-      final details = await fetchConnectionDetails(name, roomName);
-      await roomCtx.connect(
-          url: details.serverUrl, token: details.participantToken);
+      //final details = await fetchConnectionDetails(name, roomName);
+      //await roomCtx.connect(
+      //    url: details.serverUrl, token: details.participantToken);
       await roomCtx.connect(
         url: url,
         token: token,
@@ -65,7 +65,10 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LivekitRoom(
-      roomContext: RoomContext(),
+      roomContext: RoomContext(
+        url: url,
+        token: token,
+      ),
       builder: (context, roomCtx) {
         var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
         return Scaffold(
@@ -85,7 +88,7 @@ class MyHomePage extends StatelessWidget {
                   ? Prejoin(
                       token: token,
                       url: url,
-                      //onJoinPressed: _onJoinPressed,
+                      onJoinPressed: _onJoinPressed,
                     )
                   :
 
@@ -116,8 +119,8 @@ class MyHomePage extends StatelessWidget {
                                   children: <Widget>[
                                     /// show participant loop
                                     ParticipantLoop(
-                                      showAudioTracks: false,
-                                      showVideoTracks: true,
+                                      showAudioTracks: true,
+                                      showVideoTracks: false,
 
                                       /// layout builder
                                       layoutBuilder:
