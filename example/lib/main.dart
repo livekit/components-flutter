@@ -123,6 +123,7 @@ class MyHomePage extends StatelessWidget {
                                     ParticipantLoop(
                                       showAudioTracks: true,
                                       showVideoTracks: false,
+                                      showParticipantPlaceholder: false,
 
                                       /// layout builder
                                       layoutBuilder:
@@ -156,8 +157,6 @@ class MyHomePage extends StatelessWidget {
                                                       },
                                                     ),
 
-                                              /// TODO: Add AudioTrackWidget or AgentVisualizerWidget later
-
                                               /// focus toggle button at the top right
                                               const Positioned(
                                                 top: 0,
@@ -173,7 +172,12 @@ class MyHomePage extends StatelessWidget {
                                               ),
 
                                               /// status bar at the bottom
-                                              const ParticipantStatusBar(),
+                                              const Positioned(
+                                                bottom: 0,
+                                                left: 0,
+                                                right: 0,
+                                                child: ParticipantStatusBar(),
+                                              ),
                                             ],
                                           ),
                                         );

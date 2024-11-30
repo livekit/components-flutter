@@ -36,6 +36,7 @@ class ParticipantLoop extends StatelessWidget {
     this.sorting = defaultSorting,
     this.showAudioTracks = false,
     this.showVideoTracks = true,
+    this.showParticipantPlaceholder = true,
   });
 
   final PaticipantTrackBuilder participantTrackBuilder;
@@ -44,6 +45,7 @@ class ParticipantLoop extends StatelessWidget {
 
   final bool showAudioTracks;
   final bool showVideoTracks;
+  final bool showParticipantPlaceholder;
 
   List<MapEntry<TrackIdentifier, TrackPublication?>> buildTracksMap(
       bool audio, bool video, List<Participant> participants) {
@@ -96,24 +98,24 @@ class ParticipantLoop extends StatelessWidget {
               for (var item in trackMap) {
                 var identifier = item.key;
                 var track = item.value;
-                if (track == null) {
-                  trackWidgets.add(
-                    TrackWidget(
-                      identifier,
-                      ParticipantTrack(
-                        participant: identifier.participant,
-                        builder: (context) =>
-                            participantTrackBuilder(context, identifier),
-                      ),
-                    ),
-                  );
-                } else {
+                if (track != null) {
                   trackWidgets.add(
                     TrackWidget(
                       identifier,
                       ParticipantTrack(
                         participant: identifier.participant,
                         track: track,
+                        builder: (context) =>
+                            participantTrackBuilder(context, identifier),
+                      ),
+                    ),
+                  );
+                } else if (showParticipantPlaceholder) {
+                  trackWidgets.add(
+                    TrackWidget(
+                      identifier,
+                      ParticipantTrack(
+                        participant: identifier.participant,
                         builder: (context) =>
                             participantTrackBuilder(context, identifier),
                       ),
