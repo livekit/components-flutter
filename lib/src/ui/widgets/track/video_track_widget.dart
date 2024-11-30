@@ -20,7 +20,6 @@ import 'package:provider/provider.dart';
 import '../../../context/track_reference_context.dart';
 import '../../../debug/logger.dart';
 import '../theme.dart';
-import 'audio_visualizer_widget.dart';
 import 'no_track_widget.dart';
 
 class VideoTrackWidget extends StatelessWidget {
@@ -35,7 +34,7 @@ class VideoTrackWidget extends StatelessWidget {
 
     Debug.log('===>     VideoTrackWidget for $sid');
 
-    if (trackCtx == null) {
+    if (trackCtx == null || trackCtx.videoTrack == null) {
       return const NoTrackWidget();
     }
 
@@ -47,9 +46,7 @@ class VideoTrackWidget extends StatelessWidget {
               color: LKColors.lkDarkBlue,
               child:
                   VideoTrackRenderer(trackCtx.videoTrack!, key: ValueKey(sid)))
-          : trackCtx.audioTrack != null
-              ? const AudioVisualizerWidget()
-              : const NoTrackWidget(),
+          : const NoTrackWidget(),
     );
   }
 }

@@ -25,17 +25,20 @@ import '../../layout/layouts.dart';
 import '../../layout/sorting.dart';
 import 'participant_track.dart';
 
+typedef PaticipantTrackBuilder = Widget Function(
+    BuildContext context, TrackIdentifier identifier);
+
 class ParticipantLoop extends StatelessWidget {
   const ParticipantLoop({
     super.key,
-    required this.participantBuilder,
+    required this.participantTrackBuilder,
     this.layoutBuilder = const GridLayoutBuilder(),
     this.sorting = defaultSorting,
     this.showAudioTracks = false,
     this.showVideoTracks = true,
   });
 
-  final WidgetBuilder participantBuilder;
+  final PaticipantTrackBuilder participantTrackBuilder;
   final List<TrackWidget> Function(List<TrackWidget> tracks)? sorting;
   final ParticipantLayoutBuilder layoutBuilder;
 
@@ -99,7 +102,8 @@ class ParticipantLoop extends StatelessWidget {
                       identifier,
                       ParticipantTrack(
                         participant: identifier.participant,
-                        builder: (context) => participantBuilder(context),
+                        builder: (context) =>
+                            participantTrackBuilder(context, identifier),
                       ),
                     ),
                   );
@@ -110,7 +114,8 @@ class ParticipantLoop extends StatelessWidget {
                       ParticipantTrack(
                         participant: identifier.participant,
                         track: track,
-                        builder: (context) => participantBuilder(context),
+                        builder: (context) =>
+                            participantTrackBuilder(context, identifier),
                       ),
                     ),
                   );

@@ -44,17 +44,24 @@ class TrackReferenceContext extends ChangeNotifier {
           notifyListeners();
         }
       })
+      ..on<LocalTrackPublishedEvent>((event) {
+        if (event.publication.sid == pub?.sid) {
+          Debug.event(
+              'TrackContext: LocalTrackPublishedEvent for ${_participant.sid}');
+          notifyListeners();
+        }
+      })
+      ..on<TrackSubscribedEvent>((event) {
+        if (event.publication.sid == pub?.sid) {
+          Debug.event(
+              'TrackContext: TrackSubscribedEvent for ${_participant.sid}');
+          notifyListeners();
+        }
+      })
       ..on<TrackStreamStateUpdatedEvent>((event) {
         if (event.publication.sid == pub?.sid) {
           Debug.event(
               'TrackContext: TrackStreamStateUpdatedEvent for ${_participant.sid}');
-          notifyListeners();
-        }
-      })
-      ..on<AudioVisualizerEvent>((event) {
-        if (event.track.sid == pub?.sid) {
-          Debug.event(
-              'TrackContext: AudioVisualizerEvent for ${_participant.sid}');
           notifyListeners();
         }
       });

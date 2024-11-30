@@ -38,8 +38,9 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
-  final url = 'ws://192.168.2.188:7880';
-  final token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzQzODg4MTQsImlzcyI6IkFQSXJramtRYVZRSjVERSIsIm5hbWUiOiJtYWMiLCJuYmYiOjE3MzI1ODg4MTQsInN1YiI6Im1hYyIsInZpZGVvIjp7ImNhblVwZGF0ZU93bk1ldGFkYXRhIjp0cnVlLCJyb29tIjoibGl2ZSIsInJvb21Kb2luIjp0cnVlfX0.KlBNQgA-75zviLLdzMzEP6T19Lv1JWvU54dfSgF2Cdw';
+  final url = 'ws://localhost:7880';
+  final token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzQ3NDE4ODgsImlzcyI6IkFQSXJramtRYVZRSjVERSIsIm5hbWUiOiJtYWMiLCJuYmYiOjE3MzI5NDE4ODgsInN1YiI6Im1hYyIsInZpZGVvIjp7ImNhblVwZGF0ZU93bk1ldGFkYXRhIjp0cnVlLCJyb29tIjoibGl2ZSIsInJvb21Kb2luIjp0cnVlfX0.UzCvXREqMJxrkIsnjBsVCY78oA03flEaolNlDL9IGws';
 
   /// handle join button pressed, fetch connection details and connect to room.
   // ignore: unused_element
@@ -68,6 +69,7 @@ class MyHomePage extends StatelessWidget {
       roomContext: RoomContext(
         url: url,
         token: token,
+        enableAudioVisulizer: true,
       ),
       builder: (context, roomCtx) {
         var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
@@ -129,26 +131,30 @@ class MyHomePage extends StatelessWidget {
                                               : const GridLayoutBuilder(),
 
                                       /// participant builder
-                                      participantBuilder: (context) {
+                                      participantTrackBuilder:
+                                          (context, identifier) {
                                         // build participant widget for each Track
                                         return Padding(
                                           padding: const EdgeInsets.all(2.0),
                                           child: Stack(
                                             children: [
                                               /// video track widget in the background
-
-                                              IsSpeakingIndicator(
-                                                builder: (context, isSpeaking) {
-                                                  return isSpeaking != null
-                                                      ? IsSpeakingIndicatorWidget(
-                                                          isSpeaking:
-                                                              isSpeaking,
-                                                          child:
-                                                              const VideoTrackWidget(),
-                                                        )
-                                                      : const VideoTrackWidget();
-                                                },
-                                              ),
+                                              identifier.isAudio
+                                                  ? const AudioVisualizerWidget()
+                                                  : IsSpeakingIndicator(
+                                                      builder: (context,
+                                                          isSpeaking) {
+                                                        return isSpeaking !=
+                                                                null
+                                                            ? IsSpeakingIndicatorWidget(
+                                                                isSpeaking:
+                                                                    isSpeaking,
+                                                                child:
+                                                                    const VideoTrackWidget(),
+                                                              )
+                                                            : const VideoTrackWidget();
+                                                      },
+                                                    ),
 
                                               /// TODO: Add AudioTrackWidget or AgentVisualizerWidget later
 

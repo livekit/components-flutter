@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../context/track_reference_context.dart';
 import '../theme.dart';
+import 'no_track_widget.dart';
 
 class AudioVisualizerWidget extends StatelessWidget {
   const AudioVisualizerWidget({Key? key}) : super(key: key);
@@ -13,27 +14,29 @@ class AudioVisualizerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     var trackCtx = Provider.of<TrackReferenceContext?>(context);
 
-    if (trackCtx == null || trackCtx.audioTrack == null) {
-      return const SizedBox();
+    if (trackCtx == null) {
+      return const NoTrackWidget();
     }
 
     return Consumer<TrackReferenceContext>(
       builder: (context, trackCtx, child) =>
-          Selector<TrackReferenceContext, Map<String, String>>(
-        selector: (context, trackCtx) => trackCtx.stats,
-        builder:
-            (BuildContext context, Map<String, String> stats, Widget? child) {
+          Selector<TrackReferenceContext, AudioTrack?>(
+        selector: (context, audioTrack) => trackCtx.audioTrack,
+        builder: (BuildContext context, AudioTrack? audioTrack, Widget? child) {
+          if (trackCtx.audioTrack == null) {
+            return const NoTrackWidget();
+          }
           return Container(
             color: LKColors.lkDarkBlue,
             child: Center(
               child: SoundWaveformWidget(
-                      audioTrack: trackCtx.audioTrack,
-                      count: 7,
-                      width: 12,
-                      minHeight: 12,
-                      maxHeight: 100,
-                      durationInMilliseconds: 500,
-                    ),
+                audioTrack: audioTrack,
+                count: 7,
+                width: 12,
+                minHeight: 12,
+                maxHeight: 100,
+                durationInMilliseconds: 500,
+              ),
             ),
           );
         },
@@ -68,14 +71,28 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
   List<double> samples = [0, 0, 0, 0, 0, 0, 0];
   EventsListener<TrackEvent>? _listener;
 
-  void _setUpListener(AudioTrack track) {
-    _listener?.dispose();
-    _listener = track.createListener();
-    _listener?.on<AudioVisualizerEvent>((e) {
-      setState(() {
-        samples = e.event.map((e) => ((e as num) * 100).toDouble()).toList();
+  void _startVisualizer(AudioTrack? track) async {
+    _listener = track?.createListener();
+    _listener
+      ?..on<AudioVisualizerEvent>((e) {
+        if (mounted) {
+          setState(() {
+            samples =
+                e.event.map((e) => ((e as num) * 100).toDouble()).toList();
+          });
+        }
+      })
+      ..on<TrackMutedEvent>((e) {
+        if (mounted) {
+          setState(() {
+            samples = List.filled(samples.length, 0);
+          });
+        }
       });
-    });
+  }
+
+  void _stopVisualizer() async {
+    await _listener?.dispose();
   }
 
   @override
@@ -89,15 +106,13 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
         ))
       ..repeat();
 
-    if (widget.audioTrack != null) {
-      _setUpListener(widget.audioTrack!);
-    }
+    _startVisualizer(widget.audioTrack);
   }
 
   @override
   void dispose() {
     controller.dispose();
-    _listener?.dispose();
+    _stopVisualizer();
     super.dispose();
   }
 

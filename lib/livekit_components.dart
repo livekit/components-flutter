@@ -65,6 +65,7 @@ export 'src/ui/widgets/room/disconnect_button.dart';
 export 'src/ui/widgets/room/screenshare_toggle.dart';
 export 'src/ui/widgets/room/clear_pin_button.dart';
 
+export 'src/ui/widgets/track/audio_visualizer_widget.dart';
 export 'src/ui/widgets/track/focus_toggle.dart';
 export 'src/ui/widgets/track/no_track_widget.dart';
 export 'src/ui/widgets/track/video_track_widget.dart';

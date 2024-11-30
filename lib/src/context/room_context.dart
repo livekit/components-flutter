@@ -49,6 +49,7 @@ class RoomContext extends ChangeNotifier with ChatContextMixin {
     bool connect = false,
     RoomOptions roomOptions = const RoomOptions(),
     ConnectOptions? connectOptions,
+    this.enableAudioVisulizer = false,
     this.onConnected,
     this.onDisconnected,
     this.onError,
@@ -197,6 +198,9 @@ class RoomContext extends ChangeNotifier with ChatContextMixin {
 
   /// Get the [Room] instance.
   Room get room => _room;
+
+  ///
+  final bool enableAudioVisulizer;
 
   String? _roomName;
 

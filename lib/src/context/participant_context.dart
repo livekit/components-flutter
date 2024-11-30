@@ -98,6 +98,14 @@ class ParticipantContext extends ChangeNotifier {
           notifyListeners();
         }
       })
+      ..on<TrackSubscribedEvent>((event) {
+        if (event.participant.identity == identity &&
+            event.publication.kind == TrackType.AUDIO) {
+          Debug.event(
+              'TrackContext: TrackSubscribedEvent for ${_participant.sid}');
+          notifyListeners();
+        }
+      })
       ..on<TrackUnmutedEvent>((event) {
         if (event.participant.identity == identity &&
             event.publication.kind == TrackType.AUDIO) {

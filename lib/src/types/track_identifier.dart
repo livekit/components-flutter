@@ -20,4 +20,14 @@ class TrackIdentifier {
   final TrackPublication? track;
 
   String? get identifier => track?.sid ?? participant.sid;
+
+  TrackSource get source => track?.source ?? TrackSource.unknown;
+
+  bool get isAudio =>
+      source == TrackSource.microphone ||
+      source == TrackSource.screenShareAudio;
+  bool get isVideo =>
+      source == TrackSource.camera || source == TrackSource.camera;
+
+  bool get hasTrack => track != null;
 }
