@@ -104,10 +104,6 @@ class TrackReferenceContext extends ChangeNotifier {
 
   bool get showStatistics => _showStatistics;
 
-  AudioVisualizerEvent? _audioVisualizerEvent;
-
-  AudioVisualizerEvent? get audioVisualizerEvent => _audioVisualizerEvent;
-
   set showStatistics(bool value) {
     if (_showStatistics != value) {
       _showStatistics = value;
