@@ -5,8 +5,6 @@ import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-//import 'src/utils.dart';
-
 void main() {
   final format = DateFormat('HH:mm:ss');
   // configure logs for debugging
@@ -48,9 +46,6 @@ class MyHomePage extends StatelessWidget {
       print('Joining room: name=$name, roomName=$roomName');
     }
     try {
-      //final details = await fetchConnectionDetails(name, roomName);
-      //await roomCtx.connect(
-      //    url: details.serverUrl, token: details.participantToken);
       await roomCtx.connect(
         url: url,
         token: token,
