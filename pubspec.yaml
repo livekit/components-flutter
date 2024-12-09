@@ -16,7 +16,7 @@ dependencies:
   google_fonts: ^6.2.1
   http: ^1.2.2
   intl: ^0.19.0
-  livekit_client:  ^2.3.2
+  livekit_client: ^2.3.2
   provider: ^6.1.2
   responsive_builder: ^0.7.1
 
