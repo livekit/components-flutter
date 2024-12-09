@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
-  final url = 'ws://localhost:7880';
+  final url = 'wss://livekit.example.com';
   final token = 'your_token_here';
 
   /// handle join button pressed, fetch connection details and connect to room.

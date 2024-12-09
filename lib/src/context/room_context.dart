@@ -199,7 +199,10 @@ class RoomContext extends ChangeNotifier with ChatContextMixin {
   /// Get the [Room] instance.
   Room get room => _room;
 
-  /// enable audio visualizer
+  /// enable audio visualizer, default is false
+  /// if true, the audio visualizer will be enabled in the room.
+  /// you can use the [AudioVisualizerWidget] widget to show the
+  /// audio visualizer.
   final bool enableAudioVisulizer;
 
   String? _roomName;
