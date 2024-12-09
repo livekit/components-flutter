@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:livekit_client/livekit_client.dart';
 
+import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 
 import '../../../context/track_reference_context.dart';
