@@ -199,7 +199,7 @@ class RoomContext extends ChangeNotifier with ChatContextMixin {
   /// Get the [Room] instance.
   Room get room => _room;
 
-  ///
+  /// enable audio visualizer
   final bool enableAudioVisulizer;
 
   String? _roomName;

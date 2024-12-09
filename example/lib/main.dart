@@ -5,7 +5,7 @@ import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-import 'src/utils.dart';
+//import 'src/utils.dart';
 
 void main() {
   final format = DateFormat('HH:mm:ss');
@@ -39,8 +39,7 @@ class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
   final url = 'ws://localhost:7880';
-  final token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3MzQ3NDE4ODgsImlzcyI6IkFQSXJramtRYVZRSjVERSIsIm5hbWUiOiJtYWMiLCJuYmYiOjE3MzI5NDE4ODgsInN1YiI6Im1hYyIsInZpZGVvIjp7ImNhblVwZGF0ZU93bk1ldGFkYXRhIjp0cnVlLCJyb29tIjoibGl2ZSIsInJvb21Kb2luIjp0cnVlfX0.UzCvXREqMJxrkIsnjBsVCY78oA03flEaolNlDL9IGws';
+  final token = 'your_token_here';
 
   /// handle join button pressed, fetch connection details and connect to room.
   // ignore: unused_element
@@ -122,8 +121,8 @@ class MyHomePage extends StatelessWidget {
                                     /// show participant loop
                                     ParticipantLoop(
                                       showAudioTracks: true,
-                                      showVideoTracks: false,
-                                      showParticipantPlaceholder: false,
+                                      showVideoTracks: true,
+                                      showParticipantPlaceholder: true,
 
                                       /// layout builder
                                       layoutBuilder:
@@ -140,7 +139,9 @@ class MyHomePage extends StatelessWidget {
                                           child: Stack(
                                             children: [
                                               /// video track widget in the background
-                                              identifier.isAudio
+                                              identifier.isAudio &&
+                                                      roomCtx
+                                                          .enableAudioVisulizer
                                                   ? const AudioVisualizerWidget()
                                                   : IsSpeakingIndicator(
                                                       builder: (context,
