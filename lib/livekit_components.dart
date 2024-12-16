@@ -76,6 +76,6 @@ export 'src/ui/widgets/camera_preview.dart';
 
 export 'src/ui/layout/layouts.dart';
 export 'src/ui/layout/grid_layout.dart';
-export 'src/ui/layout/garousel_ayout.dart';
+export 'src/ui/layout/carousel_layout.dart';
 
 export 'src/ui/prejoin/prejoin.dart';
