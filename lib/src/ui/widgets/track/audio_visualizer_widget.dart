@@ -148,10 +148,8 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
           children: List.generate(
             count,
             (i) {
-              // Calculate relative height (0.0 to 1.0)
               final heightPercent = ((samples[i] - minHeight) / (maxHeight - minHeight))
                   .clamp(0.0, 1.0);
-              // Calculate opacity based on height
               final barOpacity = (1.0 - widget.options.barMinOpacity) * heightPercent + 
                   widget.options.barMinOpacity;
               
