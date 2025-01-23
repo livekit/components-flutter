@@ -16,7 +16,7 @@ class AudioVisualizerOptions {
   final Color color;
   final double spacing;
   final double cornerRadius;
-  final double opacity;
+  final double barMinOpacity;
 
   const AudioVisualizerOptions({
     this.count = 7,
@@ -27,7 +27,7 @@ class AudioVisualizerOptions {
     this.color = Colors.white,
     this.spacing = 5,
     this.cornerRadius = 9999,
-    this.opacity = 1.0,
+    this.barMinOpacity = 0.35,
   });
 }
 
@@ -147,23 +147,32 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
           mainAxisSize: MainAxisSize.min,
           children: List.generate(
             count,
-            (i) => AnimatedContainer(
-              duration: Duration(
-                  milliseconds: widget.options.durationInMilliseconds ~/ count),
-              margin: i == (samples.length - 1)
-                  ? EdgeInsets.zero
-                  : EdgeInsets.only(right: widget.options.spacing),
-              height: samples[i] < minHeight
-                  ? minHeight
-                  : samples[i] > maxHeight
-                      ? maxHeight
-                      : samples[i],
-              width: widget.options.width,
-              decoration: BoxDecoration(
-                color: widget.options.color.withOpacity(widget.options.opacity),
-                borderRadius: BorderRadius.circular(widget.options.cornerRadius),
-              ),
-            ),
+            (i) {
+              // Calculate relative height (0.0 to 1.0)
+              final heightPercent = ((samples[i] - minHeight) / (maxHeight - minHeight))
+                  .clamp(0.0, 1.0);
+              // Calculate opacity based on height
+              final barOpacity = (1.0 - widget.options.barMinOpacity) * heightPercent + 
+                  widget.options.barMinOpacity;
+              
+              return AnimatedContainer(
+                duration: Duration(
+                    milliseconds: widget.options.durationInMilliseconds ~/ count),
+                margin: i == (samples.length - 1)
+                    ? EdgeInsets.zero
+                    : EdgeInsets.only(right: widget.options.spacing),
+                height: samples[i] < minHeight
+                    ? minHeight
+                    : samples[i] > maxHeight
+                        ? maxHeight
+                        : samples[i],
+                width: widget.options.width,
+                decoration: BoxDecoration(
+                  color: widget.options.color.withOpacity(barOpacity),
+                  borderRadius: BorderRadius.circular(widget.options.cornerRadius),
+                ),
+              );
+            },
           ),
         );
       },
