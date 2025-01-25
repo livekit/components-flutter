@@ -26,7 +26,7 @@ class TrackStatsWidget extends StatelessWidget {
               children: [
                 trackCtx.showStatistics && stats.isNotEmpty
                     ? Container(
-                        color: Colors.black.withValues(alpha: 0.3),
+                        color: Colors.black.withOpacity(0.3),
                         padding: const EdgeInsets.symmetric(
                           vertical: 8,
                           horizontal: 8,
