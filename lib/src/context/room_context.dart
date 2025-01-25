@@ -116,11 +116,13 @@ class RoomContext extends ChangeNotifier with ChatContextMixin {
         notifyListeners();
       })
       ..on<TrackPublishedEvent>((event) {
-        Debug.event('ParticipantContext: TrackPublishedEvent $roomName');
+        Debug.event(
+            'RoomContext: TrackPublishedEvent $roomName participant = ${event.participant.identity} track = ${event.publication.sid}');
         _buildParticipants();
       })
       ..on<TrackUnpublishedEvent>((event) {
-        Debug.event('ParticipantContext: TrackUnpublishedEvent $roomName');
+        Debug.event(
+            'RoomContext: TrackUnpublishedEvent $roomName participant = ${event.participant.identity} track = ${event.publication.sid}');
         _buildParticipants();
       })
       ..on<LocalTrackPublishedEvent>((event) {
