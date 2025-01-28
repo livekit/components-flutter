@@ -8,6 +8,8 @@
 
 <!--END_BANNER_IMAGE-->
 
+[![pub package](https://img.shields.io/pub/v/livekit_components?label=livekit_components&color=blue)](https://pub.dev/packages/livekit_components)
+
 # Flutter Components
 
 <!--BEGIN_DESCRIPTION-->
