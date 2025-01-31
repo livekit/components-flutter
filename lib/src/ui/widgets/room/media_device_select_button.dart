@@ -55,7 +55,7 @@ class MediaDeviceSelectWidget extends StatelessWidget {
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(deviceIsOpened
               ? LKColors.lkBlue
-              : Colors.grey.withValues(alpha: 0.9)),
+              : Colors.grey.withOpacity(0.9)),
           foregroundColor: WidgetStateProperty.all(Colors.white),
           overlayColor: WidgetStateProperty.all(
               deviceIsOpened ? LKColors.lkLightBlue : Colors.grey),
@@ -93,7 +93,7 @@ class MediaDeviceSelectWidget extends StatelessWidget {
             0, ((deviceList.isNotEmpty ? deviceList.length : 1) * -55.0)),
         style: ButtonStyle(
           backgroundColor:
-              WidgetStateProperty.all(Colors.grey.withValues(alpha: 0.9)),
+              WidgetStateProperty.all(Colors.grey.withOpacity(0.9)),
           foregroundColor: WidgetStateProperty.all(Colors.white),
           overlayColor: WidgetStateProperty.all(Colors.grey),
           elevation: WidgetStateProperty.all(20),

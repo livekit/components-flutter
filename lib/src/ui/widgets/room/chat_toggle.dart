@@ -36,7 +36,7 @@ class ChatToggleWidget extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(
-            isChatOpen ? LKColors.lkBlue : Colors.grey.withValues(alpha: 0.9)),
+            isChatOpen ? LKColors.lkBlue : Colors.grey.withOpacity(0.9)),
         foregroundColor: WidgetStateProperty.all(Colors.white),
         overlayColor: WidgetStateProperty.all(
             isChatOpen ? LKColors.lkLightBlue : Colors.grey),

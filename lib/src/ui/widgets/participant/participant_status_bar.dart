@@ -49,7 +49,7 @@ class ParticipantStatusBar extends StatelessWidget {
         var isScreenShare = trackCtx?.isScreenShare ?? false;
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 6),
-          color: Colors.black.withValues(alpha: 0.6),
+          color: Colors.black.withOpacity(0.6),
           child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.center,

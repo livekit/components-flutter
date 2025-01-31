@@ -42,7 +42,7 @@ class ScreenShareToggleWidget extends StatelessWidget {
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(screenShareEnabled
             ? LKColors.lkBlue
-            : Colors.grey.withValues(alpha: 0.9)),
+            : Colors.grey.withOpacity(0.9)),
         foregroundColor: WidgetStateProperty.all(Colors.white),
         overlayColor: WidgetStateProperty.all(
             screenShareEnabled ? LKColors.lkLightBlue : Colors.grey),
