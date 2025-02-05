@@ -92,22 +92,13 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
 
   void _startVisualizer(AudioTrack? track) async {
     _listener = track?.createListener();
-    _listener
-      ?..on<AudioVisualizerEvent>((e) {
-        if (mounted) {
-          setState(() {
-            samples =
-                e.event.map((e) => ((e as num) * 100).toDouble()).toList();
-          });
-        }
-      })
-      ..on<TrackMutedEvent>((e) {
-        if (mounted) {
-          setState(() {
-            samples = List.filled(samples.length, 0);
-          });
-        }
-      });
+    _listener?.on<AudioVisualizerEvent>((e) {
+      if (mounted) {
+        setState(() {
+          samples = e.event.map((e) => ((e as num) * 100).toDouble()).toList();
+        });
+      }
+    });
   }
 
   void _stopVisualizer() async {
