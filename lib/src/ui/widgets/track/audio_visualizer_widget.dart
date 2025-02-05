@@ -169,7 +169,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
                         : samples[i],
                 width: widget.options.width,
                 decoration: BoxDecoration(
-                  color: widget.options.color.withValues(alpha: barOpacity),
+                  color: widget.options.color.withOpacity(barOpacity),
                   borderRadius:
                       BorderRadius.circular(widget.options.cornerRadius),
                 ),
