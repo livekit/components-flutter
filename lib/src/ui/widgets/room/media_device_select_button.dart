@@ -53,9 +53,8 @@ class MediaDeviceSelectWidget extends StatelessWidget {
     return Row(mainAxisSize: MainAxisSize.min, children: [
       ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(deviceIsOpened
-              ? LKColors.lkBlue
-              : Colors.grey.withOpacity(0.9)),
+          backgroundColor: WidgetStateProperty.all(
+              deviceIsOpened ? LKColors.lkBlue : Colors.grey.withOpacity(0.9)),
           foregroundColor: WidgetStateProperty.all(Colors.white),
           overlayColor: WidgetStateProperty.all(
               deviceIsOpened ? LKColors.lkLightBlue : Colors.grey),
