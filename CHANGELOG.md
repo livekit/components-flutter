@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 (2025-03-26)
+
+* Bump version for livekit sdk.
+* Make AudioVisualizer configurable.
+* Support AudioVisualizer for web.
+
 ## 1.1.1 (2025-02-07)
 
 * Don't fail analyze on deprecation warnings (#13)
