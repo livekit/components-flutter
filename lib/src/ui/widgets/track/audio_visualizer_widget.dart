@@ -7,8 +7,8 @@ import '../../../context/track_reference_context.dart';
 import '../theme.dart';
 import 'no_track_widget.dart';
 
-class AudioVisualizerOptions {
-  final int count;
+class AudioVisualizerWidgetOptions {
+  final int barCount;
   final double width;
   final double minHeight;
   final double maxHeight;
@@ -18,8 +18,8 @@ class AudioVisualizerOptions {
   final double cornerRadius;
   final double barMinOpacity;
 
-  const AudioVisualizerOptions({
-    this.count = 7,
+  const AudioVisualizerWidgetOptions({
+    this.barCount = 7,
     this.width = 12,
     this.minHeight = 12,
     this.maxHeight = 100,
@@ -32,11 +32,11 @@ class AudioVisualizerOptions {
 }
 
 class AudioVisualizerWidget extends StatelessWidget {
-  final AudioVisualizerOptions options;
+  final AudioVisualizerWidgetOptions options;
 
   const AudioVisualizerWidget({
     Key? key,
-    this.options = const AudioVisualizerOptions(),
+    this.options = const AudioVisualizerWidgetOptions(),
   }) : super(key: key);
 
   @override
@@ -71,13 +71,13 @@ class AudioVisualizerWidget extends StatelessWidget {
 }
 
 class SoundWaveformWidget extends StatefulWidget {
-  final AudioVisualizerOptions options;
+  final AudioVisualizerWidgetOptions options;
   final AudioTrack? audioTrack;
 
   const SoundWaveformWidget({
     super.key,
     this.audioTrack,
-    this.options = const AudioVisualizerOptions(),
+    this.options = const AudioVisualizerWidgetOptions(),
   });
 
   @override
@@ -88,10 +88,17 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
     with TickerProviderStateMixin {
   late AnimationController controller;
   List<double> samples = [0, 0, 0, 0, 0, 0, 0];
-  EventsListener<TrackEvent>? _listener;
+  AudioVisualizer? _visualizer;
+  EventsListener<AudioVisualizerEvent>? _listener;
 
   void _startVisualizer(AudioTrack? track) async {
-    _listener = track?.createListener();
+    if (track == null) {
+      return;
+    }
+    samples = List.filled(widget.options.barCount, 0);
+    _visualizer ??= createVisualizer(track!,
+        options: AudioVisualizerOptions(barCount: widget.options.barCount));
+    _listener ??= _visualizer?.createListener();
     _listener?.on<AudioVisualizerEvent>((e) {
       if (mounted) {
         setState(() {
@@ -99,10 +106,16 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
         });
       }
     });
+
+    await _visualizer!.start();
   }
 
   void _stopVisualizer() async {
+    await _visualizer?.stop();
+    await _visualizer?.dispose();
+    _visualizer = null;
     await _listener?.dispose();
+    _listener = null;
   }
 
   @override
@@ -128,7 +141,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
 
   @override
   Widget build(BuildContext context) {
-    final count = widget.options.count;
+    final count = widget.options.barCount;
     final minHeight = widget.options.minHeight;
     final maxHeight = widget.options.maxHeight;
     return AnimatedBuilder(

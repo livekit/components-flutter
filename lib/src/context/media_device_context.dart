@@ -96,7 +96,6 @@ class MediaDeviceContext extends ChangeNotifier {
         AudioCaptureOptions(
           deviceId: selectedAudioInputDeviceId,
         ),
-        _roomCtx.enableAudioVisulizer,
       );
     }
     selectedAudioInputDeviceId = device.deviceId;
@@ -138,7 +137,6 @@ class MediaDeviceContext extends ChangeNotifier {
         AudioCaptureOptions(
           deviceId: selectedAudioInputDeviceId,
         ),
-        _roomCtx.enableAudioVisulizer,
       );
     }
     notifyListeners();
