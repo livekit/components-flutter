@@ -98,7 +98,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
       return;
     }
     samples = List.filled(widget.options.barCount, 0);
-    _visualizer ??= createVisualizer(track!,
+    _visualizer ??= createVisualizer(track,
         options: AudioVisualizerOptions(
             barCount: widget.options.barCount,
             centeredBands: widget.options.centeredBands));

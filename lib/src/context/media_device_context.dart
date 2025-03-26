@@ -284,13 +284,10 @@ class MediaDeviceContext extends ChangeNotifier {
 
   bool? get isSpeakerOn => Hardware.instance.speakerOn;
 
-  void setSpeakerphoneOn(bool speakerOn) async {
-    if (lkPlatformIs(PlatformType.iOS)) {
-      if (!speakerOn && Hardware.instance.preferSpeakerOutput) {
-        await Hardware.instance.setPreferSpeakerOutput(false);
-      }
-    }
-    await Hardware.instance.setSpeakerphoneOn(speakerOn);
+  void setSpeakerphoneOn(bool speakerOn,
+      {bool forceSpeakerOutput = false}) async {
+    await Hardware.instance
+        .setSpeakerphoneOn(speakerOn, forceSpeakerOutput: forceSpeakerOutput);
     notifyListeners();
   }
 
