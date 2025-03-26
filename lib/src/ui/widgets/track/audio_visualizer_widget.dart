@@ -9,6 +9,7 @@ import 'no_track_widget.dart';
 
 class AudioVisualizerWidgetOptions {
   final int barCount;
+  final bool centeredBands;
   final double width;
   final double minHeight;
   final double maxHeight;
@@ -20,6 +21,7 @@ class AudioVisualizerWidgetOptions {
 
   const AudioVisualizerWidgetOptions({
     this.barCount = 7,
+    this.centeredBands = true,
     this.width = 12,
     this.minHeight = 12,
     this.maxHeight = 100,
@@ -97,7 +99,9 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
     }
     samples = List.filled(widget.options.barCount, 0);
     _visualizer ??= createVisualizer(track!,
-        options: AudioVisualizerOptions(barCount: widget.options.barCount));
+        options: AudioVisualizerOptions(
+            barCount: widget.options.barCount,
+            centeredBands: widget.options.centeredBands));
     _listener ??= _visualizer?.createListener();
     _listener?.on<AudioVisualizerEvent>((e) {
       if (mounted) {
