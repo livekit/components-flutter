@@ -30,4 +30,8 @@ class TrackIdentifier {
       source == TrackSource.camera || source == TrackSource.camera;
 
   bool get hasTrack => track != null;
+
+  ParticipantKind get kind => participant.kind;
+
+  String get name => participant.name;
 }
