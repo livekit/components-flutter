@@ -15,7 +15,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:livekit_client/livekit_client.dart';
-import 'package:livekit_components/livekit_components.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 class MediaDeviceSelectWidget extends StatelessWidget {

@@ -4,7 +4,6 @@ import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 
 import '../../../context/track_reference_context.dart';
-import '../theme.dart';
 import 'no_track_widget.dart';
 
 class AudioVisualizerWidgetOptions {
