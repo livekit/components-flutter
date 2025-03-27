@@ -170,44 +170,47 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
     final count = widget.options.barCount;
     final minHeight = widget.options.minHeight;
     final maxHeight = widget.options.maxHeight;
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (c, child) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(
-            count,
-            (i) {
-              final heightPercent =
-                  ((samples[i] - minHeight) / (maxHeight - minHeight))
-                      .clamp(0.0, 1.0);
-              final barOpacity =
-                  (1.0 - widget.options.barMinOpacity) * heightPercent +
-                      widget.options.barMinOpacity;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) =>
+          AnimatedBuilder(
+        animation: controller,
+        builder: (c, child) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              count,
+              (i) {
+                final heightPercent =
+                    ((samples[i] - minHeight) / (maxHeight - minHeight))
+                        .clamp(0.0, 1.0);
+                final barOpacity =
+                    (1.0 - widget.options.barMinOpacity) * heightPercent +
+                        widget.options.barMinOpacity;
 
-              return AnimatedContainer(
-                duration: Duration(
-                    milliseconds:
-                        widget.options.durationInMilliseconds ~/ count),
-                margin: i == (samples.length - 1)
-                    ? EdgeInsets.zero
-                    : EdgeInsets.only(right: widget.options.spacing),
-                height: samples[i] < minHeight
-                    ? minHeight
-                    : samples[i] > maxHeight
-                        ? maxHeight
-                        : samples[i],
-                width: widget.options.width,
-                decoration: BoxDecoration(
-                  color: widget.options.color.withOpacity(barOpacity),
-                  borderRadius:
-                      BorderRadius.circular(widget.options.cornerRadius),
-                ),
-              );
-            },
-          ),
-        );
-      },
+                return AnimatedContainer(
+                  duration: Duration(
+                      milliseconds:
+                          widget.options.durationInMilliseconds ~/ count),
+                  margin: i == (samples.length - 1)
+                      ? EdgeInsets.zero
+                      : EdgeInsets.only(right: widget.options.spacing),
+                  height: samples[i] < minHeight
+                      ? minHeight
+                      : samples[i] > maxHeight
+                          ? maxHeight
+                          : samples[i],
+                  width: widget.options.width,
+                  decoration: BoxDecoration(
+                    color: widget.options.color.withOpacity(barOpacity),
+                    borderRadius:
+                        BorderRadius.circular(widget.options.cornerRadius),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -17,12 +17,14 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide ConnectionState;
 
 import 'package:livekit_client/livekit_client.dart';
+import 'package:livekit_components/src/context/transcription_context.dart';
 import 'package:provider/provider.dart';
 
 import '../debug/logger.dart';
 import 'chat_context.dart';
 
-class RoomContext extends ChangeNotifier with ChatContextMixin {
+class RoomContext extends ChangeNotifier
+    with ChatContextMixin, TranscriptionContextMixin {
   /// Get the [RoomContext] from the [context].
   /// this method must be called under the [LivekitRoom] widget.
   static RoomContext? of(BuildContext context) {
@@ -62,6 +64,7 @@ class RoomContext extends ChangeNotifier with ChatContextMixin {
       ..on<RoomConnectedEvent>((event) {
         Debug.event('RoomContext: RoomConnectedEvent $roomName');
         chatContextSetup(_listener, _room.localParticipant!);
+        transcriptionContextSetup(_listener);
         _connectionState = _room.connectionState;
         _connected = true;
         _connecting = false;
@@ -76,6 +79,7 @@ class RoomContext extends ChangeNotifier with ChatContextMixin {
         Debug.event('RoomContext: RoomDisconnectedEvent $roomName');
         _connectionState = _room.connectionState;
         chatContextSetup(null, null);
+        transcriptionContextSetup(null);
         _connected = false;
         _participants.clear();
         onDisconnected?.call();

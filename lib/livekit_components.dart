@@ -37,6 +37,7 @@ export 'src/ui/builder/room/room_participants.dart';
 export 'src/ui/builder/room/room.dart';
 export 'src/ui/builder/room/screenshare_toggle.dart';
 export 'src/ui/builder/room/room_active_recording_indicator.dart';
+export 'src/ui/builder/room/transcription.dart';
 
 export 'src/ui/builder/participant/participant_track.dart';
 export 'src/ui/builder/participant/participant_attributes.dart';
@@ -67,6 +68,7 @@ export 'src/ui/widgets/room/control_bar.dart';
 export 'src/ui/widgets/room/disconnect_button.dart';
 export 'src/ui/widgets/room/screenshare_toggle.dart';
 export 'src/ui/widgets/room/clear_pin_button.dart';
+export 'src/ui/widgets/participant/transcription_widget.dart';
 
 export 'src/ui/widgets/track/audio_visualizer_widget.dart';
 export 'src/ui/widgets/track/focus_toggle.dart';
