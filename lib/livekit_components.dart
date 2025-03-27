@@ -45,6 +45,7 @@ export 'src/ui/builder/participant/participant_name.dart';
 export 'src/ui/builder/participant/participant_kind.dart';
 export 'src/ui/builder/participant/participant_permissions.dart';
 export 'src/ui/builder/participant/participant_transcription.dart';
+export 'src/ui/builder/participant/participant_selector.dart';
 
 export 'src/ui/builder/track/connection_quality_indicator.dart';
 export 'src/ui/builder/track/e2e_encryption_indicator.dart';
