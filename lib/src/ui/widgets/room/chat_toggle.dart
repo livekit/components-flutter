@@ -24,22 +24,33 @@ class ChatToggleWidget extends StatelessWidget {
     required this.isChatOpen,
     required this.toggleChat,
     this.showLabel = true,
+    this.backgroundColor = Colors.grey,
+    this.foregroundColor = Colors.white,
+    this.overlayColor = Colors.grey,
+    this.selectedColor = LKColors.lkBlue,
+    this.selectedOverlayColor = LKColors.lkLightBlue,
   });
 
   final bool isChatOpen;
   final Function(bool enabled) toggleChat;
   final bool showLabel;
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final Color overlayColor;
+  final Color selectedColor;
+  final Color selectedOverlayColor;
 
   @override
   Widget build(BuildContext context) {
     var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(
-            isChatOpen ? LKColors.lkBlue : Colors.grey.withOpacity(0.9)),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
+        backgroundColor: WidgetStateProperty.all(isChatOpen
+            ? selectedColor
+            : backgroundColor.withValues(alpha: 0.9)),
+        foregroundColor: WidgetStateProperty.all(foregroundColor),
         overlayColor: WidgetStateProperty.all(
-            isChatOpen ? LKColors.lkLightBlue : Colors.grey),
+            isChatOpen ? selectedOverlayColor : backgroundColor),
         shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(

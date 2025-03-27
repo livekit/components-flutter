@@ -24,8 +24,10 @@ class CameraPreviewWidget extends StatelessWidget {
   const CameraPreviewWidget({
     super.key,
     required this.track,
+    this.iconColor = LKColors.lkBlue,
   });
   final LocalVideoTrack? track;
+  final Color iconColor;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,7 +41,7 @@ class CameraPreviewWidget extends StatelessWidget {
                 child: LayoutBuilder(
                   builder: (context, constraints) => Icon(
                     Icons.videocam_off_outlined,
-                    color: LKColors.lkBlue,
+                    color: iconColor,
                     size:
                         math.min(constraints.maxHeight, constraints.maxWidth) *
                             0.33,

@@ -26,8 +26,17 @@ class TrackIdentifier {
   bool get isAudio =>
       source == TrackSource.microphone ||
       source == TrackSource.screenShareAudio;
+
   bool get isVideo =>
       source == TrackSource.camera || source == TrackSource.camera;
 
+  bool get isLocal => participant is LocalParticipant;
+
   bool get hasTrack => track != null;
+
+  bool get isAgent => kind == ParticipantKind.AGENT;
+
+  ParticipantKind get kind => participant.kind;
+
+  String get name => participant.name;
 }

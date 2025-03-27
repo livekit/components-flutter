@@ -113,6 +113,16 @@ class MyHomePage extends StatelessWidget {
                                 flex: 5,
                                 child: Stack(
                                   children: <Widget>[
+                                    /* Expanded(
+                                      child: TranscriptionBuilder(
+                                        builder:
+                                            (context, roomCtx, transcriptions) {
+                                          return TranscriptionWidget(
+                                            transcriptions: transcriptions,
+                                          );
+                                        },
+                                      ),
+                                    ),*/
                                     /// show participant loop
                                     ParticipantLoop(
                                       showAudioTracks: true,
@@ -137,7 +147,10 @@ class MyHomePage extends StatelessWidget {
                                               identifier.isAudio &&
                                                       roomCtx
                                                           .enableAudioVisulizer
-                                                  ? const AudioVisualizerWidget()
+                                                  ? const AudioVisualizerWidget(
+                                                      backgroundColor:
+                                                          LKColors.lkDarkBlue,
+                                                    )
                                                   : IsSpeakingIndicator(
                                                       builder: (context,
                                                           isSpeaking) {

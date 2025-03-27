@@ -28,12 +28,22 @@ class ScreenShareToggleWidget extends StatelessWidget {
     required this.deviceCtx,
     required this.screenShareEnabled,
     this.showLabel = false,
+    this.backgroundColor = Colors.grey,
+    this.foregroundColor = Colors.white,
+    this.selectedColor = LKColors.lkBlue,
+    this.overlayColor = Colors.grey,
+    this.selectedOverlayColor = LKColors.lkLightBlue,
   });
 
   final bool screenShareEnabled;
   final bool showLabel;
   final RoomContext roomCtx;
   final MediaDeviceContext deviceCtx;
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final Color overlayColor;
+  final Color selectedColor;
+  final Color selectedOverlayColor;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +51,11 @@ class ScreenShareToggleWidget extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(screenShareEnabled
-            ? LKColors.lkBlue
-            : Colors.grey.withOpacity(0.9)),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
+            ? selectedColor
+            : backgroundColor.withValues(alpha: 0.9)),
+        foregroundColor: WidgetStateProperty.all(foregroundColor),
         overlayColor: WidgetStateProperty.all(
-            screenShareEnabled ? LKColors.lkLightBlue : Colors.grey),
+            screenShareEnabled ? selectedOverlayColor : overlayColor),
         shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(

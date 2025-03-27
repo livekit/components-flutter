@@ -15,21 +15,43 @@
 import 'package:flutter/material.dart';
 
 import '../../builder/room/media_device_select_button.dart';
+import '../theme.dart';
 import 'media_device_select_button.dart';
 
 class MicrophoneSelectButton extends StatelessWidget {
   const MicrophoneSelectButton({
     super.key,
-    this.showLabels = false,
+    this.showtitleWidget = true,
+    this.titleWidget,
+    this.color = Colors.grey,
+    this.selectedColor = LKColors.lkBlue,
+    this.iconColor = Colors.white,
+    this.foregroundColor = Colors.white,
+    this.selectedOverlayColor = LKColors.lkLightBlue,
   });
 
-  final bool showLabels;
+  final bool showtitleWidget;
+  final Widget? titleWidget;
+  final Color color;
+  final Color selectedColor;
+  final Color iconColor;
+  final Color foregroundColor;
+  final Color selectedOverlayColor;
 
   @override
   Widget build(BuildContext context) {
     return MediaDeviceSelectButton(
       builder: (context, roomCtx, deviceCtx) => MediaDeviceSelectWidget(
-        title: 'Microphone',
+        titleWidget: titleWidget ??
+            Text(
+              'Microphone',
+              style: TextStyle(fontSize: 14, color: iconColor),
+            ),
+        backgroundColor: color,
+        selectedColor: selectedColor,
+        foregroundColor: foregroundColor,
+        selectedOverlayColor: selectedOverlayColor,
+        iconColor: iconColor,
         iconOn: Icons.mic,
         iconOff: Icons.mic_off,
         deviceList: deviceCtx.audioInputs ?? [],
@@ -39,7 +61,7 @@ class MicrophoneSelectButton extends StatelessWidget {
         onToggle: (enabled) => enabled
             ? deviceCtx.enableMicrophone()
             : deviceCtx.disableMicrophone(),
-        showLabel: showLabels,
+        showTitleWidget: showtitleWidget,
       ),
     );
   }

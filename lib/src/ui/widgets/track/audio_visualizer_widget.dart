@@ -4,7 +4,6 @@ import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 
 import '../../../context/track_reference_context.dart';
-import '../theme.dart';
 import 'no_track_widget.dart';
 
 class AudioVisualizerWidgetOptions {
@@ -35,9 +34,13 @@ class AudioVisualizerWidgetOptions {
 
 class AudioVisualizerWidget extends StatelessWidget {
   final AudioVisualizerWidgetOptions options;
+  final Widget noTrackWidget;
+  final Color backgroundColor;
 
   const AudioVisualizerWidget({
     Key? key,
+    this.noTrackWidget = const NoTrackWidget(),
+    this.backgroundColor = Colors.transparent,
     this.options = const AudioVisualizerWidgetOptions(),
   }) : super(key: key);
 
@@ -46,7 +49,7 @@ class AudioVisualizerWidget extends StatelessWidget {
     var trackCtx = Provider.of<TrackReferenceContext?>(context);
 
     if (trackCtx == null) {
-      return const NoTrackWidget();
+      return noTrackWidget;
     }
 
     return Consumer<TrackReferenceContext>(
@@ -55,13 +58,14 @@ class AudioVisualizerWidget extends StatelessWidget {
         selector: (context, audioTrack) => trackCtx.audioTrack,
         builder: (BuildContext context, AudioTrack? audioTrack, Widget? child) {
           if (trackCtx.audioTrack == null) {
-            return const NoTrackWidget();
+            return noTrackWidget;
           }
           return Container(
-            color: LKColors.lkDarkBlue,
+            color: backgroundColor,
             child: Center(
               child: SoundWaveformWidget(
                 audioTrack: audioTrack,
+                participant: trackCtx.participant,
                 options: options,
               ),
             ),
@@ -75,10 +79,12 @@ class AudioVisualizerWidget extends StatelessWidget {
 class SoundWaveformWidget extends StatefulWidget {
   final AudioVisualizerWidgetOptions options;
   final AudioTrack? audioTrack;
+  final Participant participant;
 
   const SoundWaveformWidget({
     super.key,
     this.audioTrack,
+    required this.participant,
     this.options = const AudioVisualizerWidgetOptions(),
   });
 
@@ -89,15 +95,28 @@ class SoundWaveformWidget extends StatefulWidget {
 class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
     with TickerProviderStateMixin {
   late AnimationController controller;
-  List<double> samples = [0, 0, 0, 0, 0, 0, 0];
+  late List<double> samples;
   AudioVisualizer? _visualizer;
   EventsListener<AudioVisualizerEvent>? _listener;
+  EventsListener<ParticipantEvent>? _participantListener;
 
   void _startVisualizer(AudioTrack? track) async {
     if (track == null) {
       return;
     }
-    samples = List.filled(widget.options.barCount, 0);
+
+    _participantListener ??= widget.participant.createListener();
+    _participantListener?.on<TrackMutedEvent>((e) {
+      if (mounted) {
+        setState(() {
+          samples = List.filled(widget.options.barCount,
+              widget.options.minHeight / widget.options.maxHeight);
+        });
+      }
+    });
+
+    samples = List.filled(widget.options.barCount,
+        widget.options.minHeight / widget.options.maxHeight);
     _visualizer ??= createVisualizer(track,
         options: AudioVisualizerOptions(
             barCount: widget.options.barCount,
@@ -120,6 +139,8 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
     _visualizer = null;
     await _listener?.dispose();
     _listener = null;
+    await _participantListener?.dispose();
+    _participantListener = null;
   }
 
   @override
@@ -148,44 +169,47 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
     final count = widget.options.barCount;
     final minHeight = widget.options.minHeight;
     final maxHeight = widget.options.maxHeight;
-    return AnimatedBuilder(
-      animation: controller,
-      builder: (c, child) {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(
-            count,
-            (i) {
-              final heightPercent =
-                  ((samples[i] - minHeight) / (maxHeight - minHeight))
-                      .clamp(0.0, 1.0);
-              final barOpacity =
-                  (1.0 - widget.options.barMinOpacity) * heightPercent +
-                      widget.options.barMinOpacity;
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) =>
+          AnimatedBuilder(
+        animation: controller,
+        builder: (c, child) {
+          return Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              count,
+              (i) {
+                final heightPercent =
+                    ((samples[i] - minHeight) / (maxHeight - minHeight))
+                        .clamp(0.0, 1.0);
+                final barOpacity =
+                    (1.0 - widget.options.barMinOpacity) * heightPercent +
+                        widget.options.barMinOpacity;
 
-              return AnimatedContainer(
-                duration: Duration(
-                    milliseconds:
-                        widget.options.durationInMilliseconds ~/ count),
-                margin: i == (samples.length - 1)
-                    ? EdgeInsets.zero
-                    : EdgeInsets.only(right: widget.options.spacing),
-                height: samples[i] < minHeight
-                    ? minHeight
-                    : samples[i] > maxHeight
-                        ? maxHeight
-                        : samples[i],
-                width: widget.options.width,
-                decoration: BoxDecoration(
-                  color: widget.options.color.withOpacity(barOpacity),
-                  borderRadius:
-                      BorderRadius.circular(widget.options.cornerRadius),
-                ),
-              );
-            },
-          ),
-        );
-      },
+                return AnimatedContainer(
+                  duration: Duration(
+                      milliseconds:
+                          widget.options.durationInMilliseconds ~/ count),
+                  margin: i == (samples.length - 1)
+                      ? EdgeInsets.zero
+                      : EdgeInsets.only(right: widget.options.spacing),
+                  height: samples[i] < minHeight
+                      ? minHeight
+                      : samples[i] > maxHeight
+                          ? maxHeight
+                          : samples[i],
+                  width: widget.options.width,
+                  decoration: BoxDecoration(
+                    color: widget.options.color.withValues(alpha: barOpacity),
+                    borderRadius:
+                        BorderRadius.circular(widget.options.cornerRadius),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 }

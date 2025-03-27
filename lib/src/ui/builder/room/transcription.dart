@@ -14,32 +14,28 @@
 
 import 'package:flutter/material.dart';
 
-import '../theme.dart';
+import 'package:provider/provider.dart';
 
-class IsSpeakingIndicatorWidget extends StatelessWidget {
-  const IsSpeakingIndicatorWidget({
-    Key? key,
-    required this.isSpeaking,
-    required this.child,
-    this.borderColor = LKColors.lkBlue,
-  }) : super(key: key);
+import '../../../context/room_context.dart';
+import '../../../context/transcription_context.dart';
 
-  final bool isSpeaking;
-  final Widget child;
-  final Color borderColor;
+class TranscriptionBuilder extends StatelessWidget {
+  const TranscriptionBuilder({
+    super.key,
+    required this.builder,
+  });
+
+  final Function(BuildContext context, RoomContext roomCtx,
+      List<TranscriptionForParticipant> transcriptions) builder;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      foregroundDecoration: BoxDecoration(
-        border: isSpeaking
-            ? Border.all(
-                width: 3,
-                color: borderColor,
-              )
-            : null,
-      ),
-      child: child,
-    );
+    return Consumer<RoomContext>(builder: (context, roomCtx, child) {
+      return builder(
+        context,
+        roomCtx,
+        roomCtx.transcriptions,
+      );
+    });
   }
 }

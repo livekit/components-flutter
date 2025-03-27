@@ -20,19 +20,26 @@ class SpeakerSwitchButton extends StatelessWidget {
     this.isSpeakerOn = false,
     this.onToggle,
     this.disabled = false,
+    this.backgroundColor = Colors.grey,
+    this.foregroundColor = Colors.white,
+    this.overlayColor = Colors.grey,
   });
 
   final bool isSpeakerOn;
   final Function(bool speakerOn)? onToggle;
   final bool disabled;
 
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final Color overlayColor;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(Colors.grey.withOpacity(0.9)),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
-        overlayColor: WidgetStateProperty.all(Colors.grey),
+        backgroundColor:
+            WidgetStateProperty.all(backgroundColor.withValues(alpha: 0.9)),
+        foregroundColor: WidgetStateProperty.all(foregroundColor),
+        overlayColor: WidgetStateProperty.all(overlayColor),
         shape: WidgetStateProperty.all(const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(20.0)))),
         padding: WidgetStateProperty.all(const EdgeInsets.all(12)),
