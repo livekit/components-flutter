@@ -77,13 +77,13 @@ class MediaDeviceContext extends ChangeNotifier {
 
     selectedAudioInputDeviceId ??=
         Hardware.instance.selectedAudioInput?.deviceId ??
-            _audioInputs?.first.deviceId;
+            _audioInputs?.firstOrNull?.deviceId;
     selectedVideoInputDeviceId ??=
         Hardware.instance.selectedVideoInput?.deviceId ??
-            _videoInputs?.first.deviceId;
+            _videoInputs?.firstOrNull?.deviceId;
     selectedAudioOutputDeviceId ??=
         Hardware.instance.selectedAudioOutput?.deviceId ??
-            _audioOutputs?.first.deviceId;
+            _audioOutputs?.firstOrNull?.deviceId;
     notifyListeners();
   }
 

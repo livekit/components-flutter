@@ -23,11 +23,22 @@ class JoinButtonWidget extends StatelessWidget {
     required this.roomCtx,
     required this.connected,
     this.onPressed,
+    this.backgroundColor = LKColors.lkBlue,
+    this.overlayColor = Colors.grey,
+    this.foregroundColor = Colors.white,
+    this.disabledColor = Colors.grey,
+    this.disabledOverlayColor = LKColors.lkLightBlue,
   }) : super(key: key);
 
   RoomContext roomCtx;
   bool connected;
   final Function()? onPressed;
+
+  final Color backgroundColor;
+  final Color foregroundColor;
+  final Color overlayColor;
+  final Color disabledColor;
+  final Color disabledOverlayColor;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +49,11 @@ class JoinButtonWidget extends StatelessWidget {
               ? roomCtx.connect()
               : null,
       style: ButtonStyle(
-        backgroundColor:
-            WidgetStateProperty.all(connected ? Colors.grey : LKColors.lkBlue),
-        foregroundColor: WidgetStateProperty.all(Colors.white),
+        backgroundColor: WidgetStateProperty.all(
+            connected ? disabledColor : backgroundColor),
+        foregroundColor: WidgetStateProperty.all(foregroundColor),
+        overlayColor: WidgetStateProperty.all(
+            connected ? overlayColor : disabledOverlayColor),
         shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -50,9 +63,9 @@ class JoinButtonWidget extends StatelessWidget {
         ),
         padding: WidgetStateProperty.all(const EdgeInsets.all(12)),
       ),
-      child: const Text(
+      child: Text(
         'Join Room',
-        style: TextStyle(color: Colors.white, fontSize: 16),
+        style: TextStyle(color: foregroundColor, fontSize: 16),
       ),
     );
   }

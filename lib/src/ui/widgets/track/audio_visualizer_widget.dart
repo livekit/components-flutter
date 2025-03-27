@@ -4,6 +4,7 @@ import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 
 import '../../../context/track_reference_context.dart';
+import '../theme.dart';
 import 'no_track_widget.dart';
 
 class AudioVisualizerWidgetOptions {
@@ -14,7 +15,6 @@ class AudioVisualizerWidgetOptions {
   final double maxHeight;
   final int durationInMilliseconds;
   final Color color;
-  final Color backgroundColor;
   final double spacing;
   final double cornerRadius;
   final double barMinOpacity;
@@ -27,7 +27,6 @@ class AudioVisualizerWidgetOptions {
     this.maxHeight = 100,
     this.durationInMilliseconds = 500,
     this.color = Colors.white,
-    this.backgroundColor = Colors.transparent,
     this.spacing = 5,
     this.cornerRadius = 9999,
     this.barMinOpacity = 0.35,
@@ -37,10 +36,12 @@ class AudioVisualizerWidgetOptions {
 class AudioVisualizerWidget extends StatelessWidget {
   final AudioVisualizerWidgetOptions options;
   final Widget noTrackWidget;
+  final Color backgroundColor;
 
   const AudioVisualizerWidget({
     Key? key,
     this.noTrackWidget = const NoTrackWidget(),
+    this.backgroundColor = Colors.transparent,
     this.options = const AudioVisualizerWidgetOptions(),
   }) : super(key: key);
 
@@ -61,7 +62,7 @@ class AudioVisualizerWidget extends StatelessWidget {
             return noTrackWidget;
           }
           return Container(
-            color: options.backgroundColor,
+            color: backgroundColor,
             child: Center(
               child: SoundWaveformWidget(
                 audioTrack: audioTrack,

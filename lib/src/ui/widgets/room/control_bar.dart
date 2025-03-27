@@ -23,6 +23,7 @@ import '../../builder/room/disconnect_button.dart';
 import '../../builder/room/media_device_select_button.dart';
 import '../../builder/room/screenshare_toggle.dart';
 import '../../builder/room/speaker_switch.dart';
+import '../theme.dart';
 import 'camera_switch_button.dart';
 import 'chat_toggle.dart';
 import 'disconnect_button.dart';
@@ -39,7 +40,12 @@ class ControlBar extends StatelessWidget {
     this.screenShare = true,
     this.leave = true,
     this.settings = true,
-    this.showLabels = false,
+    this.showTitleWidget = false,
+    this.backgroundColor = Colors.grey,
+    this.selectedColor = LKColors.lkBlue,
+    this.selectedOverlayColor = LKColors.lkLightBlue,
+    this.foregroundColor = Colors.white,
+    this.iconColor = Colors.white,
   });
 
   final bool microphone;
@@ -49,7 +55,13 @@ class ControlBar extends StatelessWidget {
   final bool screenShare;
   final bool leave;
   final bool settings;
-  final bool showLabels;
+  final bool showTitleWidget;
+
+  final Color backgroundColor;
+  final Color selectedColor;
+  final Color selectedOverlayColor;
+  final Color foregroundColor;
+  final Color iconColor;
 
   bool get isMobile => lkPlatformIsMobile();
 
@@ -67,7 +79,15 @@ class ControlBar extends StatelessWidget {
           if (microphone)
             MediaDeviceSelectButton(
               builder: (context, roomCtx, deviceCtx) => MediaDeviceSelectWidget(
-                title: 'Microphone',
+                titleWidget: Text(
+                  'Microphone',
+                  style: TextStyle(fontSize: 14),
+                ),
+                backgroundColor: backgroundColor,
+                selectedColor: selectedColor,
+                selectedOverlayColor: selectedOverlayColor,
+                foregroundColor: foregroundColor,
+                iconColor: iconColor,
                 iconOn: Icons.mic,
                 iconOff: Icons.mic_off,
                 deviceList: deviceCtx.audioInputs ?? [],
@@ -77,14 +97,22 @@ class ControlBar extends StatelessWidget {
                 onToggle: (enabled) => enabled
                     ? deviceCtx.enableMicrophone()
                     : deviceCtx.disableMicrophone(),
-                showLabel: showLabels,
+                showTitleWidget: showTitleWidget,
               ),
             ),
           if (audioOutput &&
               (lkPlatformIsDesktop() || lkPlatformIs(PlatformType.web)))
             MediaDeviceSelectButton(
               builder: (context, roomCtx, deviceCtx) => MediaDeviceSelectWidget(
-                title: 'Audio Output',
+                titleWidget: Text(
+                  'Audio Output',
+                  style: TextStyle(fontSize: 14),
+                ),
+                backgroundColor: backgroundColor,
+                selectedColor: selectedColor,
+                selectedOverlayColor: selectedOverlayColor,
+                foregroundColor: foregroundColor,
+                iconColor: iconColor,
                 iconOn: Icons.volume_up,
                 iconOff: Icons.volume_off,
                 deviceList: deviceCtx.audioOutputs ?? [],
@@ -93,13 +121,21 @@ class ControlBar extends StatelessWidget {
                 toggleAvailable: false,
                 defaultSelectable: true,
                 onSelect: (device) => deviceCtx.selectAudioOutput(device),
-                showLabel: showLabels,
+                showTitleWidget: showTitleWidget,
               ),
             ),
           if (camera)
             MediaDeviceSelectButton(
               builder: (context, roomCtx, deviceCtx) => MediaDeviceSelectWidget(
-                title: 'Camera',
+                titleWidget: Text(
+                  'Camera',
+                  style: TextStyle(fontSize: 14),
+                ),
+                backgroundColor: backgroundColor,
+                selectedColor: selectedColor,
+                selectedOverlayColor: selectedOverlayColor,
+                foregroundColor: foregroundColor,
+                iconColor: iconColor,
                 iconOn: Icons.videocam,
                 iconOff: Icons.videocam_off,
                 deviceList: deviceCtx.videoInputs ?? [],
@@ -109,7 +145,7 @@ class ControlBar extends StatelessWidget {
                 onToggle: (enabled) => enabled
                     ? deviceCtx.enableCamera()
                     : deviceCtx.disableCamera(),
-                showLabel: showLabels,
+                showTitleWidget: showTitleWidget,
               ),
             ),
           if (isMobile && microphone)
@@ -135,7 +171,7 @@ class ControlBar extends StatelessWidget {
                 roomCtx: roomCtx,
                 deviceCtx: deviceCtx,
                 screenShareEnabled: screenShareEnabled,
-                showLabel: showLabels,
+                showLabel: showTitleWidget,
               ),
             ),
           if (chat)
@@ -143,7 +179,7 @@ class ControlBar extends StatelessWidget {
               builder: (context, roomCtx, isChatEnabled) => ChatToggleWidget(
                 isChatOpen: roomCtx.isChatEnabled,
                 toggleChat: (enabled) => roomCtx.toggleChat(enabled),
-                showLabel: showLabels,
+                showLabel: showTitleWidget,
               ),
             ),
           if (leave)
@@ -151,7 +187,7 @@ class ControlBar extends StatelessWidget {
               builder: (context, roomCtx, connected) => DisconnectButtonWidget(
                 roomCtx: roomCtx,
                 connected: connected,
-                showLabel: showLabels,
+                showLabel: showTitleWidget,
               ),
             ),
         ],
