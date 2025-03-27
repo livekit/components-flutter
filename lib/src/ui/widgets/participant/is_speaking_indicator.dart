@@ -21,10 +21,12 @@ class IsSpeakingIndicatorWidget extends StatelessWidget {
     Key? key,
     required this.isSpeaking,
     required this.child,
+    this.borderColor = LKColors.lkBlue,
   }) : super(key: key);
 
   final bool isSpeaking;
   final Widget child;
+  final Color borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class IsSpeakingIndicatorWidget extends StatelessWidget {
         border: isSpeaking
             ? Border.all(
                 width: 3,
-                color: LKColors.lkBlue,
+                color: borderColor,
               )
             : null,
       ),

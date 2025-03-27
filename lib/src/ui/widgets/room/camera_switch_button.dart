@@ -39,7 +39,7 @@ class CameraSwitchButton extends StatelessWidget {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor:
-            WidgetStateProperty.all(backgroundColor.withOpacity(0.9)),
+            WidgetStateProperty.all(backgroundColor.withValues(alpha: 0.9)),
         foregroundColor: WidgetStateProperty.all(foregroundColor),
         overlayColor: WidgetStateProperty.all(overlayColor),
         shape: WidgetStateProperty.all(const RoundedRectangleBorder(
