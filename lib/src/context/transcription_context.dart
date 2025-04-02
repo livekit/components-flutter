@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
 
+import 'package:collection/collection.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 import '../debug/logger.dart';

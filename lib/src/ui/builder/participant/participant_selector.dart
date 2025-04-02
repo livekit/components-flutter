@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:livekit_client/livekit_client.dart';
-import 'package:livekit_components/src/types/track_identifier.dart';
-import 'package:provider/provider.dart';
-import 'package:collection/collection.dart';
 
+import 'package:collection/collection.dart';
+import 'package:livekit_client/livekit_client.dart';
+import 'package:provider/provider.dart';
+
+import 'package:livekit_components/src/types/track_identifier.dart';
 import '../../../context/room_context.dart';
 import '../../../debug/logger.dart';
 import 'participant_track.dart';

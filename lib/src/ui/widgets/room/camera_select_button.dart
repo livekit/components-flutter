@@ -13,8 +13,8 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-import 'package:livekit_components/src/ui/widgets/theme.dart';
 
+import 'package:livekit_components/src/ui/widgets/theme.dart';
 import '../../builder/room/media_device_select_button.dart';
 import 'media_device_select_button.dart';
 
