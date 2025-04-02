@@ -58,6 +58,7 @@ class MediaDeviceSelectWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    double edge = deviceScreenType == DeviceScreenType.mobile ? 12 : 20;
     return Row(mainAxisSize: MainAxisSize.min, children: [
       SizedBox(
         height: 40,
@@ -75,7 +76,7 @@ class MediaDeviceSelectWidget extends StatelessWidget {
                     topLeft: Radius.circular(20.0),
                     bottomLeft: Radius.circular(20.0)))),
             padding: WidgetStateProperty.all(
-                const EdgeInsets.fromLTRB(12, 20, 12, 20)),
+                EdgeInsets.fromLTRB(12, edge, 12, edge)),
           ),
           onPressed: () => onToggle?.call(!deviceIsOpened),
           child: Row(

@@ -17,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:chat_bubbles/chat_bubbles.dart';
 import 'package:livekit_client/livekit_client.dart';
 
-import '../../../context/transcription_context.dart';
+import '../../../types/transcription.dart';
 import '../theme.dart';
 
 class TranscriptionWidget extends StatelessWidget {
@@ -42,18 +42,13 @@ class TranscriptionWidget extends StatelessWidget {
     for (var transcription in sortedTranscriptions) {
       var participant = transcription.participant;
       var segment = transcription.segment;
-      /*msgWidgets.add(
-        CustomDateNameChip(
-          name: participant.identity,
-          date: segment.lastReceivedTime,
-        ),
-      );*/
+      var isLocal = participant is LocalParticipant;
       msgWidgets.add(
         BubbleNormal(
           text: segment.text + (segment.isFinal ? '' : '...'),
           color: textColor,
-          tail: false,
-          isSender: participant is LocalParticipant,
+          tail: isLocal,
+          isSender: isLocal,
         ),
       );
     }

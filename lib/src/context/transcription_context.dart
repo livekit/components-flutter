@@ -18,15 +18,7 @@ import 'package:collection/collection.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 import '../debug/logger.dart';
-
-class TranscriptionForParticipant {
-  TranscriptionForParticipant(
-    this.segment,
-    this.participant,
-  );
-  TranscriptionSegment segment;
-  final Participant participant;
-}
+import '../types/transcription.dart';
 
 mixin TranscriptionContextMixin on ChangeNotifier {
   final List<TranscriptionForParticipant> _transcriptions = [];

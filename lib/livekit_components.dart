@@ -22,6 +22,7 @@ export 'src/context/track_reference_context.dart';
 export 'src/debug/logger.dart';
 
 export 'src/types/agent_state.dart';
+export 'src/types/transcription.dart';
 
 export 'src/ui/builder/camera_preview.dart';
 export 'src/ui/builder/room/chat_toggle.dart';

@@ -17,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../context/room_context.dart';
-import '../../../context/transcription_context.dart';
+import '../../../types/transcription.dart';
 
 class TranscriptionBuilder extends StatelessWidget {
   const TranscriptionBuilder({
