@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 (2025-04-09)
+
+* feat: Adding more components for Agents.
+
 ## 1.2.0 (2025-03-26)
 
 * Bump version for livekit sdk.

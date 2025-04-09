@@ -78,7 +78,7 @@ class _MyHomePageState extends State<MyHomePage> {
   // ignore: unused_element
   void _onJoinPressed(RoomContext roomCtx, String url, String token) async {
     if (kDebugMode) {
-      print('Joining room: name=$url, roomName=$token');
+      print('Joining room: url=$url, token=$token');
     }
     await _writePrefs(url, token);
     try {
