@@ -164,8 +164,8 @@ class RoomContext extends ChangeNotifier
   }) async {
     if (cameraOpened || microphoneOpened) {
       _fastConnectOptions = FastConnectOptions(
-        microphone: TrackOption(track: localAudioTrack!),
-        camera: TrackOption(track: localVideoTrack!),
+        microphone: TrackOption(track: localAudioTrack),
+        camera: TrackOption(track: localVideoTrack),
       );
       await resetLocalTracks();
     }
