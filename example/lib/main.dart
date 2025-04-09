@@ -4,6 +4,7 @@ import 'package:livekit_components/livekit_components.dart';
 import 'package:logging/logging.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   final format = DateFormat('HH:mm:ss');
@@ -33,18 +34,53 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class MyHomePage extends StatefulWidget {
+  //
+  const MyHomePage({
+    super.key,
+  });
 
-  final url = 'wss://livekit.example.com';
-  final token = 'your_token_here';
+  @override
+  State<StatefulWidget> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  static const _storeKeyUri = 'uri';
+  static const _storeKeyToken = 'token';
+
+  String _url = '';
+  String _token = '';
+
+  void _readPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    _url = const bool.hasEnvironment('URL')
+        ? const String.fromEnvironment('URL')
+        : prefs.getString(_storeKeyUri) ?? 'your url here';
+    _token = const bool.hasEnvironment('TOKEN')
+        ? const String.fromEnvironment('TOKEN')
+        : prefs.getString(_storeKeyToken) ?? 'your token here';
+  }
+
+  // Save URL and Token
+  Future<void> _writePrefs(String url, String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_storeKeyUri, url);
+    await prefs.setString(_storeKeyToken, token);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _readPrefs();
+  }
 
   /// handle join button pressed, fetch connection details and connect to room.
   // ignore: unused_element
-  void _onJoinPressed(RoomContext roomCtx, String name, String roomName) async {
+  void _onJoinPressed(RoomContext roomCtx, String url, String token) async {
     if (kDebugMode) {
-      print('Joining room: name=$name, roomName=$roomName');
+      print('Joining room: name=$url, roomName=$token');
     }
+    await _writePrefs(url, token);
     try {
       await roomCtx.connect(
         url: url,
@@ -61,9 +97,22 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return LivekitRoom(
       roomContext: RoomContext(
-        url: url,
-        token: token,
         enableAudioVisulizer: true,
+        onConnected: () {
+          if (kDebugMode) {
+            print('Connected to room');
+          }
+        },
+        onDisconnected: () {
+          if (kDebugMode) {
+            print('Disconnected from room');
+          }
+        },
+        onError: (error) {
+          if (kDebugMode) {
+            print('Error: $error');
+          }
+        },
       ),
       builder: (context, roomCtx) {
         var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
@@ -82,8 +131,8 @@ class MyHomePage extends StatelessWidget {
 
                   /// show prejoin screen if not connected
                   ? Prejoin(
-                      token: token,
-                      url: url,
+                      token: _token,
+                      url: _url,
                       onJoinPressed: _onJoinPressed,
                     )
                   :
@@ -110,7 +159,7 @@ class MyHomePage extends StatelessWidget {
                                 ),
                               )
                             : Expanded(
-                                flex: 5,
+                                flex: 6,
                                 child: Stack(
                                   children: <Widget>[
                                     /* Expanded(

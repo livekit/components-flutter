@@ -65,9 +65,9 @@ class DisconnectButtonWidget extends StatelessWidget {
           ),
         ),
         padding: WidgetStateProperty.all(
-          deviceScreenType == DeviceScreenType.desktop || lkPlatformIsDesktop()
-              ? const EdgeInsets.fromLTRB(10, 20, 10, 20)
-              : const EdgeInsets.all(12),
+          (lkPlatformIsMobile() || lkPlatformIsWebMobile())
+              ? const EdgeInsets.all(12)
+              : const EdgeInsets.fromLTRB(12, 20, 12, 20),
         ),
       ),
       onPressed: () =>

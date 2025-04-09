@@ -58,44 +58,43 @@ class MediaDeviceSelectWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
-    double edge = deviceScreenType == DeviceScreenType.mobile ? 12 : 20;
     return Row(mainAxisSize: MainAxisSize.min, children: [
-      SizedBox(
-        height: 40,
-        child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(deviceIsOpened
-                ? selectedColor
-                : backgroundColor.withValues(alpha: 0.9)),
-            foregroundColor: WidgetStateProperty.all(foregroundColor),
-            overlayColor: WidgetStateProperty.all(
-                deviceIsOpened ? selectedOverlayColor : backgroundColor),
-            shadowColor: WidgetStateProperty.all(Colors.transparent),
-            shape: WidgetStateProperty.all(const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20.0),
-                    bottomLeft: Radius.circular(20.0)))),
-            padding: WidgetStateProperty.all(
-                EdgeInsets.fromLTRB(12, edge, 12, edge)),
+      ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: WidgetStateProperty.all(deviceIsOpened
+              ? selectedColor
+              : backgroundColor.withValues(alpha: 0.9)),
+          foregroundColor: WidgetStateProperty.all(foregroundColor),
+          overlayColor: WidgetStateProperty.all(
+              deviceIsOpened ? selectedOverlayColor : backgroundColor),
+          shadowColor: WidgetStateProperty.all(Colors.transparent),
+          shape: WidgetStateProperty.all(const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20.0),
+                  bottomLeft: Radius.circular(20.0)))),
+          padding: WidgetStateProperty.all(
+            (lkPlatformIsMobile() || lkPlatformIsWebMobile())
+                ? const EdgeInsets.all(12)
+                : const EdgeInsets.fromLTRB(12, 20, 12, 20),
           ),
-          onPressed: () => onToggle?.call(!deviceIsOpened),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(deviceIsOpened || defaultSelectable ? iconOn : iconOff,
-                  color: iconColor),
-              const SizedBox(width: 2),
-              if (titleWidget != null &&
-                  (deviceScreenType != DeviceScreenType.mobile ||
-                      showTitleWidget))
-                titleWidget!,
-            ],
-          ),
+        ),
+        onPressed: () => onToggle?.call(!deviceIsOpened),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(deviceIsOpened || defaultSelectable ? iconOn : iconOff,
+                color: iconColor),
+            const SizedBox(width: 2),
+            if (titleWidget != null &&
+                (deviceScreenType != DeviceScreenType.mobile ||
+                    showTitleWidget))
+              titleWidget!,
+          ],
         ),
       ),
       const SizedBox(width: 0.2),
       SizedBox(
-        height: 40,
+        height: 42,
         child: PopupMenuButton<MediaDevice>(
           icon: Icon(
             Icons.arrow_drop_down,

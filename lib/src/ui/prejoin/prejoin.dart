@@ -37,11 +37,11 @@ class Prejoin extends StatelessWidget {
   String url;
 
   void onTextTokenChanged(String token) async {
-    token = token;
+    this.token = token;
   }
 
   void onTextUrlChanged(String url) async {
-    url = url;
+    this.url = url;
   }
 
   void _handleJoinPressed(RoomContext roomCtx) async {
