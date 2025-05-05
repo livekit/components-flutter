@@ -261,7 +261,6 @@ class MediaDeviceContext extends ChangeNotifier {
         ),
       );
       await _room?.localParticipant?.publishVideoTrack(track);
-      return;
     }
 
     if (lkPlatformIsWebMobile()) {
