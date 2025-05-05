@@ -260,7 +260,10 @@ class MediaDeviceContext extends ChangeNotifier {
           maxFrameRate: 15.0,
         ),
       );
+      await _room?.localParticipant
+        ?.setScreenShareEnabled(true, captureScreenAudio: true);
       await _room?.localParticipant?.publishVideoTrack(track);
+      notifyListeners();
       return;
     }
 
