@@ -45,16 +45,14 @@ class AudioVisualizerWidget extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Builder(
-        builder: (context) => Consumer<TrackReferenceContext?>(
-          builder: (BuildContext context, TrackReferenceContext? trackCtx, Widget? child) => Container(
-            color: backgroundColor,
-            child: SoundWaveformWidget(
-              key: ValueKey('SoundWaveformWidget-${trackCtx?.participant.sid}-${trackCtx?.audioTrack?.sid}'),
-              audioTrack: trackCtx?.audioTrack,
-              participant: trackCtx?.participant,
-              options: options,
-            ),
+  Widget build(BuildContext context) => Consumer<TrackReferenceContext?>(
+        builder: (BuildContext context, TrackReferenceContext? trackCtx, Widget? child) => Container(
+          color: backgroundColor,
+          child: SoundWaveformWidget(
+            key: ValueKey('SoundWaveformWidget-${trackCtx?.participant.sid}-${trackCtx?.audioTrack?.sid}'),
+            audioTrack: trackCtx?.audioTrack,
+            participant: trackCtx?.participant,
+            options: options,
           ),
         ),
       );
@@ -112,13 +110,16 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
         });
       });
 
-      _participantListener?.on<sdk.ParticipantAttributesChanged>((e) {
-        if (!mounted) return;
-        final agentStateString = e.attributes[agentStateAttributeKey];
-        setState(() {
-          _agentState = agentStateString != null ? AgentState.fromString(agentStateString) : AgentState.initializing;
+      // If participant is agent, listen to agent state changes
+      if (widget.participant?.kind == sdk.ParticipantKind.AGENT) {
+        _participantListener?.on<sdk.ParticipantAttributesChanged>((e) {
+          if (!mounted) return;
+          final agentStateString = e.attributes[agentStateAttributeKey];
+          setState(() {
+            _agentState = agentStateString != null ? AgentState.fromString(agentStateString) : AgentState.initializing;
+          });
         });
-      });
+      }
     }
 
     if (widget.audioTrack != null) {
@@ -182,7 +183,8 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
         animation: _pulseAnimation,
         builder: (ctx, _) {
           // Listening state
-          if (_agentState == AgentState.initializing || _agentState == AgentState.listening) {
+          if (widget.participant?.kind == sdk.ParticipantKind.AGENT &&
+              (_agentState == AgentState.initializing || _agentState == AgentState.listening)) {
             final elements = List.generate(
               samples.length,
               (i) => BarsViewItem(
