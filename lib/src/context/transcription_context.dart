@@ -13,16 +13,15 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-
-import 'package:collection/collection.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 import '../debug/logger.dart';
 import '../types/transcription.dart';
 
 mixin TranscriptionContextMixin on ChangeNotifier {
-  final List<TranscriptionForParticipant> _transcriptions = [];
   List<TranscriptionForParticipant> get transcriptions => _transcriptions;
+  List<TranscriptionForParticipant> _transcriptions = [];
+
   EventsListener<RoomEvent>? _listener;
 
   void transcriptionContextSetup(EventsListener<RoomEvent>? listener) {
@@ -30,16 +29,20 @@ mixin TranscriptionContextMixin on ChangeNotifier {
     if (listener != null) {
       _listener!.on<TranscriptionEvent>((event) {
         Debug.event('TranscriptionContext: TranscriptionEvent');
-        for (var segment in event.segments) {
-          var transcription = _transcriptions
-              .firstWhereOrNull((t) => t.segment.id == segment.id);
-          if (transcription != null) {
-            transcription.segment = segment;
+        List<TranscriptionForParticipant> updatedTranscriptions = List.from(_transcriptions);
+        for (final segment in event.segments) {
+          final findResult = updatedTranscriptions.indexWhere((t) => t.segment.id == segment.id);
+          if (findResult >= 0) {
+            final oldTranscription = updatedTranscriptions[findResult];
+            final newTranscription = oldTranscription.copyWith(segment: segment);
+            updatedTranscriptions[findResult] = newTranscription;
+            Debug.event('TranscriptionContext: Replaced existing segment');
           } else {
-            _transcriptions
-                .add(TranscriptionForParticipant(segment, event.participant));
+            updatedTranscriptions.add(TranscriptionForParticipant(segment, event.participant));
+            Debug.event('TranscriptionContext: Added new segment');
           }
         }
+        _transcriptions = updatedTranscriptions;
         notifyListeners();
       });
     } else {
