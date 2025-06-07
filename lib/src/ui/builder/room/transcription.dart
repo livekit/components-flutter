@@ -13,29 +13,33 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 
 import '../../../context/room_context.dart';
 import '../../../types/transcription.dart';
 
+/// A builder widget that provides access to real-time transcriptions from the current room.
+///
+/// This widget listens to transcription updates from the room context and rebuilds
+/// when new transcriptions are available. It provides a list of [TranscriptionForParticipant]
+/// objects that contain transcription data for each participant in the room.
+///
+/// The builder function receives the current build context and a list of transcriptions,
+/// allowing you to build custom UI components that display transcription data.
 class TranscriptionBuilder extends StatelessWidget {
+  final Function(BuildContext context, List<TranscriptionForParticipant> transcriptions) builder;
+
   const TranscriptionBuilder({
     super.key,
     required this.builder,
   });
 
-  final Function(BuildContext context, RoomContext roomCtx,
-      List<TranscriptionForParticipant> transcriptions) builder;
-
   @override
-  Widget build(BuildContext context) {
-    return Consumer<RoomContext>(builder: (context, roomCtx, child) {
-      return builder(
-        context,
-        roomCtx,
-        roomCtx.transcriptions,
+  Widget build(BuildContext context) => Selector<RoomContext, List<TranscriptionForParticipant>>(
+        selector: (ctx, roomCtx) => roomCtx.transcriptions,
+        builder: (context, transcriptions, child) => builder(
+          context,
+          transcriptions,
+        ),
       );
-    });
-  }
 }
