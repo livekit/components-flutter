@@ -15,39 +15,42 @@
 import 'package:flutter/material.dart';
 import 'package:livekit_client/livekit_client.dart';
 
-import '../debug/logger.dart';
 import '../types/transcription.dart';
 
 mixin TranscriptionContextMixin on ChangeNotifier {
-  List<TranscriptionForParticipant> get transcriptions => _transcriptions;
-  List<TranscriptionForParticipant> _transcriptions = [];
+  final Map<String, TranscriptionForParticipant> _transcriptionMap = {};
+  // Getter
+  List<TranscriptionForParticipant> get transcriptions => List.unmodifiable(_transcriptionMap.values);
 
-  EventsListener<RoomEvent>? _listener;
+  CancelListenFunc? _cancelListener;
 
-  void transcriptionContextSetup(EventsListener<RoomEvent>? listener) {
-    _listener = listener;
-    if (listener != null) {
-      _listener!.on<TranscriptionEvent>((event) {
-        Debug.event('TranscriptionContext: TranscriptionEvent');
-        List<TranscriptionForParticipant> updatedTranscriptions = List.from(_transcriptions);
-        for (final segment in event.segments) {
-          final findResult = updatedTranscriptions.indexWhere((t) => t.segment.id == segment.id);
-          if (findResult >= 0) {
-            final oldTranscription = updatedTranscriptions[findResult];
-            final newTranscription = oldTranscription.copyWith(segment: segment);
-            updatedTranscriptions[findResult] = newTranscription;
-            Debug.event('TranscriptionContext: Replaced existing segment');
-          } else {
-            updatedTranscriptions.add(TranscriptionForParticipant(segment, event.participant));
-            Debug.event('TranscriptionContext: Added new segment');
+  void transcriptionContextCleanUp() {
+    _cancelListener = null;
+    _transcriptionMap.clear();
+  }
+
+  void transcriptionContextSetup(EventsListener<RoomEvent> listener) {
+    _cancelListener = listener.on<TranscriptionEvent>((event) {
+      bool hasChanged = false;
+
+      for (final segment in event.segments) {
+        final id = segment.id;
+        final existing = _transcriptionMap[id];
+
+        if (existing != null) {
+          if (existing.segment != segment) {
+            _transcriptionMap[id] = existing.copyWith(segment: segment);
+            hasChanged = true;
           }
+        } else {
+          _transcriptionMap[id] = TranscriptionForParticipant(segment, event.participant);
+          hasChanged = true;
         }
-        _transcriptions = updatedTranscriptions;
+      }
+
+      if (hasChanged) {
         notifyListeners();
-      });
-    } else {
-      _listener = null;
-      _transcriptions.clear();
-    }
+      }
+    });
   }
 }
