@@ -32,6 +32,38 @@ class AudioVisualizerWidgetOptions {
     this.cornerRadius = 9999,
     this.barMinOpacity = 0.35,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is AudioVisualizerWidgetOptions &&
+        other.barCount == barCount &&
+        other.centeredBands == centeredBands &&
+        other.width == width &&
+        other.minHeight == minHeight &&
+        other.maxHeight == maxHeight &&
+        other.durationInMilliseconds == durationInMilliseconds &&
+        other.color == color &&
+        other.spacing == spacing &&
+        other.cornerRadius == cornerRadius &&
+        other.barMinOpacity == barMinOpacity;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hash(
+      barCount,
+      centeredBands,
+      width,
+      minHeight,
+      maxHeight,
+      durationInMilliseconds,
+      color,
+      spacing,
+      cornerRadius,
+      barMinOpacity,
+    );
+  }
 }
 
 class AudioVisualizerWidget extends StatelessWidget {
@@ -49,7 +81,6 @@ class AudioVisualizerWidget extends StatelessWidget {
         builder: (BuildContext context, TrackReferenceContext? trackCtx, Widget? child) => Container(
           color: backgroundColor,
           child: SoundWaveformWidget(
-            key: ValueKey('SoundWaveformWidget-${trackCtx?.participant.sid}-${trackCtx?.audioTrack?.sid}'),
             audioTrack: trackCtx?.audioTrack,
             participant: trackCtx?.participant,
             options: options,
@@ -91,9 +122,11 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
   @override
   void didUpdateWidget(SoundWaveformWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.participant?.sid != widget.participant?.sid ||
+    final didUpdateParams = oldWidget.participant?.sid != widget.participant?.sid ||
         oldWidget.audioTrack?.sid != widget.audioTrack?.sid ||
-        oldWidget.options != widget.options) {
+        oldWidget.options != widget.options;
+
+    if (didUpdateParams) {
       // Re-attach listeners
       _detachListeners();
       _attachListeners();
@@ -101,6 +134,8 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
   }
 
   Future<void> _attachListeners() async {
+    print('Attach listeners... ${widget.participant}, ${widget.audioTrack}');
+
     if (widget.participant != null) {
       _participantListener = widget.participant!.createListener();
       _participantListener?.on<sdk.TrackMutedEvent>((e) {
@@ -134,14 +169,19 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
         });
       });
 
+      print('Visualizer: Start... ${_visualizer?.visualizerId}');
       await _visualizer!.start();
     }
   }
 
   Future<void> _detachListeners() async {
-    await _visualizer?.stop();
-    await _visualizer?.dispose();
-    _visualizer = null;
+    if (_visualizer != null) {
+      print('Visualizer: Stop ${_visualizer?.visualizerId} ...');
+      await _visualizer?.stop();
+      await _visualizer?.dispose();
+      _visualizer = null;
+    }
+
     await _visualizerListener?.dispose();
     _visualizerListener = null;
     await _participantListener?.dispose();
@@ -203,6 +243,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
             samples.length,
             (i) => BarsViewItem(value: samples[i], color: widget.options.color),
           );
+
           return BarsView(
             options: widget.options,
             elements: elements,
