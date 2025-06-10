@@ -30,8 +30,7 @@ class ParticipantKind extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
       Debug.log('====>        ParticipantKind for ${participantContext.kind}');
       return Selector<ParticipantContext, lk.ParticipantKind>(
         selector: (context, name) => participantContext.kind,

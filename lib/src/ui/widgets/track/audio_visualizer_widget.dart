@@ -53,8 +53,7 @@ class AudioVisualizerWidget extends StatelessWidget {
     }
 
     return Consumer<TrackReferenceContext>(
-      builder: (context, trackCtx, child) =>
-          Selector<TrackReferenceContext, AudioTrack?>(
+      builder: (context, trackCtx, child) => Selector<TrackReferenceContext, AudioTrack?>(
         selector: (context, audioTrack) => trackCtx.audioTrack,
         builder: (BuildContext context, AudioTrack? audioTrack, Widget? child) {
           if (trackCtx.audioTrack == null) {
@@ -92,8 +91,7 @@ class SoundWaveformWidget extends StatefulWidget {
   State<SoundWaveformWidget> createState() => _SoundWaveformWidgetState();
 }
 
-class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
-    with TickerProviderStateMixin {
+class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with TickerProviderStateMixin {
   late AnimationController controller;
   late List<double> samples;
   AudioVisualizer? _visualizer;
@@ -109,18 +107,15 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
     _participantListener?.on<TrackMutedEvent>((e) {
       if (mounted) {
         setState(() {
-          samples = List.filled(widget.options.barCount,
-              widget.options.minHeight / widget.options.maxHeight);
+          samples = List.filled(widget.options.barCount, widget.options.minHeight / widget.options.maxHeight);
         });
       }
     });
 
-    samples = List.filled(widget.options.barCount,
-        widget.options.minHeight / widget.options.maxHeight);
+    samples = List.filled(widget.options.barCount, widget.options.minHeight / widget.options.maxHeight);
     _visualizer ??= createVisualizer(track,
-        options: AudioVisualizerOptions(
-            barCount: widget.options.barCount,
-            centeredBands: widget.options.centeredBands));
+        options:
+            AudioVisualizerOptions(barCount: widget.options.barCount, centeredBands: widget.options.centeredBands));
     _listener ??= _visualizer?.createListener();
     _listener?.on<AudioVisualizerEvent>((e) {
       if (mounted) {
@@ -170,8 +165,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
     final minHeight = widget.options.minHeight;
     final maxHeight = widget.options.maxHeight;
     return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) =>
-          AnimatedBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) => AnimatedBuilder(
         animation: controller,
         builder: (c, child) {
           return Row(
@@ -179,20 +173,12 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
             children: List.generate(
               count,
               (i) {
-                final heightPercent =
-                    ((samples[i] - minHeight) / (maxHeight - minHeight))
-                        .clamp(0.0, 1.0);
-                final barOpacity =
-                    (1.0 - widget.options.barMinOpacity) * heightPercent +
-                        widget.options.barMinOpacity;
+                final heightPercent = ((samples[i] - minHeight) / (maxHeight - minHeight)).clamp(0.0, 1.0);
+                final barOpacity = (1.0 - widget.options.barMinOpacity) * heightPercent + widget.options.barMinOpacity;
 
                 return AnimatedContainer(
-                  duration: Duration(
-                      milliseconds:
-                          widget.options.durationInMilliseconds ~/ count),
-                  margin: i == (samples.length - 1)
-                      ? EdgeInsets.zero
-                      : EdgeInsets.only(right: widget.options.spacing),
+                  duration: Duration(milliseconds: widget.options.durationInMilliseconds ~/ count),
+                  margin: i == (samples.length - 1) ? EdgeInsets.zero : EdgeInsets.only(right: widget.options.spacing),
                   height: samples[i] < minHeight
                       ? minHeight
                       : samples[i] > maxHeight
@@ -201,8 +187,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget>
                   width: widget.options.width,
                   decoration: BoxDecoration(
                     color: widget.options.color.withValues(alpha: barOpacity),
-                    borderRadius:
-                        BorderRadius.circular(widget.options.cornerRadius),
+                    borderRadius: BorderRadius.circular(widget.options.cornerRadius),
                   ),
                 );
               },

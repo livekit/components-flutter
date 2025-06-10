@@ -58,8 +58,7 @@ class CameraSelectButton extends StatelessWidget {
         selectedDeviceId: deviceCtx.selectedVideoInputDeviceId,
         deviceIsOpened: deviceCtx.cameraOpened,
         onSelect: (device) => deviceCtx.selectVideoInput(device),
-        onToggle: (enabled) =>
-            enabled ? deviceCtx.enableCamera() : deviceCtx.disableCamera(),
+        onToggle: (enabled) => enabled ? deviceCtx.enableCamera() : deviceCtx.disableCamera(),
         showTitleWidget: showTitleWidget,
       ),
     );

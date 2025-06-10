@@ -24,16 +24,14 @@ class JoinButton extends StatelessWidget {
     required this.builder,
   });
 
-  final Function(BuildContext context, RoomContext roomCtx, bool connected)
-      builder;
+  final Function(BuildContext context, RoomContext roomCtx, bool connected) builder;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<RoomContext>(builder: (context, roomCtx, child) {
       return Selector<RoomContext, bool>(
         selector: (context, connected) => roomCtx.connected,
-        builder: (context, connected, child) =>
-            builder(context, roomCtx, connected),
+        builder: (context, connected, child) => builder(context, roomCtx, connected),
       );
     });
   }

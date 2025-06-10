@@ -22,8 +22,7 @@ import '../../../context/room_context.dart';
 class MediaDeviceContextBuilder extends StatelessWidget {
   const MediaDeviceContextBuilder({super.key, required this.builder});
 
-  final Widget Function(BuildContext context, RoomContext roomContext,
-      MediaDeviceContext mediaDeviceContext) builder;
+  final Widget Function(BuildContext context, RoomContext roomContext, MediaDeviceContext mediaDeviceContext) builder;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +30,7 @@ class MediaDeviceContextBuilder extends StatelessWidget {
       builder: (context, roomCtx, child) => ChangeNotifierProvider(
         create: (_) => MediaDeviceContext(roomCtx: roomCtx),
         child: Consumer<MediaDeviceContext>(
-          builder: (context, mediaDeviceCtx, child) =>
-              builder(context, roomCtx, mediaDeviceCtx),
+          builder: (context, mediaDeviceCtx, child) => builder(context, roomCtx, mediaDeviceCtx),
         ),
       ),
     );

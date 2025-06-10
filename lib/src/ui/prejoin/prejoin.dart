@@ -27,8 +27,7 @@ import '../widgets/room/microphone_select_button.dart';
 import 'text_input.dart';
 
 class Prejoin extends StatelessWidget {
-  Prejoin(
-      {super.key, required this.token, required this.url, this.onJoinPressed});
+  Prejoin({super.key, required this.token, required this.url, this.onJoinPressed});
 
   final Function(RoomContext roomCtx, String url, String token)? onJoinPressed;
 
@@ -63,8 +62,7 @@ class Prejoin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<RoomContext>(
-      builder: (context, roomCtx, child) => !roomCtx.connected &&
-              !roomCtx.connecting
+      builder: (context, roomCtx, child) => !roomCtx.connected && !roomCtx.connecting
           ? Center(
               child: SizedBox(
                 width: 480,
@@ -77,8 +75,7 @@ class Prejoin extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.all(8.0),
                             child: CameraPreview(
-                              builder: (context, videoTrack) =>
-                                  CameraPreviewWidget(track: videoTrack),
+                              builder: (context, videoTrack) => CameraPreviewWidget(track: videoTrack),
                             ),
                           ),
                           SizedBox(
@@ -86,8 +83,7 @@ class Prejoin extends StatelessWidget {
                             child: Container(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     MicrophoneSelectButton(),
                                     CameraSelectButton(
@@ -124,8 +120,7 @@ class Prejoin extends StatelessWidget {
                             child: Container(
                               padding: const EdgeInsets.all(8.0),
                               child: JoinButton(
-                                builder: (context, roomCtx, connected) =>
-                                    JoinButtonWidget(
+                                builder: (context, roomCtx, connected) => JoinButtonWidget(
                                   roomCtx: roomCtx,
                                   connected: connected,
                                   onPressed: () => _handleJoinPressed(roomCtx),

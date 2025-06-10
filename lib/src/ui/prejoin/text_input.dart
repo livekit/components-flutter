@@ -15,11 +15,7 @@
 import 'package:flutter/material.dart';
 
 class TextInput extends StatelessWidget {
-  TextInput(
-      {super.key,
-      required this.onTextChanged,
-      required this.hintText,
-      String? text})
+  TextInput({super.key, required this.onTextChanged, required this.hintText, String? text})
       : _textController = TextEditingController(text: text ?? '');
 
   final TextEditingController _textController;
@@ -45,8 +41,7 @@ class TextInput extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         hintMaxLines: 1,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10),
         hintStyle: const TextStyle(
           fontSize: 16,
           color: Colors.grey,

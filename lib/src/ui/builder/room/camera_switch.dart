@@ -28,8 +28,8 @@ class CameraSwitch extends StatelessWidget {
     required this.builder,
   });
 
-  final Function(BuildContext context, RoomContext roomCtx,
-      MediaDeviceContext deviceCtx, CameraPosition? position) builder;
+  final Function(BuildContext context, RoomContext roomCtx, MediaDeviceContext deviceCtx, CameraPosition? position)
+      builder;
 
   @override
   Widget build(BuildContext context) {
