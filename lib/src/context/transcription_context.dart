@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:livekit_client/livekit_client.dart';
 
@@ -19,14 +20,21 @@ import '../types/transcription.dart';
 
 mixin TranscriptionContextMixin on ChangeNotifier {
   final Map<String, TranscriptionForParticipant> _transcriptionMap = {};
-  // Getter
-  List<TranscriptionForParticipant> get transcriptions => List.unmodifiable(_transcriptionMap.values);
+  // Returns items in sorted order
+  List<TranscriptionForParticipant> get transcriptions => List.unmodifiable(
+      _transcriptionMap.values.sorted((a, b) => a.segment.firstReceivedTime.compareTo(b.segment.firstReceivedTime)));
 
   CancelListenFunc? _cancelListener;
 
   void transcriptionContextCleanUp() {
     _cancelListener = null;
     _transcriptionMap.clear();
+  }
+
+  // For inserting local transcription
+  void insertTranscription(TranscriptionForParticipant transcriptionForParticipant) {
+    _transcriptionMap[transcriptionForParticipant.segment.id] = transcriptionForParticipant;
+    notifyListeners();
   }
 
   void transcriptionContextSetup(EventsListener<RoomEvent> listener) {
