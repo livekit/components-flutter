@@ -79,7 +79,7 @@ class RoomContext extends ChangeNotifier
         Debug.event('RoomContext: RoomDisconnectedEvent $roomName');
         _connectionState = _room.connectionState;
         chatContextSetup(null, null);
-        transcriptionContextSetup(null);
+        transcriptionContextCleanUp();
         _connected = false;
         _participants.clear();
         onDisconnected?.call();

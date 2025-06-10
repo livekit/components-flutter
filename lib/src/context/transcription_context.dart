@@ -12,39 +12,53 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:flutter/material.dart';
-
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:livekit_client/livekit_client.dart';
 
-import '../debug/logger.dart';
 import '../types/transcription.dart';
 
 mixin TranscriptionContextMixin on ChangeNotifier {
-  final List<TranscriptionForParticipant> _transcriptions = [];
-  List<TranscriptionForParticipant> get transcriptions => _transcriptions;
-  EventsListener<RoomEvent>? _listener;
+  final Map<String, TranscriptionForParticipant> _transcriptionMap = {};
+  // Returns items in sorted order
+  List<TranscriptionForParticipant> get transcriptions => List.unmodifiable(
+      _transcriptionMap.values.sorted((a, b) => a.segment.firstReceivedTime.compareTo(b.segment.firstReceivedTime)));
 
-  void transcriptionContextSetup(EventsListener<RoomEvent>? listener) {
-    _listener = listener;
-    if (listener != null) {
-      _listener!.on<TranscriptionEvent>((event) {
-        Debug.event('TranscriptionContext: TranscriptionEvent');
-        for (var segment in event.segments) {
-          var transcription = _transcriptions
-              .firstWhereOrNull((t) => t.segment.id == segment.id);
-          if (transcription != null) {
-            transcription.segment = segment;
-          } else {
-            _transcriptions
-                .add(TranscriptionForParticipant(segment, event.participant));
+  CancelListenFunc? _cancelListener;
+
+  void transcriptionContextCleanUp() {
+    _cancelListener = null;
+    _transcriptionMap.clear();
+  }
+
+  // For inserting local transcription
+  void insertTranscription(TranscriptionForParticipant transcriptionForParticipant) {
+    _transcriptionMap[transcriptionForParticipant.segment.id] = transcriptionForParticipant;
+    notifyListeners();
+  }
+
+  void transcriptionContextSetup(EventsListener<RoomEvent> listener) {
+    _cancelListener = listener.on<TranscriptionEvent>((event) {
+      bool hasChanged = false;
+
+      for (final segment in event.segments) {
+        final id = segment.id;
+        final existing = _transcriptionMap[id];
+
+        if (existing != null) {
+          if (existing.segment != segment) {
+            _transcriptionMap[id] = existing.copyWith(segment: segment);
+            hasChanged = true;
           }
+        } else {
+          _transcriptionMap[id] = TranscriptionForParticipant(segment, event.participant);
+          hasChanged = true;
         }
+      }
+
+      if (hasChanged) {
         notifyListeners();
-      });
-    } else {
-      _listener = null;
-      _transcriptions.clear();
-    }
+      }
+    });
   }
 }
