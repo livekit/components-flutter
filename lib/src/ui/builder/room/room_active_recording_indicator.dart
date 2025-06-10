@@ -31,8 +31,7 @@ class RoomActiveRecording extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<RoomContext>(builder: (context, roomCtx, child) {
-      Debug.log(
-          '====>        RoomActiveRecording for ${roomCtx.activeRecording}');
+      Debug.log('====>        RoomActiveRecording for ${roomCtx.activeRecording}');
       return Selector<ParticipantContext, bool>(
         selector: (context, activeRecording) => roomCtx.activeRecording,
         builder: (context, activeRecording, child) {

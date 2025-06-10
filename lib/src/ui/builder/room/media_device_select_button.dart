@@ -35,8 +35,7 @@ class MediaDeviceSelectButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<RoomContext>(
       builder: (context, roomCtx, child) => Consumer<MediaDeviceContext>(
-        builder: (context, deviceCtx, child) =>
-            builder(context, roomCtx, deviceCtx),
+        builder: (context, deviceCtx, child) => builder(context, roomCtx, deviceCtx),
       ),
     );
   }

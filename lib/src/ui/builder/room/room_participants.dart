@@ -26,8 +26,7 @@ class RoomParticipants extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(BuildContext context, List<Participant> participants)
-      builder;
+  final Widget Function(BuildContext context, List<Participant> participants) builder;
 
   @override
   Widget build(BuildContext context) {

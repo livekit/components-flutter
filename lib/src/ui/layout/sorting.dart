@@ -56,8 +56,7 @@ List<TrackWidget> defaultSorting(List<TrackWidget> trackWidgets) {
     }
 
     // joinedAt
-    return participantA.joinedAt.millisecondsSinceEpoch -
-        participantB.joinedAt.millisecondsSinceEpoch;
+    return participantA.joinedAt.millisecondsSinceEpoch - participantB.joinedAt.millisecondsSinceEpoch;
   });
 
   return trackWidgetsSorted;

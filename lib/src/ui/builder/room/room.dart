@@ -20,8 +20,7 @@ import '../../../context/room_context.dart';
 import 'media_device.dart';
 
 class LivekitRoom extends StatelessWidget {
-  const LivekitRoom(
-      {super.key, required this.roomContext, required this.builder});
+  const LivekitRoom({super.key, required this.roomContext, required this.builder});
 
   final RoomContext roomContext;
   final Widget Function(BuildContext context, RoomContext roomCtx) builder;
@@ -32,8 +31,7 @@ class LivekitRoom extends StatelessWidget {
       create: (_) => roomContext,
       child: Consumer<RoomContext>(
         builder: (context, roomCtx, child) => MediaDeviceContextBuilder(
-          builder: (context, roomCtx, mediaDeviceCtx) =>
-              builder(context, roomCtx),
+          builder: (context, roomCtx, mediaDeviceCtx) => builder(context, roomCtx),
         ),
       ),
     );

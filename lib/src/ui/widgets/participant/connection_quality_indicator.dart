@@ -26,9 +26,7 @@ class ConnectionQualityIndicatorWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 5),
       child: Icon(
-        connectionQuality == ConnectionQuality.poor
-            ? Icons.wifi_off_outlined
-            : Icons.wifi,
+        connectionQuality == ConnectionQuality.poor ? Icons.wifi_off_outlined : Icons.wifi,
         color: {
           ConnectionQuality.excellent: Colors.green,
           ConnectionQuality.good: Colors.orange,

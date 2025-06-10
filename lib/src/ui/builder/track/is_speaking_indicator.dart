@@ -24,8 +24,7 @@ class IsSpeakingIndicator extends StatelessWidget {
     Debug.log('===>     IsSpeakingIndicator for ${participantContext.name}');
     return Selector<ParticipantContext, bool>(
       selector: (context, isSpeaking) => participantContext.isSpeaking,
-      builder: (context, isSpeaking, child) =>
-          builder(context, showSpeakingIndicator ? isSpeaking : null),
+      builder: (context, isSpeaking, child) => builder(context, showSpeakingIndicator ? isSpeaking : null),
     );
   }
 }

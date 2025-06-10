@@ -26,15 +26,12 @@ class ParticipantPermissions extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(BuildContext context, lk.ParticipantPermissions?)
-      builder;
+  final Widget Function(BuildContext context, lk.ParticipantPermissions?) builder;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
-      Debug.log(
-          '====>        ParticipantPermissions for ${participantContext.permissions}');
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
+      Debug.log('====>        ParticipantPermissions for ${participantContext.permissions}');
       return Selector<ParticipantContext, lk.ParticipantPermissions?>(
         selector: (context, permissions) => participantContext.permissions,
         builder: (context, permissions, child) {

@@ -58,9 +58,7 @@ class MicrophoneSelectButton extends StatelessWidget {
         selectedDeviceId: deviceCtx.selectedAudioInputDeviceId,
         deviceIsOpened: deviceCtx.microphoneOpened,
         onSelect: (device) => deviceCtx.selectAudioInput(device),
-        onToggle: (enabled) => enabled
-            ? deviceCtx.enableMicrophone()
-            : deviceCtx.disableMicrophone(),
+        onToggle: (enabled) => enabled ? deviceCtx.enableMicrophone() : deviceCtx.disableMicrophone(),
         showTitleWidget: showtitleWidget,
       ),
     );

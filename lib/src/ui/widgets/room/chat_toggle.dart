@@ -45,12 +45,9 @@ class ChatToggleWidget extends StatelessWidget {
     var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(isChatOpen
-            ? selectedColor
-            : backgroundColor.withValues(alpha: 0.9)),
+        backgroundColor: WidgetStateProperty.all(isChatOpen ? selectedColor : backgroundColor.withValues(alpha: 0.9)),
         foregroundColor: WidgetStateProperty.all(foregroundColor),
-        overlayColor: WidgetStateProperty.all(
-            isChatOpen ? selectedOverlayColor : backgroundColor),
+        overlayColor: WidgetStateProperty.all(isChatOpen ? selectedOverlayColor : backgroundColor),
         shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(

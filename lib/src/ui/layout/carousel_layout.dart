@@ -35,10 +35,8 @@ class CarouselLayoutBuilder implements ParticipantLayoutBuilder {
 
     /// Move focused tracks to the pinned list
     for (var sid in pinnedTracks) {
-      var widget = children
-          .where((element) => element.trackIdentifier.identifier == sid)
-          .map((e) => e.widget)
-          .firstOrNull;
+      var widget =
+          children.where((element) => element.trackIdentifier.identifier == sid).map((e) => e.widget).firstOrNull;
       if (widget != null) {
         pinnedWidgets.add(widget);
       }

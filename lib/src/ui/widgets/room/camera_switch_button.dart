@@ -38,25 +38,21 @@ class CameraSwitchButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor:
-            WidgetStateProperty.all(backgroundColor.withValues(alpha: 0.9)),
+        backgroundColor: WidgetStateProperty.all(backgroundColor.withValues(alpha: 0.9)),
         foregroundColor: WidgetStateProperty.all(foregroundColor),
         overlayColor: WidgetStateProperty.all(overlayColor),
-        shape: WidgetStateProperty.all(const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(20.0)))),
+        shape: WidgetStateProperty.all(
+            const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0)))),
         padding: WidgetStateProperty.all(
           const EdgeInsets.all(12),
         ),
       ),
-      onPressed: () => onToggle?.call(currentPosition == CameraPosition.front
-          ? CameraPosition.back
-          : CameraPosition.front),
+      onPressed: () =>
+          onToggle?.call(currentPosition == CameraPosition.front ? CameraPosition.back : CameraPosition.front),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(currentPosition == CameraPosition.back
-              ? Icons.video_camera_back
-              : Icons.video_camera_front),
+          Icon(currentPosition == CameraPosition.back ? Icons.video_camera_back : Icons.video_camera_front),
         ],
       ),
     );

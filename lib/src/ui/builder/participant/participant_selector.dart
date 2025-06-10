@@ -11,8 +11,7 @@ import 'participant_track.dart';
 
 class ParticipantSelector extends StatelessWidget {
   final bool Function(TrackIdentifier identifier) filter;
-  final Widget Function(BuildContext context, TrackIdentifier identifier)
-      builder;
+  final Widget Function(BuildContext context, TrackIdentifier identifier) builder;
   const ParticipantSelector({
     required this.filter,
     required this.builder,
@@ -36,8 +35,7 @@ class ParticipantSelector extends StatelessWidget {
         }
         trackMap.add(MapEntry(TrackIdentifier(participant, track), track));
 
-        Debug.log(
-            '=>  ${track.source.toString()} track ${track.sid} for ${participant.identity}');
+        Debug.log('=>  ${track.source.toString()} track ${track.sid} for ${participant.identity}');
       }
 
       if (!audio && !tracks.any((t) => t.kind == TrackType.VIDEO) ||
@@ -61,8 +59,7 @@ class ParticipantSelector extends StatelessWidget {
           shouldRebuild: (previous, next) => previous.length != next.length,
           builder: (context, participants, child) {
             var trackMap = buildTracksMap(true, true, participants);
-            var identifier =
-                trackMap.firstWhereOrNull((entry) => filter(entry.key))?.key;
+            var identifier = trackMap.firstWhereOrNull((entry) => filter(entry.key))?.key;
 
             if (identifier == null) {
               return const SizedBox();

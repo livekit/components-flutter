@@ -25,8 +25,7 @@ class ChatBuilder extends StatelessWidget {
     required this.builder,
   });
 
-  final Function(BuildContext context, bool enabled, ChatContextMixin chatCtx,
-      List<ChatMessage> messages) builder;
+  final Function(BuildContext context, bool enabled, ChatContextMixin chatCtx, List<ChatMessage> messages) builder;
 
   @override
   Widget build(BuildContext context) {

@@ -15,10 +15,8 @@ class E2EEncryptionIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
-      Debug.log(
-          '====>        E2EEncryptionIndicator for ${participantContext.name}');
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
+      Debug.log('====>        E2EEncryptionIndicator for ${participantContext.name}');
       return Selector<ParticipantContext, bool>(
         selector: (context, isEncrypted) => participantContext.isEncrypted,
         builder: (context, isEncrypted, child) => builder(context, isEncrypted),

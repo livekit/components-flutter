@@ -37,7 +37,7 @@ jobs:
       - name: Install project dependencies
         run: flutter pub get
       - name: Dart Format Check
-        run: dart format lib/ test/ --set-exit-if-changed
+        run: dart format -l 120 lib/ test/ --set-exit-if-changed
       - name: Import Sorter Check
         run: dart run import_sorter:main --no-comments --exit-if-changed
       - name: Dart Analyze Check

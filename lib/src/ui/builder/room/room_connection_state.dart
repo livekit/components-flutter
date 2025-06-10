@@ -26,14 +26,12 @@ class RoomConnectionState extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(BuildContext context, ConnectionState connectionState)
-      builder;
+  final Widget Function(BuildContext context, ConnectionState connectionState) builder;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<RoomContext>(builder: (context, roomCtx, child) {
-      Debug.log(
-          '====>        RoomConnectionState for ${roomCtx.connectionState}');
+      Debug.log('====>        RoomConnectionState for ${roomCtx.connectionState}');
       return Selector<RoomContext, ConnectionState>(
         selector: (context, connectionState) => roomCtx.connectionState,
         builder: (context, connectionState, child) {

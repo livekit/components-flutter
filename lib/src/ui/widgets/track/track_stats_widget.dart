@@ -16,11 +16,9 @@ class TrackStatsWidget extends StatelessWidget {
     }
 
     return Consumer<TrackReferenceContext>(
-      builder: (context, trackCtx, child) =>
-          Selector<TrackReferenceContext, Map<String, String>>(
+      builder: (context, trackCtx, child) => Selector<TrackReferenceContext, Map<String, String>>(
         selector: (context, trackCtx) => trackCtx.stats,
-        builder:
-            (BuildContext context, Map<String, String> stats, Widget? child) {
+        builder: (BuildContext context, Map<String, String> stats, Widget? child) {
           return Center(
             child: Stack(
               children: [
@@ -33,18 +31,15 @@ class TrackStatsWidget extends StatelessWidget {
                         ),
                         child: Column(children: [
                           Text('${trackCtx.isVideo ? 'video' : 'audio'} stats',
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16)),
-                          ...stats.entries
-                              .map((e) => Text('${e.key}: ${e.value}')),
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                          ...stats.entries.map((e) => Text('${e.key}: ${e.value}')),
                         ]),
                       )
                     : const SizedBox(),
                 Container(
                   padding: const EdgeInsets.all(2),
                   child: IconButton(
-                    icon: Icon(
-                        trackCtx.showStatistics ? Icons.close : Icons.info),
+                    icon: Icon(trackCtx.showStatistics ? Icons.close : Icons.info),
                     color: Colors.white70,
                     onPressed: () {
                       // show stats

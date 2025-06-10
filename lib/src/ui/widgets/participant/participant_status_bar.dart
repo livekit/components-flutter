@@ -43,67 +43,63 @@ class ParticipantStatusBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ParticipantContext>(
       builder: (context, participantContext, child) {
-        Debug.log(
-            '===>     ParticipantStatusBar for ${participantContext.name}');
+        Debug.log('===>     ParticipantStatusBar for ${participantContext.name}');
         var trackCtx = Provider.of<TrackReferenceContext?>(context);
         var isScreenShare = trackCtx?.isScreenShare ?? false;
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           color: Colors.black.withValues(alpha: 0.6),
-          child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (showMuteStatus && !isScreenShare)
-                  ParticipantMutedIndicator(
-                    builder: (context, isMuted) => isMuted
-                        ? const Icon(
-                            Icons.mic_off,
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.end, crossAxisAlignment: CrossAxisAlignment.center, children: [
+            if (showMuteStatus && !isScreenShare)
+              ParticipantMutedIndicator(
+                builder: (context, isMuted) => isMuted
+                    ? const Icon(
+                        Icons.mic_off,
+                        color: Colors.white54,
+                        size: 20,
+                      )
+                    : const SizedBox(),
+              ),
+            if (isScreenShare)
+              const Icon(
+                Icons.screen_share,
+                color: Colors.white54,
+                size: 20,
+              ),
+            if (showName)
+              ParticipantName(
+                builder: (context, name) => name != null
+                    ? Flexible(
+                        child: Text(
+                          isScreenShare ? '$name\'s screen' : name,
+                          style: const TextStyle(
                             color: Colors.white54,
-                            size: 20,
-                          )
-                        : const SizedBox(),
-                  ),
-                if (isScreenShare)
-                  const Icon(
-                    Icons.screen_share,
+                            fontSize: 16,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )
+                    : Container(),
+              ),
+            if (showConnectionQuality)
+              ConnectionQualityIndicator(
+                builder: (context, connectionQuality) => ConnectionQualityIndicatorWidget(
+                  connectionQuality: connectionQuality,
+                ),
+              ),
+            if (showE2EEStatus)
+              E2EEncryptionIndicator(
+                builder: (context, isEncrypted) => Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: Icon(
+                    isEncrypted ? Icons.lock : Icons.lock_open,
                     color: Colors.white54,
                     size: 20,
                   ),
-                if (showName)
-                  ParticipantName(
-                    builder: (context, name) => name != null
-                        ? Flexible(
-                            child: Text(
-                              isScreenShare ? '$name\'s screen' : name,
-                              style: const TextStyle(
-                                color: Colors.white54,
-                                fontSize: 16,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          )
-                        : Container(),
-                  ),
-                if (showConnectionQuality)
-                  ConnectionQualityIndicator(
-                    builder: (context, connectionQuality) =>
-                        ConnectionQualityIndicatorWidget(
-                      connectionQuality: connectionQuality,
-                    ),
-                  ),
-                if (showE2EEStatus)
-                  E2EEncryptionIndicator(
-                    builder: (context, isEncrypted) => Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Icon(
-                        isEncrypted ? Icons.lock : Icons.lock_open,
-                        color: Colors.white54,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-              ]),
+                ),
+              ),
+          ]),
         );
       },
     );

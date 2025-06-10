@@ -29,10 +29,8 @@ class ParticipantMetadata extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
-      Debug.log(
-          '====>        ParticipantMetadata for ${participantContext.metadata}');
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
+      Debug.log('====>        ParticipantMetadata for ${participantContext.metadata}');
       return Selector<ParticipantContext, String?>(
         selector: (context, metadata) => participantContext.metadata,
         builder: (context, metadata, child) {

@@ -25,8 +25,8 @@ class ScreenShareToggle extends StatelessWidget {
     required this.builder,
   });
 
-  final Function(BuildContext context, RoomContext roomCtx,
-      MediaDeviceContext deviceCtx, bool screenShareEnabled) builder;
+  final Function(BuildContext context, RoomContext roomCtx, MediaDeviceContext deviceCtx, bool screenShareEnabled)
+      builder;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +35,7 @@ class ScreenShareToggle extends StatelessWidget {
         return Consumer<MediaDeviceContext>(
           builder: (context, deviceCtx, child) {
             return Selector<MediaDeviceContext, bool>(
-              selector: (context, screenShareEnabled) =>
-                  deviceCtx.isScreenShareEnabled,
+              selector: (context, screenShareEnabled) => deviceCtx.isScreenShareEnabled,
               builder: (context, screenShareEnabled, child) => builder(
                 context,
                 roomCtx,
