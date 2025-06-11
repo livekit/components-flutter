@@ -30,7 +30,7 @@ class AudioVisualizerWidgetOptions {
     this.color,
     this.spacing = 5,
     this.cornerRadius = 9999,
-    this.barMinOpacity = 0.35,
+    this.barMinOpacity = 0.2,
   });
 
   @override
@@ -226,6 +226,29 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
     return AnimatedBuilder(
         animation: _pulseAnimation,
         builder: (ctx, _) {
+          // Thinking state - animate ball moving from left to right and back
+          if (widget.participant?.kind == sdk.ParticipantKind.AGENT && _agentState == AgentState.thinking) {
+            final activeIndex = (_pulseAnimation.value * (samples.length - 1)).round();
+            final elements = List.generate(
+              samples.length,
+              (i) {
+                final distance = (i - activeIndex).abs();
+                final maxDistance = samples.length / 4;
+                final gradientStrength = (1.0 - (distance / maxDistance)).clamp(0.0, 1.0);
+                final alpha = widget.options.barMinOpacity + 
+                    (gradientStrength * (1.0 - widget.options.barMinOpacity));
+                
+                return BarsViewItem(
+                    value: samples[i],
+                    color: widget.options.computeColor(ctx).withValues(alpha: alpha));
+              },
+            );
+            return BarsView(
+              options: widget.options,
+              elements: elements,
+            );
+          }
+
           // Listening state
           if (widget.participant == null ||
               widget.participant?.kind == sdk.ParticipantKind.AGENT &&
