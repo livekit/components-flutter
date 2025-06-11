@@ -15,7 +15,7 @@ class AudioVisualizerWidgetOptions {
   final double minHeight;
   final double maxHeight;
   final int durationInMilliseconds;
-  final Color color;
+  final Color? color;
   final double spacing;
   final double cornerRadius;
   final double barMinOpacity;
@@ -27,7 +27,7 @@ class AudioVisualizerWidgetOptions {
     this.minHeight = 12,
     this.maxHeight = 100,
     this.durationInMilliseconds = 500,
-    this.color = Colors.white,
+    this.color,
     this.spacing = 5,
     this.cornerRadius = 9999,
     this.barMinOpacity = 0.35,
@@ -64,6 +64,10 @@ class AudioVisualizerWidgetOptions {
       barMinOpacity,
     );
   }
+}
+
+extension _ComputeExt on AudioVisualizerWidgetOptions {
+  Color computeColor(BuildContext ctx) => color ?? Theme.of(ctx).colorScheme.primary;
 }
 
 class AudioVisualizerWidget extends StatelessWidget {
@@ -223,15 +227,16 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
         animation: _pulseAnimation,
         builder: (ctx, _) {
           // Listening state
-          if (widget.participant?.kind == sdk.ParticipantKind.AGENT &&
-              (_agentState == AgentState.initializing || _agentState == AgentState.listening)) {
+          if (widget.participant == null ||
+              widget.participant?.kind == sdk.ParticipantKind.AGENT &&
+                  (_agentState == AgentState.initializing || _agentState == AgentState.listening)) {
             final elements = List.generate(
               samples.length,
               (i) => BarsViewItem(
                   value: samples[i],
                   color: i == centerIndex
-                      ? widget.options.color.withValues(alpha: 0.1 + (_pulseAnimation.value - 0.1))
-                      : widget.options.color.withValues(alpha: 0.1)),
+                      ? widget.options.computeColor(ctx).withValues(alpha: 0.1 + (_pulseAnimation.value - 0.1))
+                      : widget.options.computeColor(ctx).withValues(alpha: 0.1)),
             );
             return BarsView(
               options: widget.options,
@@ -241,7 +246,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
 
           final elements = List.generate(
             samples.length,
-            (i) => BarsViewItem(value: samples[i], color: widget.options.color),
+            (i) => BarsViewItem(value: samples[i], color: widget.options.computeColor(ctx)),
           );
 
           return BarsView(
