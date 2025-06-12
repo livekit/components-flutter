@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import '../../../context/track_reference_context.dart';
 import '../../../types/agent_state.dart';
 
+enum VisualizerState { thinking, listening, active }
+
 class AudioVisualizerWidgetOptions {
   final int barCount;
   final bool centeredBands;
@@ -138,8 +140,6 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
   }
 
   Future<void> _attachListeners() async {
-    print('Attach listeners... ${widget.participant}, ${widget.audioTrack}');
-
     if (widget.participant != null) {
       _participantListener = widget.participant!.createListener();
       _participantListener?.on<sdk.TrackMutedEvent>((e) {
@@ -173,14 +173,12 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
         });
       });
 
-      print('Visualizer: Start... ${_visualizer?.visualizerId}');
       await _visualizer!.start();
     }
   }
 
   Future<void> _detachListeners() async {
     if (_visualizer != null) {
-      print('Visualizer: Stop ${_visualizer?.visualizerId} ...');
       await _visualizer?.stop();
       await _visualizer?.dispose();
       _visualizer = null;
@@ -218,65 +216,76 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // Get center index
+  Color _getColorForThinkingState(BuildContext context, int index, int activeIndex) {
+    final distance = (index - activeIndex).abs();
+    final maxDistance = samples.length / 4;
+    final gradientStrength = (1.0 - (distance / maxDistance)).clamp(0.0, 1.0);
+    final alpha = widget.options.barMinOpacity + (gradientStrength * (1.0 - widget.options.barMinOpacity));
+
+    return widget.options.computeColor(context).withValues(alpha: alpha);
+  }
+
+  Color _getColorForListeningState(BuildContext context, int index, int centerIndex) {
+    const baseAlpha = 0.1;
+    final alpha = index == centerIndex ? baseAlpha + (_pulseAnimation.value - baseAlpha) : baseAlpha;
+
+    return widget.options.computeColor(context).withValues(alpha: alpha);
+  }
+
+  List<BarsViewItem> _createBarsViewItems(int length, Color Function(int) colorProvider) {
+    return List.generate(
+        length,
+        (i) => BarsViewItem(
+              value: samples[i],
+              color: colorProvider(i),
+            ));
+  }
+
+  List<BarsViewItem> _generateElements(BuildContext context, VisualizerState state) {
+    final baseColor = widget.options.computeColor(context);
     final centerIndex = (samples.length / 2).floor();
 
+    switch (state) {
+      case VisualizerState.thinking:
+        final activeIndex = (_pulseAnimation.value * (samples.length - 1)).round();
+        return _createBarsViewItems(samples.length, (i) => _getColorForThinkingState(context, i, activeIndex));
+
+      case VisualizerState.listening:
+        return _createBarsViewItems(samples.length, (i) => _getColorForListeningState(context, i, centerIndex));
+
+      case VisualizerState.active:
+        return _createBarsViewItems(samples.length, (_) => baseColor);
+    }
+  }
+
+  VisualizerState _determineState() {
+    if (widget.participant?.kind == sdk.ParticipantKind.AGENT && _agentState == AgentState.thinking) {
+      return VisualizerState.thinking;
+    }
+
+    if (widget.participant == null ||
+        widget.participant?.kind == sdk.ParticipantKind.AGENT &&
+            (_agentState == AgentState.initializing || _agentState == AgentState.listening)) {
+      return VisualizerState.listening;
+    }
+
+    return VisualizerState.active;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return AnimatedBuilder(
-        animation: _pulseAnimation,
-        builder: (ctx, _) {
-          // Thinking state - animate ball moving from left to right and back
-          if (widget.participant?.kind == sdk.ParticipantKind.AGENT && _agentState == AgentState.thinking) {
-            final activeIndex = (_pulseAnimation.value * (samples.length - 1)).round();
-            final elements = List.generate(
-              samples.length,
-              (i) {
-                final distance = (i - activeIndex).abs();
-                final maxDistance = samples.length / 4;
-                final gradientStrength = (1.0 - (distance / maxDistance)).clamp(0.0, 1.0);
-                final alpha = widget.options.barMinOpacity + 
-                    (gradientStrength * (1.0 - widget.options.barMinOpacity));
-                
-                return BarsViewItem(
-                    value: samples[i],
-                    color: widget.options.computeColor(ctx).withValues(alpha: alpha));
-              },
-            );
-            return BarsView(
-              options: widget.options,
-              elements: elements,
-            );
-          }
+      animation: _pulseAnimation,
+      builder: (ctx, _) {
+        final state = _determineState();
+        final elements = _generateElements(ctx, state);
 
-          // Listening state
-          if (widget.participant == null ||
-              widget.participant?.kind == sdk.ParticipantKind.AGENT &&
-                  (_agentState == AgentState.initializing || _agentState == AgentState.listening)) {
-            final elements = List.generate(
-              samples.length,
-              (i) => BarsViewItem(
-                  value: samples[i],
-                  color: i == centerIndex
-                      ? widget.options.computeColor(ctx).withValues(alpha: 0.1 + (_pulseAnimation.value - 0.1))
-                      : widget.options.computeColor(ctx).withValues(alpha: 0.1)),
-            );
-            return BarsView(
-              options: widget.options,
-              elements: elements,
-            );
-          }
-
-          final elements = List.generate(
-            samples.length,
-            (i) => BarsViewItem(value: samples[i], color: widget.options.computeColor(ctx)),
-          );
-
-          return BarsView(
-            options: widget.options,
-            elements: elements,
-          );
-        });
+        return BarsView(
+          options: widget.options,
+          elements: elements,
+        );
+      },
+    );
   }
 }
 
