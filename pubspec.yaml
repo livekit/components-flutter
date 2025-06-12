@@ -4,7 +4,7 @@ version: 1.2.1
 homepage: https://github.com/livekit/components-flutter
 
 environment:
-  sdk: ^3.5.1
+  sdk: ^3.5.0
   flutter: ">=1.17.0"
 
 dependencies:
