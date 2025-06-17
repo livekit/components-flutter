@@ -162,7 +162,7 @@ class ControlBar extends StatelessWidget {
                     CameraSwitchButton(
                       currentPosition: position,
                       onToggle: (newPosition) =>
-                          deviceCtx.switchCamera(newPosition),
+                          deviceCtx.switchCameraPosition(newPosition),
                     )),
           if (screenShare)
             ScreenShareToggle(
