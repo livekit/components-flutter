@@ -94,7 +94,7 @@ class ParticipantContext extends ChangeNotifier {
       ..on<TrackMutedEvent>((event) {
         if (event.participant.identity == identity &&
             event.publication.kind == TrackType.AUDIO) {
-          Debug.event('TrackContext: TrackMutedEvent for ${_participant.sid}');
+          Debug.event('ParticipantContext: TrackMutedEvent for ${_participant.sid}');
           notifyListeners();
         }
       })
@@ -102,9 +102,17 @@ class ParticipantContext extends ChangeNotifier {
         if (event.participant.identity == identity &&
             event.publication.kind == TrackType.AUDIO) {
           Debug.event(
-              'TrackContext: TrackUnmutedEvent for ${_participant.sid}');
+              'ParticipantContext: TrackUnmutedEvent for ${_participant.sid}');
           notifyListeners();
         }
+      })
+      ..on<TrackPublishedEvent>((event) {
+        Debug.event('ParticipantContext: TrackPublishedEvent for ${_participant.sid}');
+        notifyListeners();
+      })
+      ..on<TrackUnpublishedEvent>((event) {
+        Debug.event('ParticipantContext: TrackUnpublishedEvent for ${_participant.sid}');
+        notifyListeners();
       });
 
     _metadata = _participant.metadata;
