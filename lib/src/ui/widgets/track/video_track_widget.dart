@@ -13,19 +13,27 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
-
-import 'package:livekit_client/livekit_client.dart';
+import 'package:livekit_client/livekit_client.dart' as sdk;
 import 'package:provider/provider.dart';
 
 import '../../../context/track_reference_context.dart';
 import '../../../debug/logger.dart';
-import '../theme.dart';
 import 'no_track_widget.dart';
 
 class VideoTrackWidget extends StatelessWidget {
+  final sdk.VideoViewFit fit;
+  final WidgetBuilder? noTrackBuilder;
+
   const VideoTrackWidget({
     super.key,
+    this.fit = sdk.VideoViewFit.contain,
+    this.noTrackBuilder,
   });
+
+  Widget _buildNoTrack(BuildContext ctx) {
+    if (noTrackBuilder != null) return noTrackBuilder!(ctx);
+    return const NoTrackWidget();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +47,14 @@ class VideoTrackWidget extends StatelessWidget {
     }
 
     return Selector<TrackReferenceContext, bool>(
-      selector: (context, isMuted) => trackCtx.isMuted,
-      builder: (BuildContext context, isMuted, child) => !isMuted &&
-              trackCtx.videoTrack != null
-          ? Container(
-              color: LKColors.lkDarkBlue,
-              child:
-                  VideoTrackRenderer(trackCtx.videoTrack!, key: ValueKey(sid)))
-          : const NoTrackWidget(),
+      selector: (ctx, isMuted) => trackCtx.isMuted,
+      builder: (BuildContext ctx, isMuted, child) => !isMuted && trackCtx.videoTrack != null
+          ? sdk.VideoTrackRenderer(
+              trackCtx.videoTrack!,
+              key: ValueKey(sid),
+              fit: fit,
+            )
+          : _buildNoTrack(ctx),
     );
   }
 }
