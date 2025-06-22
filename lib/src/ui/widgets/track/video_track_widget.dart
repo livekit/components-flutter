@@ -18,7 +18,6 @@ import 'package:provider/provider.dart';
 
 import '../../../context/track_reference_context.dart';
 import '../../../debug/logger.dart';
-import '../theme.dart';
 import 'no_track_widget.dart';
 
 class VideoTrackWidget extends StatelessWidget {
@@ -50,13 +49,11 @@ class VideoTrackWidget extends StatelessWidget {
     return Selector<TrackReferenceContext, bool>(
       selector: (ctx, isMuted) => trackCtx.isMuted,
       builder: (BuildContext ctx, isMuted, child) => !isMuted && trackCtx.videoTrack != null
-          ? Container(
-              color: LKColors.lkDarkBlue,
-              child: sdk.VideoTrackRenderer(
-                trackCtx.videoTrack!,
-                key: ValueKey(sid),
-                fit: fit,
-              ))
+          ? sdk.VideoTrackRenderer(
+              trackCtx.videoTrack!,
+              key: ValueKey(sid),
+              fit: fit,
+            )
           : _buildNoTrack(ctx),
     );
   }
