@@ -6,7 +6,6 @@ import 'package:livekit_client/livekit_client.dart' as sdk;
 import 'package:provider/provider.dart';
 
 import '../../../context/track_reference_context.dart';
-import '../../../types/agent_state.dart';
 
 enum VisualizerState { thinking, listening, active }
 
@@ -123,7 +122,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
   sdk.EventsListener<sdk.ParticipantEvent>? _participantListener;
 
   // Agent support
-  AgentState _agentState = AgentState.initializing;
+  sdk.AgentState _agentState = sdk.AgentState.INITIALIZING;
 
   @override
   void didUpdateWidget(SoundWaveformWidget oldWidget) {
@@ -153,9 +152,9 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
       if (widget.participant?.kind == sdk.ParticipantKind.AGENT) {
         _participantListener?.on<sdk.ParticipantAttributesChanged>((e) {
           if (!mounted) return;
-          final agentStateString = e.attributes[agentStateAttributeKey];
+          final agentAttributes = sdk.AgentAttributes.fromJson(e.attributes);
           setState(() {
-            _agentState = agentStateString != null ? AgentState.fromString(agentStateString) : AgentState.initializing;
+            _agentState = agentAttributes.lkAgentState ?? sdk.AgentState.INITIALIZING;
           });
         });
       }
@@ -259,13 +258,13 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
   }
 
   VisualizerState _determineState() {
-    if (widget.participant?.kind == sdk.ParticipantKind.AGENT && _agentState == AgentState.thinking) {
+    if (widget.participant?.kind == sdk.ParticipantKind.AGENT && _agentState == sdk.AgentState.THINKING) {
       return VisualizerState.thinking;
     }
 
     if (widget.participant == null ||
         widget.participant?.kind == sdk.ParticipantKind.AGENT &&
-            (_agentState == AgentState.initializing || _agentState == AgentState.listening)) {
+            (_agentState == sdk.AgentState.INITIALIZING || _agentState == sdk.AgentState.LISTENING)) {
       return VisualizerState.listening;
     }
 
