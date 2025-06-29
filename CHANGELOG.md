@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.2 (2025-06-30)
+
+* Fixed: Compile issue with Flutter 3.32.
+* Fixed: Transcription related improvements.
+* Changed: Agent state aware AudioVisualizer.
+* Changed: Update example app.
+* Added: Fit for VideoTrackWidget.
+* Changed: Use AgentState from SDK.
+
 ## 1.2.1 (2025-04-09)
 
 * feat: Adding more components for Agents.
