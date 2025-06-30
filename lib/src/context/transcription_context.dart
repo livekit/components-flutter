@@ -27,6 +27,7 @@ mixin TranscriptionContextMixin on ChangeNotifier {
   CancelListenFunc? _cancelListener;
 
   void transcriptionContextCleanUp() {
+    _cancelListener?.call();
     _cancelListener = null;
     _transcriptionMap.clear();
   }
