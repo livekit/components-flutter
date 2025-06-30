@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2+hotfix.1 (2025-06-30)
+
+* Fixed: TranscriptionContext clean up (#36)
+
 ## 1.2.2 (2025-06-30)
 
 * Fixed: Compile issue with Flutter 3.32.
