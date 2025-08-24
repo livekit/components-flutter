@@ -28,7 +28,7 @@ class TrackIdentifier {
       source == TrackSource.screenShareAudio;
 
   bool get isVideo =>
-      source == TrackSource.camera || source == TrackSource.camera;
+      source == TrackSource.camera || source == TrackSource.screenShareVideo;
 
   bool get isLocal => participant is LocalParticipant;
 
