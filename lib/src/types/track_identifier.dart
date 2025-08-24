@@ -49,6 +49,9 @@ class TrackIdentifier {
   /// Returns true if the participant is an agent.
   bool get isAgent => kind == ParticipantKind.AGENT;
 
+  /// Returns true if the track is muted. Returns false if no track is present.
+  bool get isMuted => track?.muted ?? false;
+
   /// Returns the kind of participant (e.g., user, agent).
   ParticipantKind get kind => participant.kind;
 
