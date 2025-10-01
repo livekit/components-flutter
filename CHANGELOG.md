@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.3 (2025-10-01)
+
+* Update WebRTC ver & code maintenance. (#41)
+
 ## 1.2.2+hotfix.1 (2025-06-30)
 
 * Fixed: TranscriptionContext clean up (#36)
