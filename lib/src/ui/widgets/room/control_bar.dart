@@ -16,13 +16,13 @@ import 'package:flutter/material.dart';
 
 import 'package:livekit_client/livekit_client.dart';
 
-import 'package:livekit_components/src/ui/builder/room/camera_switch.dart';
-import 'package:livekit_components/src/ui/widgets/room/speaker_switch_button.dart';
+import '../../builder/room/camera_switch.dart';
 import '../../builder/room/chat_toggle.dart';
 import '../../builder/room/disconnect_button.dart';
 import '../../builder/room/media_device_select_button.dart';
 import '../../builder/room/screenshare_toggle.dart';
 import '../../builder/room/speaker_switch.dart';
+import '../../widgets/room/speaker_switch_button.dart';
 import '../theme.dart';
 import 'camera_switch_button.dart';
 import 'chat_toggle.dart';

@@ -14,8 +14,8 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:livekit_components/src/ui/widgets/theme.dart';
 import '../../builder/room/media_device_select_button.dart';
+import '../../widgets/theme.dart';
 import 'media_device_select_button.dart';
 
 class CameraSelectButton extends StatelessWidget {

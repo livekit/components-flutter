@@ -19,7 +19,7 @@ import 'package:flutter/material.dart' hide ConnectionState;
 import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 
-import 'package:livekit_components/src/context/transcription_context.dart';
+import '../context/transcription_context.dart';
 import '../debug/logger.dart';
 import 'chat_context.dart';
 

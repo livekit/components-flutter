@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 import 'package:livekit_client/livekit_client.dart';
 
 import '../types/transcription.dart';

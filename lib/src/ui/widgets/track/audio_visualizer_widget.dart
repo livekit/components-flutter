@@ -1,7 +1,8 @@
 import 'dart:math' show max;
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
 import 'package:livekit_client/livekit_client.dart' as sdk;
 import 'package:provider/provider.dart';
 
