@@ -26,7 +26,7 @@ class SpeakerSwitchButton extends StatelessWidget {
   });
 
   final bool isSpeakerOn;
-  final Function(bool speakerOn)? onToggle;
+  final void Function(bool speakerOn)? onToggle;
   final bool disabled;
 
   final Color backgroundColor;

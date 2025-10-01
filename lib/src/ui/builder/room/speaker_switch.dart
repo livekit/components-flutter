@@ -25,7 +25,7 @@ class SpeakerSwitch extends StatelessWidget {
     required this.builder,
   });
 
-  final Function(BuildContext context, RoomContext roomCtx,
+  final Widget Function(BuildContext context, RoomContext roomCtx,
       MediaDeviceContext deviceCtx, bool? isSpeakerOn) builder;
 
   @override

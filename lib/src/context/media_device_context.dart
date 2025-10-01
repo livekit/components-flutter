@@ -62,14 +62,14 @@ class MediaDeviceContext extends ChangeNotifier {
 
   LocalAudioTrack? get localAudioTrack => _roomCtx.localAudioTrack;
 
-  StreamSubscription? _deviceChangeSub;
+  StreamSubscription<List<MediaDevice>>? _deviceChangeSub;
 
   Future<void> loadDevices() async {
     _loadDevices(await Hardware.instance.enumerateDevices());
     _deviceChangeSub = Hardware.instance.onDeviceChange.stream.listen(_loadDevices);
   }
 
-  _loadDevices(List<MediaDevice> devices) {
+  void _loadDevices(List<MediaDevice> devices) {
     _audioInputs = devices.where((d) => d.kind == 'audioinput').toList();
     _audioOutputs = devices.where((d) => d.kind == 'audiooutput').toList();
     _videoInputs = devices.where((d) => d.kind == 'videoinput').toList();
@@ -256,7 +256,7 @@ class MediaDeviceContext extends ChangeNotifier {
     }
 
     if (lkPlatformIsWebMobile()) {
-      await context.showErrorDialog('Screen share is not supported on mobile web');
+      logger.warning('Screen share is not supported on mobile web');
       return;
     }
 
@@ -291,7 +291,7 @@ class MediaDeviceContext extends ChangeNotifier {
     try {
       await track.setCameraPosition(newPosition);
     } catch (error) {
-      print('could not restart track: $error');
+      logger.warning('could not restart track: $error');
       return;
     }
     notifyListeners();
@@ -307,7 +307,7 @@ class MediaDeviceContext extends ChangeNotifier {
     try {
       await track.setCameraPosition(newPosition);
     } catch (error) {
-      print('could not restart track: $error');
+      logger.warning('could not restart track: $error');
       return;
     }
 

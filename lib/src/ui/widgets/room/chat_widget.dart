@@ -29,8 +29,8 @@ class ChatWidget extends StatelessWidget {
   });
 
   final List<ChatMessage> messages;
-  final Function(String) onSend;
-  final Function() onClose;
+  final void Function(String) onSend;
+  final void Function() onClose;
   final ScrollController _scrollController = ScrollController();
 
   List<Widget> _buildMessages(List<ChatMessage> messages) {

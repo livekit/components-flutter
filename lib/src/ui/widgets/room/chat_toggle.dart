@@ -32,7 +32,7 @@ class ChatToggleWidget extends StatelessWidget {
   });
 
   final bool isChatOpen;
-  final Function(bool enabled) toggleChat;
+  final void Function(bool enabled) toggleChat;
   final bool showLabel;
   final Color backgroundColor;
   final Color foregroundColor;

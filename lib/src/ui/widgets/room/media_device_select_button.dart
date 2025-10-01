@@ -50,8 +50,8 @@ class MediaDeviceSelectWidget extends StatelessWidget {
   final Color foregroundColor;
   final String? selectedDeviceId;
   final List<MediaDevice> deviceList;
-  final Function(MediaDevice device)? onSelect;
-  final Function(bool enabled)? onToggle;
+  final void Function(MediaDevice device)? onSelect;
+  final void Function(bool enabled)? onToggle;
   final bool toggleAvailable;
   final bool defaultSelectable;
 

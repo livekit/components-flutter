@@ -21,7 +21,7 @@ import '../../../context/room_context.dart';
 class DisconnectButton extends StatelessWidget {
   const DisconnectButton({super.key, required this.builder});
 
-  final Function(BuildContext context, RoomContext roomCtx, bool connected)
+  final Widget Function(BuildContext context, RoomContext roomCtx, bool connected)
       builder;
 
   @override

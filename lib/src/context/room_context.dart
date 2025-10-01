@@ -198,11 +198,11 @@ class RoomContext extends ChangeNotifier
     notifyListeners();
   }
 
-  final Function()? onConnected;
+  final void Function()? onConnected;
 
-  final Function()? onDisconnected;
+  final void Function()? onDisconnected;
 
-  final Function(LiveKitException? error)? onError;
+  final void Function(LiveKitException? error)? onError;
 
   final ConnectOptions? _connectOptions;
   FastConnectOptions? _fastConnectOptions;

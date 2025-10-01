@@ -30,7 +30,7 @@ class Prejoin extends StatelessWidget {
   Prejoin(
       {super.key, required this.token, required this.url, this.onJoinPressed});
 
-  final Function(RoomContext roomCtx, String url, String token)? onJoinPressed;
+  final void Function(RoomContext roomCtx, String url, String token)? onJoinPressed;
 
   String token;
 

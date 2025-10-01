@@ -24,7 +24,7 @@ class TextInput extends StatelessWidget {
 
   final TextEditingController _textController;
 
-  final Function(String) onTextChanged;
+  final void Function(String) onTextChanged;
 
   final String hintText;
 

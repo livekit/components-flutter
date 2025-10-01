@@ -28,7 +28,7 @@ class CameraSwitchButton extends StatelessWidget {
   });
 
   final CameraPosition? currentPosition;
-  final Function(CameraPosition position)? onToggle;
+  final void Function(CameraPosition position)? onToggle;
   final bool disabled;
   final Color backgroundColor;
   final Color foregroundColor;

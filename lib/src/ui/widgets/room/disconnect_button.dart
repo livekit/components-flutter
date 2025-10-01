@@ -45,7 +45,7 @@ class DisconnectButtonWidget extends StatelessWidget {
   final Color selectedColor;
   final Color selectedOverlayColor;
 
-  final Function()? onPressed;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +70,13 @@ class DisconnectButtonWidget extends StatelessWidget {
               : const EdgeInsets.fromLTRB(12, 20, 12, 20),
         ),
       ),
-      onPressed: () =>
-          onPressed?.call() ?? connected ? roomCtx.disconnect() : null,
+      onPressed: () {
+        if (onPressed != null) {
+          onPressed!();
+        } else if (connected) {
+          roomCtx.disconnect();
+        }
+      },
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

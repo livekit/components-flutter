@@ -32,7 +32,7 @@ class JoinButtonWidget extends StatelessWidget {
 
   RoomContext roomCtx;
   bool connected;
-  final Function()? onPressed;
+  final void Function()? onPressed;
 
   final Color backgroundColor;
   final Color foregroundColor;

@@ -42,16 +42,16 @@ class ToastWidget extends StatefulWidget {
 class ToastState extends State<ToastWidget>
     with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
-  late Animation _fadeAnimation;
+  late Animation<double> _fadeAnimation;
   Timer? _timer;
 
   ConnectionState _connectionState = ConnectionState.disconnected;
 
-  showIt() {
+  void showIt() {
     _animationController!.forward();
   }
 
-  hideIt() {
+  void hideIt() {
     _animationController!.reverse();
     _timer?.cancel();
     _timer = null;
@@ -107,7 +107,7 @@ class ToastState extends State<ToastWidget>
             child: IgnorePointer(
               ignoring: widget.ignorePointer,
               child: FadeTransition(
-                opacity: _fadeAnimation as Animation<double>,
+                opacity: _fadeAnimation,
                 child: Center(
                   child: Material(
                     color: Colors.transparent,

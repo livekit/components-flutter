@@ -24,7 +24,7 @@ class JoinButton extends StatelessWidget {
     required this.builder,
   });
 
-  final Function(BuildContext context, RoomContext roomCtx, bool connected)
+  final Widget Function(BuildContext context, RoomContext roomCtx, bool connected)
       builder;
 
   @override
