@@ -1,6 +1,11 @@
 include: package:lints/recommended.yaml
 
 analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
   errors:
     constant_identifier_names: ignore
     must_be_immutable: ignore
@@ -9,10 +14,11 @@ analyzer:
 
 linter:
   rules:
-    #
-    # Additional recommended rules
-    #
     prefer_single_quotes: true
     unnecessary_brace_in_string_interps: false
-    unawaited_futures: true
     depend_on_referenced_packages: false
+    unawaited_futures: true
+    avoid_print: true
+
+formatter:
+  trailing_commas: preserve
