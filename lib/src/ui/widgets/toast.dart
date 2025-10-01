@@ -39,8 +39,7 @@ class ToastWidget extends StatefulWidget {
   ToastState createState() => ToastState();
 }
 
-class ToastState extends State<ToastWidget>
-    with SingleTickerProviderStateMixin {
+class ToastState extends State<ToastWidget> with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
   late Animation<double> _fadeAnimation;
   Timer? _timer;
@@ -71,8 +70,7 @@ class ToastState extends State<ToastWidget>
       vsync: this,
       duration: widget.fadeDuration,
     );
-    _fadeAnimation =
-        CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
+    _fadeAnimation = CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
     super.initState();
   }
 
@@ -93,8 +91,7 @@ class ToastState extends State<ToastWidget>
   @override
   Widget build(BuildContext context) {
     return Consumer<RoomContext>(
-      builder: (context, roomCtx, child) =>
-          Selector<RoomContext, ConnectionState>(
+      builder: (context, roomCtx, child) => Selector<RoomContext, ConnectionState>(
         selector: (context, connectionState) => roomCtx.connectionState,
         builder: (context, connectionState, child) {
           if (connectionState != _connectionState) {

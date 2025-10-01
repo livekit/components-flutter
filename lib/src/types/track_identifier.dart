@@ -32,13 +32,10 @@ class TrackIdentifier {
   TrackSource get source => track?.source ?? TrackSource.unknown;
 
   /// Returns true if the track is an audio source.
-  bool get isAudio =>
-      source == TrackSource.microphone ||
-      source == TrackSource.screenShareAudio;
+  bool get isAudio => source == TrackSource.microphone || source == TrackSource.screenShareAudio;
 
   /// Returns true if the track is a video source.
-  bool get isVideo =>
-      source == TrackSource.camera || source == TrackSource.screenShareVideo;
+  bool get isVideo => source == TrackSource.camera || source == TrackSource.screenShareVideo;
 
   /// Returns true if the participant is local.
   bool get isLocal => participant is LocalParticipant;

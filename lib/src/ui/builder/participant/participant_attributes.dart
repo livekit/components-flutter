@@ -25,15 +25,12 @@ class ParticipantAttributes extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(BuildContext context, Map<String, String>? attributes)
-      builder;
+  final Widget Function(BuildContext context, Map<String, String>? attributes) builder;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
-      Debug.log(
-          '====>        ParticipantAttributes for ${participantContext.attributes}');
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
+      Debug.log('====>        ParticipantAttributes for ${participantContext.attributes}');
       return Selector<ParticipantContext, Map<String, String>?>(
         selector: (context, attributes) => participantContext.attributes,
         builder: (context, attributes, child) {

@@ -49,11 +49,9 @@ class JoinButtonWidget extends StatelessWidget {
               ? roomCtx.connect()
               : null,
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(
-            connected ? disabledColor : backgroundColor),
+        backgroundColor: WidgetStateProperty.all(connected ? disabledColor : backgroundColor),
         foregroundColor: WidgetStateProperty.all(foregroundColor),
-        overlayColor: WidgetStateProperty.all(
-            connected ? overlayColor : disabledOverlayColor),
+        overlayColor: WidgetStateProperty.all(connected ? overlayColor : disabledOverlayColor),
         shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(

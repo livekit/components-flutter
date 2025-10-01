@@ -37,8 +37,7 @@ class FocusToggle extends StatelessWidget {
     if (trackCtx == null) {
       return const SizedBox();
     }
-    var shouldShowBackToGridView =
-        roomCtx.pinnedTracks.contains(sid) && sid == roomCtx.pinnedTracks.first;
+    var shouldShowBackToGridView = roomCtx.pinnedTracks.contains(sid) && sid == roomCtx.pinnedTracks.first;
 
     if (shouldShowBackToGridView && !showBackToGridView) {
       return const SizedBox();
@@ -47,8 +46,7 @@ class FocusToggle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(2),
       child: IconButton(
-        icon: Icon(
-            shouldShowBackToGridView ? Icons.grid_view : Icons.open_in_full),
+        icon: Icon(shouldShowBackToGridView ? Icons.grid_view : Icons.open_in_full),
         color: Colors.white70,
         onPressed: () {
           if (sid == null) {

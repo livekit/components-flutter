@@ -39,14 +39,12 @@ class ChatWidget extends StatelessWidget {
     String lastPartcipantId = '';
     for (ChatMessage msg in messages) {
       if (DateTime.fromMillisecondsSinceEpoch(msg.timestamp)
-                  .difference(
-                      DateTime.fromMillisecondsSinceEpoch(lastTimestamp))
+                  .difference(DateTime.fromMillisecondsSinceEpoch(lastTimestamp))
                   .inMinutes >
               1 ||
           lastPartcipantId != msg.participant?.identity) {
         msgWidgets.add(CustomDateNameChip(
-            name: msg.participant?.name ?? 'Unknown',
-            date: DateTime.fromMillisecondsSinceEpoch(msg.timestamp)));
+            name: msg.participant?.name ?? 'Unknown', date: DateTime.fromMillisecondsSinceEpoch(msg.timestamp)));
       }
       msgWidgets.add(BubbleNormal(
         text: msg.message,
@@ -83,10 +81,7 @@ class ChatWidget extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Messages',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

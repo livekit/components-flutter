@@ -28,12 +28,10 @@ class ParticipantContext extends ChangeNotifier {
     return Provider.of<ParticipantContext?>(context);
   }
 
-  ParticipantContext(this._participant)
-      : _listener = _participant.createListener() {
+  ParticipantContext(this._participant) : _listener = _participant.createListener() {
     _listener
       ..on<SpeakingChangedEvent>((event) {
-        if (event.participant.identity == identity &&
-            isSpeaking != event.speaking) {
+        if (event.participant.identity == identity && isSpeaking != event.speaking) {
           Debug.event(
               'ParticipantContext: SpeakingChangedEvent identity = ${_participant.identity}, speaking = ${event.speaking}');
           _isSpeaking = event.speaking;
@@ -41,14 +39,12 @@ class ParticipantContext extends ChangeNotifier {
         }
       })
       ..on<ParticipantNameUpdatedEvent>((event) {
-        Debug.event(
-            'ParticipantContext: ParticipantNameUpdatedEvent name = ${event.name}');
+        Debug.event('ParticipantContext: ParticipantNameUpdatedEvent name = ${event.name}');
         notifyListeners();
       })
       ..on<ParticipantMetadataUpdatedEvent>((event) {
         if (event.metadata != _metadata) {
-          Debug.event(
-              'ParticipantContext: ParticipantMetadataUpdatedEvent metadata = ${event.metadata}');
+          Debug.event('ParticipantContext: ParticipantMetadataUpdatedEvent metadata = ${event.metadata}');
 
           _metadata = event.metadata;
           notifyListeners();
@@ -67,10 +63,8 @@ class ParticipantContext extends ChangeNotifier {
         if (_permissions?.canPublish != event.permissions.canPublish ||
             _permissions?.canSubscribe != event.permissions.canSubscribe ||
             _permissions?.canPublishData != event.permissions.canPublishData ||
-            _permissions?.canUpdateMetadata !=
-                event.permissions.canUpdateMetadata ||
-            _permissions?.canPublishSources !=
-                event.permissions.canPublishSources) {
+            _permissions?.canUpdateMetadata != event.permissions.canUpdateMetadata ||
+            _permissions?.canPublishSources != event.permissions.canPublishSources) {
           Debug.event(
               'ParticipantContext: ParticipantPermissionsUpdatedEvent permissions canPublish = ${event.permissions.canPublish}, canSubscribe = ${event.permissions.canSubscribe}, canPublishData = ${event.permissions.canPublishData}, canUpdateMetadata = ${event.permissions.canUpdateMetadata}, canPublishSources = ${event.permissions.canPublishSources}');
           _permissions = event.permissions;
@@ -86,23 +80,19 @@ class ParticipantContext extends ChangeNotifier {
         notifyListeners();
       })
       ..on<ParticipantAttributesChanged>((event) {
-        Debug.event(
-            'ParticipantContext: ParticipantAttributesChanged attributes = ${event.attributes}');
+        Debug.event('ParticipantContext: ParticipantAttributesChanged attributes = ${event.attributes}');
         _attributes = event.attributes;
         notifyListeners();
       })
       ..on<TrackMutedEvent>((event) {
-        if (event.participant.identity == identity &&
-            event.publication.kind == TrackType.AUDIO) {
+        if (event.participant.identity == identity && event.publication.kind == TrackType.AUDIO) {
           Debug.event('ParticipantContext: TrackMutedEvent for ${_participant.sid}');
           notifyListeners();
         }
       })
       ..on<TrackUnmutedEvent>((event) {
-        if (event.participant.identity == identity &&
-            event.publication.kind == TrackType.AUDIO) {
-          Debug.event(
-              'ParticipantContext: TrackUnmutedEvent for ${_participant.sid}');
+        if (event.participant.identity == identity && event.publication.kind == TrackType.AUDIO) {
+          Debug.event('ParticipantContext: TrackUnmutedEvent for ${_participant.sid}');
           notifyListeners();
         }
       })
@@ -132,14 +122,12 @@ class ParticipantContext extends ChangeNotifier {
 
   bool get isLocal => _participant is LocalParticipant;
 
-  List<TrackPublication> get tracks =>
-      _participant.trackPublications.values.toList();
+  List<TrackPublication> get tracks => _participant.trackPublications.values.toList();
 
   final Participant _participant;
   final EventsListener<ParticipantEvent> _listener;
 
-  bool get isEncrypted =>
-      _participant.trackPublications.isNotEmpty && _participant.isEncrypted;
+  bool get isEncrypted => _participant.trackPublications.isNotEmpty && _participant.isEncrypted;
 
   String get identity => _participant.identity;
 
@@ -152,8 +140,7 @@ class ParticipantContext extends ChangeNotifier {
   String? _metadata;
   String? get metadata => _metadata;
 
-  String get name =>
-      _participant.name == '' ? _participant.identity : _participant.name;
+  String get name => _participant.name == '' ? _participant.identity : _participant.name;
 
   bool get isMuted => _participant.isMuted;
 
