@@ -187,7 +187,7 @@ class MediaDeviceContext extends ChangeNotifier {
 
   bool get isScreenShareEnabled => _room?.localParticipant?.isScreenShareEnabled() ?? false;
 
-  Future<void> enableScreenShare(context) async {
+  Future<void> enableScreenShare(BuildContext context) async {
     if (lkPlatformIsDesktop()) {
       try {
         final source = await showDialog<DesktopCapturerSource>(
