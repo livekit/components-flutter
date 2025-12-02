@@ -113,14 +113,19 @@ Use the agent `Session` from `livekit_client` with `SessionScope` to make it
 available to widgets like `ChatScrollView`:
 
 ```dart
+import 'package:livekit_client/livekit_client.dart';
+import 'package:livekit_components/livekit_components.dart';
+
 final session = Session.withAgent(
   'my-agent',
   tokenSource: EndpointTokenSource(Uri.parse('https://your-token-endpoint')),
+  options: const SessionOptions(preConnectAudio: true),
 );
 
 SessionScope(
   session: session,
   child: ChatScrollView(
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
     messageBuilder: (context, message) => ListTile(
       title: Text(message.content.text),
       subtitle: Text(message.timestamp.toLocal().toIso8601String()),
@@ -128,6 +133,11 @@ SessionScope(
   ),
 );
 ```
+
+- `ChatScrollView` auto-scrolls to the newest message (bottom). Pass a
+  `ScrollController` if you need manual control.
+- You can also pass `session:` directly to `ChatScrollView` instead of relying
+  on `SessionScope`.
 
 <!--BEGIN_REPO_NAV-->
 <br/><table>

@@ -16,8 +16,13 @@ import 'package:flutter/widgets.dart';
 
 import 'package:livekit_client/livekit_client.dart';
 
-/// Provides a [Session] to descendant widgets, mirroring the Swift
-/// `@EnvironmentObject` pattern used by LiveKit components.
+/// Provides a [Session] to descendant widgets.
+///
+/// Use this to make a single `Session` visible to session-aware widgets (for
+/// example, `ChatScrollView`) without passing it through every constructor.
+/// Because it inherits from [InheritedNotifier], it will rebuild dependents
+/// when the session notifies listeners, but you can safely use [maybeOf] if
+/// you are in an optional context.
 class SessionScope extends InheritedNotifier<Session> {
   const SessionScope({
     super.key,

@@ -18,11 +18,12 @@ import 'package:livekit_client/livekit_client.dart';
 
 import '../../context/session_context.dart';
 
-/// A scrollable list that renders [Session.messages] and auto-scrolls as new
-/// messages arrive (newest at the bottom).
+/// A scrollable list that renders [Session.messages] with newest messages at
+/// the bottom and auto-scrolls when new messages arrive.
 ///
-/// Provide a [Session] via [session] or a surrounding [SessionScope]. The
-/// [messageBuilder] is responsible for rendering each [ReceivedMessage].
+/// Provide a [Session] via [session] or a surrounding [SessionScope]. Use
+/// [messageBuilder] to render each [ReceivedMessage]; the builder runs in
+/// reverse order so index `0` corresponds to the latest message.
 class ChatScrollView extends StatefulWidget {
   const ChatScrollView({
     super.key,
