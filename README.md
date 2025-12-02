@@ -107,6 +107,28 @@ class MyApp extends StatelessWidget {
 
 You can find a complete example in the [example](./example) folder.
 
+### Session UI (Agents)
+
+Use the agent `Session` from `livekit_client` with `SessionScope` to make it
+available to widgets like `ChatScrollView`:
+
+```dart
+final session = Session.withAgent(
+  'my-agent',
+  tokenSource: EndpointTokenSource(Uri.parse('https://your-token-endpoint')),
+);
+
+SessionScope(
+  session: session,
+  child: ChatScrollView(
+    messageBuilder: (context, message) => ListTile(
+      title: Text(message.content.text),
+      subtitle: Text(message.timestamp.toLocal().toIso8601String()),
+    ),
+  ),
+);
+```
+
 <!--BEGIN_REPO_NAV-->
 <br/><table>
 <thead><tr><th colspan="2">LiveKit Ecosystem</th></tr></thead>
