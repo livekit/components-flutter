@@ -120,7 +120,7 @@ class _ChatScrollViewState extends State<ChatScrollView> {
     return AnimatedBuilder(
       animation: session,
       builder: (context, _) {
-        final messages = session.messages;
+        final messages = [...session.messages]..sort((a, b) => a.timestamp.compareTo(b.timestamp));
         _autoScrollIfNeeded(messages);
 
         return ListView.builder(
