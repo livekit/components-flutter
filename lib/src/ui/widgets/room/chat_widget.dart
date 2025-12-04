@@ -34,7 +34,7 @@ class ChatWidget extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
   List<Widget> _buildMessages(List<ChatMessage> messages) {
-    List<Widget> msgWidgets = [];
+    final msgWidgets = <Widget>[];
     int lastTimestamp = 0;
     String lastPartcipantId = '';
     for (ChatMessage msg in messages) {

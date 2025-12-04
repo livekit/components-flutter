@@ -115,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       builder: (context, roomCtx) {
-        var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+        final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
         return Scaffold(
           appBar: AppBar(
             title: const Text('LiveKit Components', style: TextStyle(color: Colors.white)),
