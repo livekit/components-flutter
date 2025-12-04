@@ -35,7 +35,7 @@ class MediaDeviceContext extends ChangeNotifier {
     required RoomContext roomCtx,
   })  : _roomCtx = roomCtx,
         _room = roomCtx.room {
-    loadDevices();
+    unawaited(loadDevices());
   }
   final RoomContext _roomCtx;
   final Room? _room;
@@ -317,6 +317,6 @@ class MediaDeviceContext extends ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    _deviceChangeSub?.cancel();
+    unawaited(_deviceChangeSub?.cancel());
   }
 }

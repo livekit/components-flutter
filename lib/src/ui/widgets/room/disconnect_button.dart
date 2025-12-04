@@ -68,11 +68,11 @@ class DisconnectButtonWidget extends StatelessWidget {
               : const EdgeInsets.fromLTRB(12, 20, 12, 20),
         ),
       ),
-      onPressed: () {
+      onPressed: () async {
         if (onPressed != null) {
           onPressed!();
         } else if (connected) {
-          roomCtx.disconnect();
+          await roomCtx.disconnect();
         }
       },
       child: Row(

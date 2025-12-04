@@ -20,7 +20,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../theme.dart';
 
 class ChatToggleWidget extends StatelessWidget {
-  ChatToggleWidget({
+  const ChatToggleWidget({
+    super.key,
     required this.isChatOpen,
     required this.toggleChat,
     this.showLabel = true,

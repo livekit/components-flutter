@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:livekit_client/livekit_client.dart';
@@ -66,10 +68,10 @@ class TrackReferenceContext extends ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    _listener.cancelAll();
-    _listener.dispose();
+    unawaited(_listener.cancelAll());
+    unawaited(_disposeListener());
     if (_statsListener != null) {
-      _statsListener!.dispose();
+      unawaited(_disposeStatsListener());
     }
   }
 
@@ -109,7 +111,7 @@ class TrackReferenceContext extends ChangeNotifier {
         }
       } else {
         if (_statsListener != null) {
-          _statsListener!.dispose();
+          unawaited(_disposeStatsListener());
         }
         _stats = {};
       }
@@ -123,7 +125,7 @@ class TrackReferenceContext extends ChangeNotifier {
 
   void _setUpListener(Track track) {
     if (_statsListener != null) {
-      _statsListener!.dispose();
+      unawaited(_disposeStatsListener());
     }
 
     _statsListener = track.createListener();
@@ -200,5 +202,13 @@ class TrackReferenceContext extends ChangeNotifier {
         notifyListeners();
       });
     }
+  }
+
+  Future<void> _disposeStatsListener() async {
+    await _statsListener?.dispose();
+  }
+
+  Future<void> _disposeListener() async {
+    await _listener.dispose();
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' show max;
 
 import 'package:flutter/material.dart';
@@ -134,8 +135,7 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
 
     if (didUpdateParams) {
       // Re-attach listeners
-      _detachListeners();
-      _attachListeners();
+      unawaited(_detachListeners().then((_) => _attachListeners()));
     }
   }
 
@@ -199,20 +199,21 @@ class _SoundWaveformWidgetState extends State<SoundWaveformWidget> with SingleTi
     _controller = AnimationController(
       duration: Duration(milliseconds: widget.options.durationInMilliseconds),
       vsync: this,
-    )..repeat(reverse: true);
+    );
+    unawaited(_controller.repeat(reverse: true));
 
     _pulseAnimation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     );
 
-    _attachListeners();
+    unawaited(_attachListeners());
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _detachListeners();
+    unawaited(_detachListeners());
     super.dispose();
   }
 

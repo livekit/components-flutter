@@ -22,7 +22,7 @@ import '../../../debug/logger.dart';
 
 class RoomConnectionState extends StatelessWidget {
   const RoomConnectionState({
-    Key? key,
+    super.key,
     required this.builder,
   });
 

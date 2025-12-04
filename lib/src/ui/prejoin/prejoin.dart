@@ -26,25 +26,58 @@ import '../widgets/room/join_button.dart';
 import '../widgets/room/microphone_select_button.dart';
 import 'text_input.dart';
 
-class Prejoin extends StatelessWidget {
-  Prejoin({super.key, required this.token, required this.url, this.onJoinPressed});
+class Prejoin extends StatefulWidget {
+  const Prejoin({super.key, required this.token, required this.url, this.onJoinPressed});
 
   final void Function(RoomContext roomCtx, String url, String token)? onJoinPressed;
 
-  String token;
+  final String token;
 
-  String url;
+  final String url;
 
-  void onTextTokenChanged(String token) async {
-    this.token = token;
+  @override
+  State<Prejoin> createState() => _PrejoinState();
+}
+
+class _PrejoinState extends State<Prejoin> {
+  late String _token;
+
+  late String _url;
+
+  @override
+  void initState() {
+    super.initState();
+    _token = widget.token;
+    _url = widget.url;
   }
 
-  void onTextUrlChanged(String url) async {
-    this.url = url;
+  @override
+  void didUpdateWidget(covariant Prejoin oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.token != widget.token) {
+      _token = widget.token;
+    }
+    if (oldWidget.url != widget.url) {
+      _url = widget.url;
+    }
   }
 
-  void _handleJoinPressed(RoomContext roomCtx) async {
-    if (onJoinPressed == null) {
+  void onTextTokenChanged(String token) {
+    setState(() {
+      _token = token;
+    });
+  }
+
+  void onTextUrlChanged(String url) {
+    setState(() {
+      _url = url;
+    });
+  }
+
+  Future<void> _handleJoinPressed(RoomContext roomCtx) async {
+    final token = _token;
+    final url = _url;
+    if (widget.onJoinPressed == null) {
       Debug.event('Joining room: $url');
       try {
         await roomCtx.connect(
@@ -56,7 +89,7 @@ class Prejoin extends StatelessWidget {
       }
       return;
     }
-    onJoinPressed?.call(roomCtx, url, token);
+    widget.onJoinPressed?.call(roomCtx, url, token);
   }
 
   @override
@@ -99,7 +132,7 @@ class Prejoin extends StatelessWidget {
                               child: TextInput(
                                 onTextChanged: onTextUrlChanged,
                                 hintText: 'Enter Livekit Server URL',
-                                text: url,
+                                text: _url,
                               ),
                             ),
                           ),
@@ -110,7 +143,7 @@ class Prejoin extends StatelessWidget {
                               child: TextInput(
                                 onTextChanged: onTextTokenChanged,
                                 hintText: 'Enter Token',
-                                text: token,
+                                text: _token,
                               ),
                             ),
                           ),
