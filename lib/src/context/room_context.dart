@@ -145,7 +145,7 @@ class RoomContext extends ChangeNotifier with ChatContextMixin, TranscriptionCon
     if (connect && url != null && token != null) {
       _url = url;
       _token = token;
-      unawaited(this.connect(url: url, token: token).catchError((error, stack) {
+      unawaited(this.connect(url: url, token: token).catchError((Object error, StackTrace stack) {
         Debug.event('RoomContext: auto connect failed: $error');
         // Preserve original behavior by rethrowing after logging.
         throw error;
