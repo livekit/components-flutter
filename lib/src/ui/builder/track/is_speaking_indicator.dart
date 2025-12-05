@@ -16,16 +16,15 @@ class IsSpeakingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var participantContext = Provider.of<ParticipantContext>(context);
-    var trackCtx = Provider.of<TrackReferenceContext?>(context);
+    final participantContext = Provider.of<ParticipantContext>(context);
+    final trackCtx = Provider.of<TrackReferenceContext?>(context);
 
     /// Show speaking indicator only if the participant is not sharing screen
-    var showSpeakingIndicator = !(trackCtx?.isScreenShare ?? true);
+    final showSpeakingIndicator = !(trackCtx?.isScreenShare ?? true);
     Debug.log('===>     IsSpeakingIndicator for ${participantContext.name}');
     return Selector<ParticipantContext, bool>(
       selector: (context, isSpeaking) => participantContext.isSpeaking,
-      builder: (context, isSpeaking, child) =>
-          builder(context, showSpeakingIndicator ? isSpeaking : null),
+      builder: (context, isSpeaking, child) => builder(context, showSpeakingIndicator ? isSpeaking : null),
     );
   }
 }

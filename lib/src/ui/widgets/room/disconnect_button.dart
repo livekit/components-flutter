@@ -45,18 +45,16 @@ class DisconnectButtonWidget extends StatelessWidget {
   final Color selectedColor;
   final Color selectedOverlayColor;
 
-  final Function()? onPressed;
+  final void Function()? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(
-            connected ? selectedColor : backgroundColor.withValues(alpha: 0.9)),
+        backgroundColor: WidgetStateProperty.all(connected ? selectedColor : backgroundColor.withValues(alpha: 0.9)),
         foregroundColor: WidgetStateProperty.all(foregroundColor),
-        overlayColor: WidgetStateProperty.all(
-            connected ? selectedOverlayColor : overlayColor),
+        overlayColor: WidgetStateProperty.all(connected ? selectedOverlayColor : overlayColor),
         shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -70,8 +68,13 @@ class DisconnectButtonWidget extends StatelessWidget {
               : const EdgeInsets.fromLTRB(12, 20, 12, 20),
         ),
       ),
-      onPressed: () =>
-          onPressed?.call() ?? connected ? roomCtx.disconnect() : null,
+      onPressed: () async {
+        if (onPressed != null) {
+          onPressed!();
+        } else if (connected) {
+          await roomCtx.disconnect();
+        }
+      },
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

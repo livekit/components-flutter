@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:chat_bubbles/chat_bubbles.dart';
@@ -29,24 +31,22 @@ class ChatWidget extends StatelessWidget {
   });
 
   final List<ChatMessage> messages;
-  final Function(String) onSend;
-  final Function() onClose;
+  final void Function(String) onSend;
+  final void Function() onClose;
   final ScrollController _scrollController = ScrollController();
 
   List<Widget> _buildMessages(List<ChatMessage> messages) {
-    List<Widget> msgWidgets = [];
+    final msgWidgets = <Widget>[];
     int lastTimestamp = 0;
     String lastPartcipantId = '';
     for (ChatMessage msg in messages) {
       if (DateTime.fromMillisecondsSinceEpoch(msg.timestamp)
-                  .difference(
-                      DateTime.fromMillisecondsSinceEpoch(lastTimestamp))
+                  .difference(DateTime.fromMillisecondsSinceEpoch(lastTimestamp))
                   .inMinutes >
               1 ||
           lastPartcipantId != msg.participant?.identity) {
         msgWidgets.add(CustomDateNameChip(
-            name: msg.participant?.name ?? 'Unknown',
-            date: DateTime.fromMillisecondsSinceEpoch(msg.timestamp)));
+            name: msg.participant?.name ?? 'Unknown', date: DateTime.fromMillisecondsSinceEpoch(msg.timestamp)));
       }
       msgWidgets.add(BubbleNormal(
         text: msg.message,
@@ -62,8 +62,8 @@ class ChatWidget extends StatelessWidget {
   }
 
   void scrollToBottom() {
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    unawaited(_scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOut));
   }
 
   @override
@@ -83,10 +83,7 @@ class ChatWidget extends StatelessWidget {
                   child: Center(
                     child: Text(
                       'Messages',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.white, fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

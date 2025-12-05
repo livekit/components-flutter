@@ -35,7 +35,7 @@ class MediaDeviceContext extends ChangeNotifier {
     required RoomContext roomCtx,
   })  : _roomCtx = roomCtx,
         _room = roomCtx.room {
-    loadDevices();
+    unawaited(loadDevices());
   }
   final RoomContext _roomCtx;
   final Room? _room;
@@ -62,14 +62,14 @@ class MediaDeviceContext extends ChangeNotifier {
 
   LocalAudioTrack? get localAudioTrack => _roomCtx.localAudioTrack;
 
-  StreamSubscription? _deviceChangeSub;
+  StreamSubscription<List<MediaDevice>>? _deviceChangeSub;
 
   Future<void> loadDevices() async {
     _loadDevices(await Hardware.instance.enumerateDevices());
     _deviceChangeSub = Hardware.instance.onDeviceChange.stream.listen(_loadDevices);
   }
 
-  _loadDevices(List<MediaDevice> devices) {
+  void _loadDevices(List<MediaDevice> devices) {
     _audioInputs = devices.where((d) => d.kind == 'audioinput').toList();
     _audioOutputs = devices.where((d) => d.kind == 'audiooutput').toList();
     _videoInputs = devices.where((d) => d.kind == 'videoinput').toList();
@@ -187,7 +187,7 @@ class MediaDeviceContext extends ChangeNotifier {
 
   bool get isScreenShareEnabled => _room?.localParticipant?.isScreenShareEnabled() ?? false;
 
-  Future<void> enableScreenShare(context) async {
+  Future<void> enableScreenShare(BuildContext context) async {
     if (lkPlatformIsDesktop()) {
       try {
         final source = await showDialog<DesktopCapturerSource>(
@@ -199,7 +199,7 @@ class MediaDeviceContext extends ChangeNotifier {
           return;
         }
         Debug.log('DesktopCapturerSource: ${source.id}');
-        var track = await LocalVideoTrack.createScreenShareTrack(
+        final track = await LocalVideoTrack.createScreenShareTrack(
           ScreenShareCaptureOptions(
             sourceId: source.id,
             maxFrameRate: 15.0,
@@ -213,7 +213,7 @@ class MediaDeviceContext extends ChangeNotifier {
     }
     if (lkPlatformIs(PlatformType.android)) {
       // Android specific
-      bool hasCapturePermission = await Helper.requestCapturePermission();
+      final hasCapturePermission = await Helper.requestCapturePermission();
       if (!hasCapturePermission) {
         return;
       }
@@ -245,7 +245,7 @@ class MediaDeviceContext extends ChangeNotifier {
       await requestBackgroundPermission();
     }
     if (lkPlatformIs(PlatformType.iOS)) {
-      var track = await LocalVideoTrack.createScreenShareTrack(
+      final track = await LocalVideoTrack.createScreenShareTrack(
         const ScreenShareCaptureOptions(
           useiOSBroadcastExtension: true,
           maxFrameRate: 15.0,
@@ -256,7 +256,7 @@ class MediaDeviceContext extends ChangeNotifier {
     }
 
     if (lkPlatformIsWebMobile()) {
-      await context.showErrorDialog('Screen share is not supported on mobile web');
+      logger.warning('Screen share is not supported on mobile web');
       return;
     }
 
@@ -291,7 +291,7 @@ class MediaDeviceContext extends ChangeNotifier {
     try {
       await track.setCameraPosition(newPosition);
     } catch (error) {
-      print('could not restart track: $error');
+      logger.warning('could not restart track: $error');
       return;
     }
     notifyListeners();
@@ -307,7 +307,7 @@ class MediaDeviceContext extends ChangeNotifier {
     try {
       await track.setCameraPosition(newPosition);
     } catch (error) {
-      print('could not restart track: $error');
+      logger.warning('could not restart track: $error');
       return;
     }
 
@@ -317,6 +317,6 @@ class MediaDeviceContext extends ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    _deviceChangeSub?.cancel();
+    unawaited(_deviceChangeSub?.cancel());
   }
 }

@@ -25,14 +25,12 @@ class CameraPreview extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(BuildContext context, LocalVideoTrack? videoTrack)
-      builder;
+  final Widget Function(BuildContext context, LocalVideoTrack? videoTrack) builder;
 
   @override
   Widget build(BuildContext context) {
     return Consumer<RoomContext>(
-      builder: (context, roomCtx, child) =>
-          Selector<RoomContext, LocalVideoTrack?>(
+      builder: (context, roomCtx, child) => Selector<RoomContext, LocalVideoTrack?>(
         selector: (context, track) => roomCtx.localVideoTrack,
         builder: (context, track, child) => builder(context, track),
       ),

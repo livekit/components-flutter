@@ -26,15 +26,12 @@ class ParticipantTranscription extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(
-      BuildContext context, List<TranscriptionSegment> segments) builder;
+  final Widget Function(BuildContext context, List<TranscriptionSegment> segments) builder;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
-      Debug.log(
-          '====>        ParticipantTranscription for ${participantContext.segments}');
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
+      Debug.log('====>        ParticipantTranscription for ${participantContext.segments}');
       return Selector<ParticipantContext, List<TranscriptionSegment>>(
         selector: (context, segments) => participantContext.segments,
         builder: (context, segments, child) {

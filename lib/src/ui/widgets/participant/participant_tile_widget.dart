@@ -32,9 +32,8 @@ class ParticipantTileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var trackCtx = Provider.of<TrackReferenceContext?>(context);
-    Debug.log(
-        '>  ParticipantTile for track ${trackCtx?.sid}@${trackCtx?.participant.identity}');
+    final trackCtx = Provider.of<TrackReferenceContext?>(context);
+    Debug.log('>  ParticipantTile for track ${trackCtx?.sid}@${trackCtx?.participant.identity}');
 
     return Stack(
       children: [

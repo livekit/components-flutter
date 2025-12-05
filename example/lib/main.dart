@@ -115,11 +115,10 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ),
       builder: (context, roomCtx) {
-        var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+        final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
         return Scaffold(
           appBar: AppBar(
-            title: const Text('LiveKit Components',
-                style: TextStyle(color: Colors.white)),
+            title: const Text('LiveKit Components', style: TextStyle(color: Colors.white)),
             actions: [
               /// show clear pin button
               if (roomCtx.connected) const ClearPinButton(),
@@ -141,16 +140,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   Row(
                       children: [
                         /// show chat widget on mobile
-                        (deviceScreenType == DeviceScreenType.mobile &&
-                                roomCtx.isChatEnabled)
+                        (deviceScreenType == DeviceScreenType.mobile && roomCtx.isChatEnabled)
                             ? Expanded(
                                 child: ChatBuilder(
-                                  builder:
-                                      (context, enabled, chatCtx, messages) {
+                                  builder: (context, enabled, chatCtx, messages) {
                                     return ChatWidget(
                                       messages: messages,
-                                      onSend: (message) =>
-                                          chatCtx.sendMessage(message),
+                                      onSend: (message) => chatCtx.sendMessage(message),
                                       onClose: () {
                                         chatCtx.toggleChat(false);
                                       },
@@ -179,37 +175,28 @@ class _MyHomePageState extends State<MyHomePage> {
                                       showParticipantPlaceholder: true,
 
                                       /// layout builder
-                                      layoutBuilder:
-                                          roomCtx.pinnedTracks.isNotEmpty
-                                              ? const CarouselLayoutBuilder()
-                                              : const GridLayoutBuilder(),
+                                      layoutBuilder: roomCtx.pinnedTracks.isNotEmpty
+                                          ? const CarouselLayoutBuilder()
+                                          : const GridLayoutBuilder(),
 
                                       /// participant builder
-                                      participantTrackBuilder:
-                                          (context, identifier) {
+                                      participantTrackBuilder: (context, identifier) {
                                         // build participant widget for each Track
                                         return Padding(
                                           padding: const EdgeInsets.all(2.0),
                                           child: Stack(
                                             children: [
                                               /// video track widget in the background
-                                              identifier.isAudio &&
-                                                      roomCtx
-                                                          .enableAudioVisulizer
+                                              identifier.isAudio && roomCtx.enableAudioVisulizer
                                                   ? const AudioVisualizerWidget(
-                                                      backgroundColor:
-                                                          LKColors.lkDarkBlue,
+                                                      backgroundColor: LKColors.lkDarkBlue,
                                                     )
                                                   : IsSpeakingIndicator(
-                                                      builder: (context,
-                                                          isSpeaking) {
-                                                        return isSpeaking !=
-                                                                null
+                                                      builder: (context, isSpeaking) {
+                                                        return isSpeaking != null
                                                             ? IsSpeakingIndicatorWidget(
-                                                                isSpeaking:
-                                                                    isSpeaking,
-                                                                child:
-                                                                    const VideoTrackWidget(),
+                                                                isSpeaking: isSpeaking,
+                                                                child: const VideoTrackWidget(),
                                                               )
                                                             : const VideoTrackWidget();
                                                       },
@@ -254,19 +241,16 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                         /// show chat widget on desktop
-                        (deviceScreenType != DeviceScreenType.mobile &&
-                                roomCtx.isChatEnabled)
+                        (deviceScreenType != DeviceScreenType.mobile && roomCtx.isChatEnabled)
                             ? Expanded(
                                 flex: 2,
                                 child: SizedBox(
                                   width: 400,
                                   child: ChatBuilder(
-                                    builder:
-                                        (context, enabled, chatCtx, messages) {
+                                    builder: (context, enabled, chatCtx, messages) {
                                       return ChatWidget(
                                         messages: messages,
-                                        onSend: (message) =>
-                                            chatCtx.sendMessage(message),
+                                        onSend: (message) => chatCtx.sendMessage(message),
                                         onClose: () {
                                           chatCtx.toggleChat(false);
                                         },

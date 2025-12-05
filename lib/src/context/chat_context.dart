@@ -48,14 +48,13 @@ class ChatMessage {
   String toJson() => const JsonEncoder().convert(toMap());
 
   factory ChatMessage.fromJsonString(String source, Participant? participant) =>
-      ChatMessage.fromMap(const JsonDecoder().convert(source), participant);
+      ChatMessage.fromMap(const JsonDecoder().convert(source) as Map<String, dynamic>, participant);
 
-  factory ChatMessage.fromMap(
-      Map<String, dynamic> map, Participant? participant) {
+  factory ChatMessage.fromMap(Map<String, dynamic> map, Participant? participant) {
     return ChatMessage(
-      message: map['message'],
-      timestamp: map['timestamp'],
-      id: map['id'],
+      message: map['message'] as String,
+      timestamp: map['timestamp'] as int,
+      id: map['id'] as String,
       participant: participant,
       sender: false,
     );
@@ -68,8 +67,7 @@ mixin ChatContextMixin on ChangeNotifier {
   LocalParticipant? _localParticipant;
   EventsListener<RoomEvent>? _listener;
 
-  void chatContextSetup(
-      EventsListener<RoomEvent>? listener, LocalParticipant? localParticipant) {
+  void chatContextSetup(EventsListener<RoomEvent>? listener, LocalParticipant? localParticipant) {
     _listener = listener;
     _localParticipant = localParticipant;
     if (listener != null) {
@@ -77,8 +75,7 @@ mixin ChatContextMixin on ChangeNotifier {
         Debug.event('ChatContext: DataReceivedEvent');
 
         if (event.topic == 'lk-chat-topic') {
-          addMessageFromMap(
-              const Utf8Decoder().convert(event.data), event.participant);
+          addMessageFromMap(const Utf8Decoder().convert(event.data), event.participant);
         }
       });
     } else {
@@ -87,7 +84,7 @@ mixin ChatContextMixin on ChangeNotifier {
     }
   }
 
-  void sendMessage(String message) {
+  Future<void> sendMessage(String message) async {
     final msg = ChatMessage(
       message: message,
       timestamp: DateTime.now().millisecondsSinceEpoch,
@@ -96,8 +93,10 @@ mixin ChatContextMixin on ChangeNotifier {
       participant: _localParticipant,
     );
     addMessage(msg);
-    _localParticipant?.publishData(const Utf8Encoder().convert(msg.toJson()),
-        topic: 'lk-chat-topic');
+    await _localParticipant?.publishData(
+      const Utf8Encoder().convert(msg.toJson()),
+      topic: 'lk-chat-topic',
+    );
   }
 
   void addMessage(ChatMessage message) {

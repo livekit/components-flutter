@@ -30,15 +30,14 @@ class ParticipantName extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
       Debug.log('====>        ParticipantName for ${participantContext.name}');
-      var trackCtx = Provider.of<TrackReferenceContext?>(context);
-      bool isScreenShare = trackCtx?.isScreenShare ?? false;
+      final trackCtx = Provider.of<TrackReferenceContext?>(context);
+      final isScreenShare = trackCtx?.isScreenShare ?? false;
       return Selector<ParticipantContext, String?>(
         selector: (context, name) => participantContext.name,
         builder: (context, name, child) {
-          var str = isScreenShare ? '$name\'s screen' : name;
+          final str = isScreenShare ? '$name\'s screen' : name;
           return builder(context, str);
         },
       );

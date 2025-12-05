@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library livekit_components;
-
 export 'src/context/chat_context.dart';
 export 'src/context/media_device_context.dart';
 export 'src/context/participant_context.dart';

@@ -25,8 +25,7 @@ import '../../layout/layouts.dart';
 import '../../layout/sorting.dart';
 import 'participant_track.dart';
 
-typedef PaticipantTrackBuilder = Widget Function(
-    BuildContext context, TrackIdentifier identifier);
+typedef PaticipantTrackBuilder = Widget Function(BuildContext context, TrackIdentifier identifier);
 
 class ParticipantLoop extends StatelessWidget {
   const ParticipantLoop({
@@ -54,7 +53,7 @@ class ParticipantLoop extends StatelessWidget {
     for (Participant participant in participants) {
       Debug.log('=>  participant ${participant.identity}, index: $index');
       index++;
-      var tracks = participant.trackPublications.values;
+      final tracks = participant.trackPublications.values;
       for (var track in tracks) {
         if (track.kind == TrackType.AUDIO && !audio) {
           continue;
@@ -64,8 +63,7 @@ class ParticipantLoop extends StatelessWidget {
         }
         trackMap.add(MapEntry(TrackIdentifier(participant, track), track));
 
-        Debug.log(
-            '=>  ${track.source.toString()} track ${track.sid} for ${participant.identity}');
+        Debug.log('=>  ${track.source.toString()} track ${track.sid} for ${participant.identity}');
       }
 
       if (!audio && !tracks.any((t) => t.kind == TrackType.VIDEO) ||
@@ -92,12 +90,11 @@ class ParticipantLoop extends StatelessWidget {
             builder: (context, participants, child) {
               List<TrackWidget> trackWidgets = [];
 
-              var trackMap = buildTracksMap(
-                  showAudioTracks, showVideoTracks, participants);
+              final trackMap = buildTracksMap(showAudioTracks, showVideoTracks, participants);
 
               for (var item in trackMap) {
-                var identifier = item.key;
-                var track = item.value;
+                final identifier = item.key;
+                final track = item.value;
                 if (track != null) {
                   trackWidgets.add(
                     TrackWidget(
@@ -105,8 +102,7 @@ class ParticipantLoop extends StatelessWidget {
                       ParticipantTrack(
                         participant: identifier.participant,
                         track: track,
-                        builder: (context) =>
-                            participantTrackBuilder(context, identifier),
+                        builder: (context) => participantTrackBuilder(context, identifier),
                       ),
                     ),
                   );
@@ -116,8 +112,7 @@ class ParticipantLoop extends StatelessWidget {
                       identifier,
                       ParticipantTrack(
                         participant: identifier.participant,
-                        builder: (context) =>
-                            participantTrackBuilder(context, identifier),
+                        builder: (context) => participantTrackBuilder(context, identifier),
                       ),
                     ),
                   );
@@ -129,8 +124,7 @@ class ParticipantLoop extends StatelessWidget {
               return Selector<RoomContext, List<String>>(
                   selector: (context, pinnedTracks) => roomCtx.pinnedTracks,
                   builder: (context, pinnedTracks, child) {
-                    return layoutBuilder.build(
-                        context, trackWidgets, pinnedTracks);
+                    return layoutBuilder.build(context, trackWidgets, pinnedTracks);
                   });
             });
       },

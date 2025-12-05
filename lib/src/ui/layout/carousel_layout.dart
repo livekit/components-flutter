@@ -30,15 +30,13 @@ class CarouselLayoutBuilder implements ParticipantLayoutBuilder {
     List<TrackWidget> children,
     List<String> pinnedTracks,
   ) {
-    List<Widget> pinnedWidgets = [];
-    List<Widget> otherWidgets = [];
+    final pinnedWidgets = <Widget>[];
+    final otherWidgets = <Widget>[];
 
     /// Move focused tracks to the pinned list
     for (var sid in pinnedTracks) {
-      var widget = children
-          .where((element) => element.trackIdentifier.identifier == sid)
-          .map((e) => e.widget)
-          .firstOrNull;
+      final widget =
+          children.where((element) => element.trackIdentifier.identifier == sid).map((e) => e.widget).firstOrNull;
       if (widget != null) {
         pinnedWidgets.add(widget);
       }
@@ -62,9 +60,9 @@ class CarouselLayoutBuilder implements ParticipantLayoutBuilder {
       }
     }
 
-    var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
-    var orientation = MediaQuery.of(context).orientation;
-    var isMobile = deviceScreenType == DeviceScreenType.mobile;
+    final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    final orientation = MediaQuery.of(context).orientation;
+    final isMobile = deviceScreenType == DeviceScreenType.mobile;
     if (isMobile && orientation == Orientation.portrait) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.start,

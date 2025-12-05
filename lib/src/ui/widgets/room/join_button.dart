@@ -18,7 +18,7 @@ import '../../../context/room_context.dart';
 import '../theme.dart';
 
 class JoinButtonWidget extends StatelessWidget {
-  JoinButtonWidget({
+  const JoinButtonWidget({
     Key? key,
     required this.roomCtx,
     required this.connected,
@@ -30,9 +30,9 @@ class JoinButtonWidget extends StatelessWidget {
     this.disabledOverlayColor = LKColors.lkLightBlue,
   }) : super(key: key);
 
-  RoomContext roomCtx;
-  bool connected;
-  final Function()? onPressed;
+  final RoomContext roomCtx;
+  final bool connected;
+  final void Function()? onPressed;
 
   final Color backgroundColor;
   final Color foregroundColor;
@@ -49,11 +49,9 @@ class JoinButtonWidget extends StatelessWidget {
               ? roomCtx.connect()
               : null,
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(
-            connected ? disabledColor : backgroundColor),
+        backgroundColor: WidgetStateProperty.all(connected ? disabledColor : backgroundColor),
         foregroundColor: WidgetStateProperty.all(foregroundColor),
-        overlayColor: WidgetStateProperty.all(
-            connected ? overlayColor : disabledOverlayColor),
+        overlayColor: WidgetStateProperty.all(connected ? overlayColor : disabledOverlayColor),
         shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(

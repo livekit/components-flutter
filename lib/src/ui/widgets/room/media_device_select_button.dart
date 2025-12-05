@@ -50,28 +50,24 @@ class MediaDeviceSelectWidget extends StatelessWidget {
   final Color foregroundColor;
   final String? selectedDeviceId;
   final List<MediaDevice> deviceList;
-  final Function(MediaDevice device)? onSelect;
-  final Function(bool enabled)? onToggle;
+  final void Function(MediaDevice device)? onSelect;
+  final void Function(bool enabled)? onToggle;
   final bool toggleAvailable;
   final bool defaultSelectable;
 
   @override
   Widget build(BuildContext context) {
-    var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return Row(mainAxisSize: MainAxisSize.min, children: [
       ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(deviceIsOpened
-              ? selectedColor
-              : backgroundColor.withValues(alpha: 0.9)),
+          backgroundColor:
+              WidgetStateProperty.all(deviceIsOpened ? selectedColor : backgroundColor.withValues(alpha: 0.9)),
           foregroundColor: WidgetStateProperty.all(foregroundColor),
-          overlayColor: WidgetStateProperty.all(
-              deviceIsOpened ? selectedOverlayColor : backgroundColor),
+          overlayColor: WidgetStateProperty.all(deviceIsOpened ? selectedOverlayColor : backgroundColor),
           shadowColor: WidgetStateProperty.all(Colors.transparent),
           shape: WidgetStateProperty.all(const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20.0),
-                  bottomLeft: Radius.circular(20.0)))),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0), bottomLeft: Radius.circular(20.0)))),
           padding: WidgetStateProperty.all(
             (lkPlatformIsMobile() || lkPlatformIsWebMobile())
                 ? const EdgeInsets.all(12)
@@ -82,13 +78,9 @@ class MediaDeviceSelectWidget extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(deviceIsOpened || defaultSelectable ? iconOn : iconOff,
-                color: iconColor),
+            Icon(deviceIsOpened || defaultSelectable ? iconOn : iconOff, color: iconColor),
             const SizedBox(width: 2),
-            if (titleWidget != null &&
-                (deviceScreenType != DeviceScreenType.mobile ||
-                    showTitleWidget))
-              titleWidget!,
+            if (titleWidget != null && (deviceScreenType != DeviceScreenType.mobile || showTitleWidget)) titleWidget!,
           ],
         ),
       ),
@@ -100,19 +92,14 @@ class MediaDeviceSelectWidget extends StatelessWidget {
             Icons.arrow_drop_down,
             color: iconColor,
           ),
-          offset: Offset(
-              0, ((deviceList.isNotEmpty ? deviceList.length : 1) * -55.0)),
+          offset: Offset(0, ((deviceList.isNotEmpty ? deviceList.length : 1) * -55.0)),
           style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(deviceIsOpened
-                ? selectedColor
-                : backgroundColor.withValues(alpha: 0.9)),
+            backgroundColor:
+                WidgetStateProperty.all(deviceIsOpened ? selectedColor : backgroundColor.withValues(alpha: 0.9)),
             foregroundColor: WidgetStateProperty.all(foregroundColor),
-            overlayColor: WidgetStateProperty.all(
-                deviceIsOpened ? selectedOverlayColor : backgroundColor),
+            overlayColor: WidgetStateProperty.all(deviceIsOpened ? selectedOverlayColor : backgroundColor),
             shape: WidgetStateProperty.all(const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(20.0),
-                    bottomRight: Radius.circular(20.0)))),
+                borderRadius: BorderRadius.only(topRight: Radius.circular(20.0), bottomRight: Radius.circular(20.0)))),
           ),
           enabled: deviceIsOpened || defaultSelectable,
           itemBuilder: (BuildContext context) {
@@ -127,9 +114,7 @@ class MediaDeviceSelectWidget extends StatelessWidget {
                       leading: (device.deviceId == selectedDeviceId)
                           ? Icon(
                               Icons.check_box_outlined,
-                              color: (device.deviceId == selectedDeviceId)
-                                  ? selectedColor
-                                  : backgroundColor,
+                              color: (device.deviceId == selectedDeviceId) ? selectedColor : backgroundColor,
                             )
                           : Icon(
                               Icons.check_box_outline_blank,

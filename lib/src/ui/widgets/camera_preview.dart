@@ -42,9 +42,7 @@ class CameraPreviewWidget extends StatelessWidget {
                   builder: (context, constraints) => Icon(
                     Icons.videocam_off_outlined,
                     color: iconColor,
-                    size:
-                        math.min(constraints.maxHeight, constraints.maxWidth) *
-                            0.33,
+                    size: math.min(constraints.maxHeight, constraints.maxWidth) * 0.33,
                   ),
                 ),
               ),

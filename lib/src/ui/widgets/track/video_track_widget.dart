@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+
 import 'package:livekit_client/livekit_client.dart' as sdk;
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,7 @@ class VideoTrackWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var trackCtx = Provider.of<TrackReferenceContext?>(context);
+    final trackCtx = Provider.of<TrackReferenceContext?>(context);
     final String? sid = trackCtx?.sid;
 
     Debug.log('===>     VideoTrackWidget for $sid');

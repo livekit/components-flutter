@@ -13,6 +13,7 @@
 // limitations under the License.
 
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../context/room_context.dart';
@@ -27,7 +28,7 @@ import '../../../types/transcription.dart';
 /// The builder function receives the current build context and a list of transcriptions,
 /// allowing you to build custom UI components that display transcription data.
 class TranscriptionBuilder extends StatelessWidget {
-  final Function(BuildContext context, List<TranscriptionForParticipant> transcriptions) builder;
+  final Widget Function(BuildContext context, List<TranscriptionForParticipant> transcriptions) builder;
 
   const TranscriptionBuilder({
     super.key,

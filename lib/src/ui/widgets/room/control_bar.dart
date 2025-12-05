@@ -16,13 +16,13 @@ import 'package:flutter/material.dart';
 
 import 'package:livekit_client/livekit_client.dart';
 
-import 'package:livekit_components/src/ui/builder/room/camera_switch.dart';
-import 'package:livekit_components/src/ui/widgets/room/speaker_switch_button.dart';
+import '../../builder/room/camera_switch.dart';
 import '../../builder/room/chat_toggle.dart';
 import '../../builder/room/disconnect_button.dart';
 import '../../builder/room/media_device_select_button.dart';
 import '../../builder/room/screenshare_toggle.dart';
 import '../../builder/room/speaker_switch.dart';
+import '../../widgets/room/speaker_switch_button.dart';
 import '../theme.dart';
 import 'camera_switch_button.dart';
 import 'chat_toggle.dart';
@@ -94,14 +94,11 @@ class ControlBar extends StatelessWidget {
                 selectedDeviceId: deviceCtx.selectedAudioInputDeviceId,
                 deviceIsOpened: deviceCtx.microphoneOpened,
                 onSelect: (device) => deviceCtx.selectAudioInput(device),
-                onToggle: (enabled) => enabled
-                    ? deviceCtx.enableMicrophone()
-                    : deviceCtx.disableMicrophone(),
+                onToggle: (enabled) => enabled ? deviceCtx.enableMicrophone() : deviceCtx.disableMicrophone(),
                 showTitleWidget: showTitleWidget,
               ),
             ),
-          if (audioOutput &&
-              (lkPlatformIsDesktop() || lkPlatformIs(PlatformType.web)))
+          if (audioOutput && (lkPlatformIsDesktop() || lkPlatformIs(PlatformType.web)))
             MediaDeviceSelectButton(
               builder: (context, roomCtx, deviceCtx) => MediaDeviceSelectWidget(
                 titleWidget: Text(
@@ -142,32 +139,25 @@ class ControlBar extends StatelessWidget {
                 selectedDeviceId: deviceCtx.selectedVideoInputDeviceId,
                 deviceIsOpened: deviceCtx.cameraOpened,
                 onSelect: (device) => deviceCtx.selectVideoInput(device),
-                onToggle: (enabled) => enabled
-                    ? deviceCtx.enableCamera()
-                    : deviceCtx.disableCamera(),
+                onToggle: (enabled) => enabled ? deviceCtx.enableCamera() : deviceCtx.disableCamera(),
                 showTitleWidget: showTitleWidget,
               ),
             ),
           if (isMobile && microphone)
             SpeakerSwitch(
-                builder: (context, roomCtx, deviceCtx, isSpeakerOn) =>
-                    SpeakerSwitchButton(
+                builder: (context, roomCtx, deviceCtx, isSpeakerOn) => SpeakerSwitchButton(
                       isSpeakerOn: isSpeakerOn ?? false,
-                      onToggle: (speakerOn) =>
-                          deviceCtx.setSpeakerphoneOn(speakerOn),
+                      onToggle: (speakerOn) => deviceCtx.setSpeakerphoneOn(speakerOn),
                     )),
           if (isMobile && camera)
             CameraSwitch(
-                builder: (context, roomCtx, deviceCtx, position) =>
-                    CameraSwitchButton(
+                builder: (context, roomCtx, deviceCtx, position) => CameraSwitchButton(
                       currentPosition: position,
-                      onToggle: (newPosition) =>
-                          deviceCtx.switchCameraPosition(newPosition),
+                      onToggle: (newPosition) => deviceCtx.switchCameraPosition(newPosition),
                     )),
           if (screenShare)
             ScreenShareToggle(
-              builder: (context, roomCtx, deviceCtx, screenShareEnabled) =>
-                  ScreenShareToggleWidget(
+              builder: (context, roomCtx, deviceCtx, screenShareEnabled) => ScreenShareToggleWidget(
                 roomCtx: roomCtx,
                 deviceCtx: deviceCtx,
                 screenShareEnabled: screenShareEnabled,

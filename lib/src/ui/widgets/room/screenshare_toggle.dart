@@ -47,15 +47,13 @@ class ScreenShareToggleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(screenShareEnabled
-            ? selectedColor
-            : backgroundColor.withValues(alpha: 0.9)),
+        backgroundColor:
+            WidgetStateProperty.all(screenShareEnabled ? selectedColor : backgroundColor.withValues(alpha: 0.9)),
         foregroundColor: WidgetStateProperty.all(foregroundColor),
-        overlayColor: WidgetStateProperty.all(
-            screenShareEnabled ? selectedOverlayColor : overlayColor),
+        overlayColor: WidgetStateProperty.all(screenShareEnabled ? selectedOverlayColor : overlayColor),
         shape: WidgetStateProperty.all(
           const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
@@ -69,15 +67,11 @@ class ScreenShareToggleWidget extends StatelessWidget {
               : const EdgeInsets.fromLTRB(12, 20, 12, 20),
         ),
       ),
-      onPressed: () => screenShareEnabled
-          ? deviceCtx.disableScreenShare()
-          : deviceCtx.enableScreenShare(context),
+      onPressed: () => screenShareEnabled ? deviceCtx.disableScreenShare() : deviceCtx.enableScreenShare(context),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(screenShareEnabled
-              ? Icons.stop_screen_share_outlined
-              : Icons.screen_share_outlined),
+          Icon(screenShareEnabled ? Icons.stop_screen_share_outlined : Icons.screen_share_outlined),
           const SizedBox(width: 2),
           if (deviceScreenType != DeviceScreenType.mobile || showLabel)
             Text(

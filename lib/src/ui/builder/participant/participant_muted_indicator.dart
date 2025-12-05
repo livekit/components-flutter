@@ -29,10 +29,8 @@ class ParticipantMutedIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
-      Debug.log(
-          '====>        ParticipantMutedIndicator for ${participantContext.name}');
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
+      Debug.log('====>        ParticipantMutedIndicator for ${participantContext.name}');
       return Selector<ParticipantContext, bool>(
         selector: (context, isMuted) => participantContext.isMuted,
         builder: (context, isMuted, child) => builder(context, isMuted),

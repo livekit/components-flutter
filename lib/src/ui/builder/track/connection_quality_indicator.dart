@@ -12,20 +12,15 @@ class ConnectionQualityIndicator extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(
-      BuildContext context, ConnectionQuality connectionQuality) builder;
+  final Widget Function(BuildContext context, ConnectionQuality connectionQuality) builder;
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ParticipantContext>(
-        builder: (context, participantContext, child) {
-      Debug.log(
-          '====>        ConnectionQualityIndicator for ${participantContext.name}');
+    return Consumer<ParticipantContext>(builder: (context, participantContext, child) {
+      Debug.log('====>        ConnectionQualityIndicator for ${participantContext.name}');
       return Selector<ParticipantContext, ConnectionQuality>(
-        selector: (context, connectionQuality) =>
-            participantContext.connectionQuality,
-        builder: (context, connectionQuality, child) =>
-            builder(context, connectionQuality),
+        selector: (context, connectionQuality) => participantContext.connectionQuality,
+        builder: (context, connectionQuality, child) => builder(context, connectionQuality),
       );
     });
   }

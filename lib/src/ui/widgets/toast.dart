@@ -39,20 +39,19 @@ class ToastWidget extends StatefulWidget {
   ToastState createState() => ToastState();
 }
 
-class ToastState extends State<ToastWidget>
-    with SingleTickerProviderStateMixin {
+class ToastState extends State<ToastWidget> with SingleTickerProviderStateMixin {
   AnimationController? _animationController;
-  late Animation _fadeAnimation;
+  late Animation<double> _fadeAnimation;
   Timer? _timer;
 
   ConnectionState _connectionState = ConnectionState.disconnected;
 
-  showIt() {
-    _animationController!.forward();
+  void showIt() {
+    unawaited(_animationController?.forward());
   }
 
-  hideIt() {
-    _animationController!.reverse();
+  void hideIt() {
+    unawaited(_animationController?.reverse());
     _timer?.cancel();
     _timer = null;
   }
@@ -71,8 +70,7 @@ class ToastState extends State<ToastWidget>
       vsync: this,
       duration: widget.fadeDuration,
     );
-    _fadeAnimation =
-        CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
+    _fadeAnimation = CurvedAnimation(parent: _animationController!, curve: Curves.easeIn);
     super.initState();
   }
 
@@ -93,8 +91,7 @@ class ToastState extends State<ToastWidget>
   @override
   Widget build(BuildContext context) {
     return Consumer<RoomContext>(
-      builder: (context, roomCtx, child) =>
-          Selector<RoomContext, ConnectionState>(
+      builder: (context, roomCtx, child) => Selector<RoomContext, ConnectionState>(
         selector: (context, connectionState) => roomCtx.connectionState,
         builder: (context, connectionState, child) {
           if (connectionState != _connectionState) {
@@ -107,7 +104,7 @@ class ToastState extends State<ToastWidget>
             child: IgnorePointer(
               ignoring: widget.ignorePointer,
               child: FadeTransition(
-                opacity: _fadeAnimation as Animation<double>,
+                opacity: _fadeAnimation,
                 child: Center(
                   child: Material(
                     color: Colors.transparent,

@@ -17,7 +17,7 @@ import 'package:livekit_client/livekit_client.dart';
 import 'layouts.dart';
 
 List<TrackWidget> defaultSorting(List<TrackWidget> trackWidgets) {
-  List<TrackWidget> trackWidgetsSorted = [];
+  final trackWidgetsSorted = <TrackWidget>[];
 
   /// sort screen shares and local participant first
   for (var element in trackWidgets) {
@@ -32,8 +32,8 @@ List<TrackWidget> defaultSorting(List<TrackWidget> trackWidgets) {
   // sort speakers for the grid
   trackWidgetsSorted.sort((a, b) {
     // loudest speaker first
-    var participantA = a.trackIdentifier.participant;
-    var participantB = b.trackIdentifier.participant;
+    final participantA = a.trackIdentifier.participant;
+    final participantB = b.trackIdentifier.participant;
     if (participantA.isSpeaking && participantB.isSpeaking) {
       if (participantA.audioLevel > participantB.audioLevel) {
         return -1;
@@ -56,8 +56,7 @@ List<TrackWidget> defaultSorting(List<TrackWidget> trackWidgets) {
     }
 
     // joinedAt
-    return participantA.joinedAt.millisecondsSinceEpoch -
-        participantB.joinedAt.millisecondsSinceEpoch;
+    return participantA.joinedAt.millisecondsSinceEpoch - participantB.joinedAt.millisecondsSinceEpoch;
   });
 
   return trackWidgetsSorted;

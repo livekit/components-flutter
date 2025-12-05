@@ -19,12 +19,11 @@ import 'package:flutter/material.dart' hide ConnectionState;
 import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 
-import 'package:livekit_components/src/context/transcription_context.dart';
+import '../context/transcription_context.dart';
 import '../debug/logger.dart';
 import 'chat_context.dart';
 
-class RoomContext extends ChangeNotifier
-    with ChatContextMixin, TranscriptionContextMixin {
+class RoomContext extends ChangeNotifier with ChatContextMixin, TranscriptionContextMixin {
   /// Get the [RoomContext] from the [context].
   /// this method must be called under the [LivekitRoom] widget.
   static RoomContext? of(BuildContext context) {
@@ -96,27 +95,22 @@ class RoomContext extends ChangeNotifier
         notifyListeners();
       })
       ..on<RoomMetadataChangedEvent>((event) {
-        Debug.event(
-            'RoomContext: RoomMetadataChangedEvent $roomName metadata = ${event.metadata}');
+        Debug.event('RoomContext: RoomMetadataChangedEvent $roomName metadata = ${event.metadata}');
         _roomMetadata = event.metadata;
         notifyListeners();
       })
       ..on<RoomRecordingStatusChanged>((event) {
-        Debug.event(
-            'RoomContext: RoomRecordingStatusChanged activeRecording = ${event.activeRecording}');
+        Debug.event('RoomContext: RoomRecordingStatusChanged activeRecording = ${event.activeRecording}');
         _activeRecording = event.activeRecording;
         notifyListeners();
       })
       ..on<ParticipantConnectedEvent>((event) {
-        Debug.event(
-            'RoomContext: ParticipantConnectedEvent $roomName participant = ${event.participant.identity}');
+        Debug.event('RoomContext: ParticipantConnectedEvent $roomName participant = ${event.participant.identity}');
         _buildParticipants();
       })
       ..on<ParticipantDisconnectedEvent>((event) {
-        Debug.event(
-            'RoomContext: ParticipantDisconnectedEvent $roomName participant = ${event.participant.identity}');
-        _participants
-            .removeWhere((p) => p.identity == event.participant.identity);
+        Debug.event('RoomContext: ParticipantDisconnectedEvent $roomName participant = ${event.participant.identity}');
+        _participants.removeWhere((p) => p.identity == event.participant.identity);
         notifyListeners();
       })
       ..on<TrackPublishedEvent>((event) {
@@ -130,13 +124,11 @@ class RoomContext extends ChangeNotifier
         _buildParticipants();
       })
       ..on<LocalTrackPublishedEvent>((event) {
-        Debug.event(
-            'RoomContext: LocalTrackPublishedEvent track = ${event.publication.sid}');
+        Debug.event('RoomContext: LocalTrackPublishedEvent track = ${event.publication.sid}');
         _buildParticipants();
       })
       ..on<LocalTrackUnpublishedEvent>((event) {
-        Debug.event(
-            'RoomContext: LocalTrackUnpublishedEvent track = ${event.publication.sid}');
+        Debug.event('RoomContext: LocalTrackUnpublishedEvent track = ${event.publication.sid}');
         _buildParticipants();
       })
       ..on<TrackMutedEvent>((event) {
@@ -153,7 +145,11 @@ class RoomContext extends ChangeNotifier
     if (connect && url != null && token != null) {
       _url = url;
       _token = token;
-      this.connect(url: url, token: token);
+      unawaited(this.connect(url: url, token: token).catchError((error, stack) {
+        Debug.event('RoomContext: auto connect failed: $error');
+        // Preserve original behavior by rethrowing after logging.
+        throw error;
+      }));
     }
   }
 
@@ -198,11 +194,11 @@ class RoomContext extends ChangeNotifier
     notifyListeners();
   }
 
-  final Function()? onConnected;
+  final void Function()? onConnected;
 
-  final Function()? onDisconnected;
+  final void Function()? onDisconnected;
 
-  final Function(LiveKitException? error)? onError;
+  final void Function(LiveKitException? error)? onError;
 
   final ConnectOptions? _connectOptions;
   FastConnectOptions? _fastConnectOptions;
@@ -320,8 +316,7 @@ class RoomContext extends ChangeNotifier
 
   bool get microphoneOpened => isMicrophoneEnabled ?? _localAudioTrack != null;
 
-  bool? get isMicrophoneEnabled =>
-      _room.localParticipant?.isMicrophoneEnabled();
+  bool? get isMicrophoneEnabled => _room.localParticipant?.isMicrophoneEnabled();
 
   Future<void> resetLocalTracks() async {
     _localAudioTrack = null;
