@@ -19,11 +19,11 @@ linter:
     prefer_final_locals: true
     unnecessary_brace_in_string_interps: false
     avoid_print: true
+    depend_on_referenced_packages: true
 
     # Enforce this for correct async logic
     unawaited_futures: true
     discarded_futures: true
-    depend_on_referenced_packages: false
 
 formatter:
   page_width: 120
