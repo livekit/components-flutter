@@ -15,6 +15,7 @@
 export 'src/context/chat_context.dart';
 export 'src/context/media_device_context.dart';
 export 'src/context/participant_context.dart';
+export 'src/context/session_context.dart';
 export 'src/context/room_context.dart';
 export 'src/context/track_reference_context.dart';
 export 'src/debug/logger.dart';
@@ -51,6 +52,7 @@ export 'src/ui/layout/carousel_layout.dart';
 export 'src/ui/layout/grid_layout.dart';
 export 'src/ui/layout/layouts.dart';
 export 'src/ui/prejoin/prejoin.dart';
+export 'src/ui/session/chat_scroll_view.dart';
 export 'src/ui/widgets/camera_preview.dart';
 export 'src/ui/widgets/participant/connection_quality_indicator.dart';
 export 'src/ui/widgets/participant/is_speaking_indicator.dart';
