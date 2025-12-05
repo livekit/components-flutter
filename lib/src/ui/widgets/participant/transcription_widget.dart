@@ -21,7 +21,7 @@ import '../../../types/transcription.dart';
 class TranscriptionMessageBubble extends StatelessWidget {
   final TranscriptionForParticipant transcriptionForParticipant;
 
-  TranscriptionMessageBubble({required this.transcriptionForParticipant});
+  const TranscriptionMessageBubble({super.key, required this.transcriptionForParticipant});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class TranscriptionMessageBubble extends StatelessWidget {
 }
 
 class TranscriptionWidget extends StatelessWidget {
-  TranscriptionWidget({
+  const TranscriptionWidget({
     super.key,
     required this.transcriptions,
     this.padding,

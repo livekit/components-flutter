@@ -44,8 +44,8 @@ class ParticipantStatusBar extends StatelessWidget {
     return Consumer<ParticipantContext>(
       builder: (context, participantContext, child) {
         Debug.log('===>     ParticipantStatusBar for ${participantContext.name}');
-        var trackCtx = Provider.of<TrackReferenceContext?>(context);
-        var isScreenShare = trackCtx?.isScreenShare ?? false;
+        final trackCtx = Provider.of<TrackReferenceContext?>(context);
+        final isScreenShare = trackCtx?.isScreenShare ?? false;
         return Container(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           color: Colors.black.withValues(alpha: 0.6),

@@ -47,7 +47,7 @@ class ScreenShareToggleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor:

@@ -20,7 +20,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../theme.dart';
 
 class ChatToggleWidget extends StatelessWidget {
-  ChatToggleWidget({
+  const ChatToggleWidget({
+    super.key,
     required this.isChatOpen,
     required this.toggleChat,
     this.showLabel = true,
@@ -42,7 +43,7 @@ class ChatToggleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(isChatOpen ? selectedColor : backgroundColor.withValues(alpha: 0.9)),

@@ -47,11 +47,11 @@ class ToastState extends State<ToastWidget> with SingleTickerProviderStateMixin 
   ConnectionState _connectionState = ConnectionState.disconnected;
 
   void showIt() {
-    _animationController!.forward();
+    unawaited(_animationController?.forward());
   }
 
   void hideIt() {
-    _animationController!.reverse();
+    unawaited(_animationController?.reverse());
     _timer?.cancel();
     _timer = null;
   }

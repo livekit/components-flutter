@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:livekit_client/livekit_client.dart';
@@ -115,9 +117,13 @@ class ParticipantContext extends ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    _listener.dispose();
+    unawaited(_disposeListener());
     createCount--;
     Debug.log('Participant::dispose count $createCount');
+  }
+
+  Future<void> _disposeListener() async {
+    await _listener.dispose();
   }
 
   bool get isLocal => _participant is LocalParticipant;

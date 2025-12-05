@@ -34,7 +34,7 @@ class NoTrackWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var trackCtx = Provider.of<TrackReferenceContext?>(context);
+    final trackCtx = Provider.of<TrackReferenceContext?>(context);
     final String? sid = trackCtx?.sid;
     Debug.log('===>     NoTrackWidget for $sid');
 

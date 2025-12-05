@@ -31,13 +31,13 @@ class FocusToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final roomCtx = context.read<RoomContext>();
-    var trackCtx = Provider.of<TrackReferenceContext?>(context);
+    final trackCtx = Provider.of<TrackReferenceContext?>(context);
     final String? sid = trackCtx?.sid;
     Debug.log('===>     FocusButton for $sid');
     if (trackCtx == null) {
       return const SizedBox();
     }
-    var shouldShowBackToGridView = roomCtx.pinnedTracks.contains(sid) && sid == roomCtx.pinnedTracks.first;
+    final shouldShowBackToGridView = roomCtx.pinnedTracks.contains(sid) && sid == roomCtx.pinnedTracks.first;
 
     if (shouldShowBackToGridView && !showBackToGridView) {
       return const SizedBox();

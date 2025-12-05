@@ -35,7 +35,7 @@ class MediaDeviceContext extends ChangeNotifier {
     required RoomContext roomCtx,
   })  : _roomCtx = roomCtx,
         _room = roomCtx.room {
-    loadDevices();
+    unawaited(loadDevices());
   }
   final RoomContext _roomCtx;
   final Room? _room;
@@ -199,7 +199,7 @@ class MediaDeviceContext extends ChangeNotifier {
           return;
         }
         Debug.log('DesktopCapturerSource: ${source.id}');
-        var track = await LocalVideoTrack.createScreenShareTrack(
+        final track = await LocalVideoTrack.createScreenShareTrack(
           ScreenShareCaptureOptions(
             sourceId: source.id,
             maxFrameRate: 15.0,
@@ -213,7 +213,7 @@ class MediaDeviceContext extends ChangeNotifier {
     }
     if (lkPlatformIs(PlatformType.android)) {
       // Android specific
-      bool hasCapturePermission = await Helper.requestCapturePermission();
+      final hasCapturePermission = await Helper.requestCapturePermission();
       if (!hasCapturePermission) {
         return;
       }
@@ -245,7 +245,7 @@ class MediaDeviceContext extends ChangeNotifier {
       await requestBackgroundPermission();
     }
     if (lkPlatformIs(PlatformType.iOS)) {
-      var track = await LocalVideoTrack.createScreenShareTrack(
+      final track = await LocalVideoTrack.createScreenShareTrack(
         const ScreenShareCaptureOptions(
           useiOSBroadcastExtension: true,
           maxFrameRate: 15.0,
@@ -317,6 +317,6 @@ class MediaDeviceContext extends ChangeNotifier {
   @override
   void dispose() {
     super.dispose();
-    _deviceChangeSub?.cancel();
+    unawaited(_deviceChangeSub?.cancel());
   }
 }

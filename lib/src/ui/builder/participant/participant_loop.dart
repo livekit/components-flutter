@@ -53,7 +53,7 @@ class ParticipantLoop extends StatelessWidget {
     for (Participant participant in participants) {
       Debug.log('=>  participant ${participant.identity}, index: $index');
       index++;
-      var tracks = participant.trackPublications.values;
+      final tracks = participant.trackPublications.values;
       for (var track in tracks) {
         if (track.kind == TrackType.AUDIO && !audio) {
           continue;
@@ -90,11 +90,11 @@ class ParticipantLoop extends StatelessWidget {
             builder: (context, participants, child) {
               List<TrackWidget> trackWidgets = [];
 
-              var trackMap = buildTracksMap(showAudioTracks, showVideoTracks, participants);
+              final trackMap = buildTracksMap(showAudioTracks, showVideoTracks, participants);
 
               for (var item in trackMap) {
-                var identifier = item.key;
-                var track = item.value;
+                final identifier = item.key;
+                final track = item.value;
                 if (track != null) {
                   trackWidgets.add(
                     TrackWidget(

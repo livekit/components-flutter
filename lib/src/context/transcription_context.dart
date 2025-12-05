@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -28,8 +29,11 @@ mixin TranscriptionContextMixin on ChangeNotifier {
   CancelListenFunc? _cancelListener;
 
   void transcriptionContextCleanUp() {
-    _cancelListener?.call();
+    final cancel = _cancelListener;
     _cancelListener = null;
+    if (cancel != null) {
+      unawaited(cancel());
+    }
     _transcriptionMap.clear();
   }
 
