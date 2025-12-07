@@ -18,8 +18,8 @@ linter:
     prefer_single_quotes: true
     prefer_final_locals: true
     unnecessary_brace_in_string_interps: false
-    depend_on_referenced_packages: false
     avoid_print: true
+    depend_on_referenced_packages: false
 
     # Enforce this for correct async logic
     unawaited_futures: true
