@@ -1,6 +1,11 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
   errors:
     constant_identifier_names: ignore
     no_wildcard_variable_uses: ignore
@@ -14,6 +19,7 @@ linter:
     prefer_final_locals: true
     unnecessary_brace_in_string_interps: false
     avoid_print: true
+    depend_on_referenced_packages: true
 
     # Enforce this for correct async logic
     unawaited_futures: true
