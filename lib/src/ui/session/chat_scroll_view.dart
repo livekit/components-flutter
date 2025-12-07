@@ -21,7 +21,7 @@ import '../../context/session_context.dart';
 /// A scrollable list that renders [Session.messages] with newest messages at
 /// the bottom and auto-scrolls when new messages arrive.
 ///
-/// Provide a [Session] via [session] or a surrounding [SessionScope]. Use
+/// Provide a [Session] via [session] or a surrounding [SessionContext]. Use
 /// [messageBuilder] to render each [ReceivedMessage]; the builder runs in
 /// reverse order so index `0` corresponds to the latest message.
 class ChatScrollView extends StatefulWidget {
@@ -35,7 +35,7 @@ class ChatScrollView extends StatefulWidget {
     this.physics,
   });
 
-  /// Optional session instance. If omitted, [SessionScope.of] is used.
+  /// Optional session instance. If omitted, [SessionContext.of] is used.
   final Session? session;
 
   /// Builder for each message.
@@ -89,7 +89,7 @@ class _ChatScrollViewState extends State<ChatScrollView> {
   }
 
   Session _resolveSession(BuildContext context) {
-    return widget.session ?? SessionScope.of(context);
+    return widget.session ?? SessionContext.of(context);
   }
 
   void _autoScrollIfNeeded(List<ReceivedMessage> messages) {

@@ -109,7 +109,7 @@ You can find a complete example in the [example](./example) folder.
 
 ### Session UI (Agents)
 
-Use the agent `Session` from `livekit_client` with `SessionScope` to make it
+Use the agent `Session` from `livekit_client` with `SessionContext` to make it
 available to widgets like `ChatScrollView`:
 
 ```dart
@@ -122,7 +122,7 @@ final session = Session.withAgent(
   options: const SessionOptions(preConnectAudio: true),
 );
 
-SessionScope(
+SessionContext(
   session: session,
   child: ChatScrollView(
     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -137,7 +137,7 @@ SessionScope(
 - `ChatScrollView` auto-scrolls to the newest message (bottom). Pass a
   `ScrollController` if you need manual control.
 - You can also pass `session:` directly to `ChatScrollView` instead of relying
-  on `SessionScope`.
+  on `SessionContext`.
 
 <!--BEGIN_REPO_NAV-->
 <br/><table>

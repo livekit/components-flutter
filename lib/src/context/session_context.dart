@@ -23,8 +23,8 @@ import 'package:livekit_client/livekit_client.dart';
 /// Because it inherits from [InheritedNotifier], it will rebuild dependents
 /// when the session notifies listeners, but you can safely use [maybeOf] if
 /// you are in an optional context.
-class SessionScope extends InheritedNotifier<Session> {
-  const SessionScope({
+class SessionContext extends InheritedNotifier<Session> {
+  const SessionContext({
     super.key,
     required Session session,
     required super.child,
@@ -32,7 +32,7 @@ class SessionScope extends InheritedNotifier<Session> {
 
   /// Returns the nearest [Session] in the widget tree or `null` if none exists.
   static Session? maybeOf(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<SessionScope>()?.notifier;
+    return context.dependOnInheritedWidgetOfExactType<SessionContext>()?.notifier;
   }
 
   /// Returns the nearest [Session] in the widget tree.
@@ -41,8 +41,8 @@ class SessionScope extends InheritedNotifier<Session> {
     final session = maybeOf(context);
     if (session == null) {
       throw FlutterError(
-        'SessionScope.of() called with no Session in the context. '
-        'Add a SessionScope above this widget or pass a Session directly.',
+        'SessionContext.of() called with no Session in the context. '
+        'Add a SessionContext above this widget or pass a Session directly.',
       );
     }
     return session;
