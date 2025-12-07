@@ -57,7 +57,7 @@ class MediaDeviceSelectWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return Row(mainAxisSize: MainAxisSize.min, children: [
       ElevatedButton(
         style: ButtonStyle(

@@ -19,7 +19,7 @@ import 'package:livekit_client/livekit_client.dart';
 class ConnectionQualityIndicatorWidget extends StatelessWidget {
   final ConnectionQuality connectionQuality;
 
-  ConnectionQualityIndicatorWidget({required this.connectionQuality});
+  const ConnectionQualityIndicatorWidget({super.key, required this.connectionQuality});
 
   @override
   Widget build(BuildContext context) {

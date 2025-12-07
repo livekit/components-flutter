@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_webrtc: 1.2.0
+  flutter_webrtc: 1.2.1
   livekit_client: ^2.4.9
   chat_bubbles: ^1.6.0
   collection: ^1.19.0

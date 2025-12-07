@@ -49,7 +49,7 @@ class DisconnectButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var deviceScreenType = getDeviceType(MediaQuery.of(context).size);
+    final deviceScreenType = getDeviceType(MediaQuery.of(context).size);
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: WidgetStateProperty.all(connected ? selectedColor : backgroundColor.withValues(alpha: 0.9)),
@@ -68,11 +68,11 @@ class DisconnectButtonWidget extends StatelessWidget {
               : const EdgeInsets.fromLTRB(12, 20, 12, 20),
         ),
       ),
-      onPressed: () {
+      onPressed: () async {
         if (onPressed != null) {
           onPressed!();
         } else if (connected) {
-          roomCtx.disconnect();
+          await roomCtx.disconnect();
         }
       },
       child: Row(

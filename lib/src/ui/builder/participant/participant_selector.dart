@@ -25,7 +25,7 @@ class ParticipantSelector extends StatelessWidget {
     for (Participant participant in participants) {
       Debug.log('=>  participant ${participant.identity}, index: $index');
       index++;
-      var tracks = participant.trackPublications.values;
+      final tracks = participant.trackPublications.values;
       for (var track in tracks) {
         if (track.kind == TrackType.AUDIO && !audio) {
           continue;
@@ -58,8 +58,8 @@ class ParticipantSelector extends StatelessWidget {
           selector: (context, participants) => roomCtx.participants,
           shouldRebuild: (previous, next) => previous.length != next.length,
           builder: (context, participants, child) {
-            var trackMap = buildTracksMap(true, true, participants);
-            var identifier = trackMap.firstWhereOrNull((entry) => filter(entry.key))?.key;
+            final trackMap = buildTracksMap(true, true, participants);
+            final identifier = trackMap.firstWhereOrNull((entry) => filter(entry.key))?.key;
 
             if (identifier == null) {
               return const SizedBox();

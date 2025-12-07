@@ -84,7 +84,7 @@ mixin ChatContextMixin on ChangeNotifier {
     }
   }
 
-  void sendMessage(String message) {
+  Future<void> sendMessage(String message) async {
     final msg = ChatMessage(
       message: message,
       timestamp: DateTime.now().millisecondsSinceEpoch,
@@ -93,7 +93,10 @@ mixin ChatContextMixin on ChangeNotifier {
       participant: _localParticipant,
     );
     addMessage(msg);
-    _localParticipant?.publishData(const Utf8Encoder().convert(msg.toJson()), topic: 'lk-chat-topic');
+    await _localParticipant?.publishData(
+      const Utf8Encoder().convert(msg.toJson()),
+      topic: 'lk-chat-topic',
+    );
   }
 
   void addMessage(ChatMessage message) {

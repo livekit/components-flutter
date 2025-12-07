@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:chat_bubbles/chat_bubbles.dart';
@@ -34,7 +36,7 @@ class ChatWidget extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
   List<Widget> _buildMessages(List<ChatMessage> messages) {
-    List<Widget> msgWidgets = [];
+    final msgWidgets = <Widget>[];
     int lastTimestamp = 0;
     String lastPartcipantId = '';
     for (ChatMessage msg in messages) {
@@ -60,8 +62,8 @@ class ChatWidget extends StatelessWidget {
   }
 
   void scrollToBottom() {
-    _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+    unawaited(_scrollController.animateTo(_scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 300), curve: Curves.easeOut));
   }
 
   @override
