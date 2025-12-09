@@ -104,6 +104,9 @@ class _ChatScrollViewState extends State<ChatScrollView> {
     }
     _lastMessageCount = messages.length;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
       if (!_controller.hasClients) {
         return;
       }
