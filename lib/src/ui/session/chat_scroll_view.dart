@@ -70,20 +70,26 @@ class _ChatScrollViewState extends State<ChatScrollView> {
   @override
   void initState() {
     super.initState();
-    _internalController = widget.scrollController ?? ScrollController();
+    if (widget.scrollController == null) {
+      _internalController = ScrollController();
+    }
   }
 
   @override
   void didUpdateWidget(ChatScrollView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.scrollController != widget.scrollController) {
-      _internalController?.dispose();
-      _internalController = widget.scrollController ?? ScrollController();
+      // Only dispose the controller we own; never dispose a controller passed in.
+      if (oldWidget.scrollController == null) {
+        _internalController?.dispose();
+      }
+      _internalController = widget.scrollController == null ? ScrollController() : null;
     }
   }
 
   @override
   void dispose() {
+    // Only dispose when this widget created the controller.
     if (widget.scrollController == null) {
       _internalController?.dispose();
     }
