@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import 'package:livekit_client/livekit_client.dart';
@@ -105,11 +107,11 @@ class _ChatScrollViewState extends State<ChatScrollView> {
       if (!_controller.hasClients) {
         return;
       }
-      _controller.animateTo(
+      unawaited(_controller.animateTo(
         0,
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
-      );
+      ));
     });
   }
 
