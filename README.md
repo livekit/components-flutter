@@ -132,6 +132,13 @@ SessionContext(
     ),
   ),
 );
+
+// Dispose the session when the widget is disposed:
+@override
+void dispose() {
+  session.dispose();
+  super.dispose();
+}
 ```
 
 - `ChatScrollView` auto-scrolls to the newest message (bottom). Pass a
