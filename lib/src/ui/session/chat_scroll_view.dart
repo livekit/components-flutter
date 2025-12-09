@@ -62,36 +62,37 @@ class ChatScrollView extends StatefulWidget {
 }
 
 class _ChatScrollViewState extends State<ChatScrollView> {
-  ScrollController? _internalController;
+  late ScrollController _scrollController;
+  bool _isOwningScrollController = false;
   int _lastMessageCount = 0;
-
-  ScrollController get _controller => widget.scrollController ?? _internalController!;
 
   @override
   void initState() {
     super.initState();
-    if (widget.scrollController == null) {
-      _internalController = ScrollController();
-    }
+    _setScrollController(widget.scrollController);
   }
 
   @override
   void didUpdateWidget(ChatScrollView oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.scrollController != widget.scrollController) {
-      // Only dispose the controller we own; never dispose a controller passed in.
-      if (oldWidget.scrollController == null) {
-        _internalController?.dispose();
-      }
-      _internalController = widget.scrollController == null ? ScrollController() : null;
+      _setScrollController(widget.scrollController);
     }
+  }
+
+  void _setScrollController(ScrollController? ctrl) {
+    if (_isOwningScrollController) {
+      _scrollController.dispose();
+    }
+    _scrollController = ctrl ?? ScrollController();
+    _isOwningScrollController = ctrl == null;
   }
 
   @override
   void dispose() {
     // Only dispose when this widget created the controller.
-    if (widget.scrollController == null) {
-      _internalController?.dispose();
+    if (_isOwningScrollController) {
+      _scrollController.dispose();
     }
     super.dispose();
   }
@@ -113,10 +114,10 @@ class _ChatScrollViewState extends State<ChatScrollView> {
       if (!mounted) {
         return;
       }
-      if (!_controller.hasClients) {
+      if (!_scrollController.hasClients) {
         return;
       }
-      unawaited(_controller.animateTo(
+      unawaited(_scrollController.animateTo(
         0,
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
@@ -136,7 +137,7 @@ class _ChatScrollViewState extends State<ChatScrollView> {
 
         return ListView.builder(
           reverse: true,
-          controller: _controller,
+          controller: _scrollController,
           padding: widget.padding,
           physics: widget.physics,
           itemCount: messages.length,
