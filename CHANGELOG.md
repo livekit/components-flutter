@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+* Added: Session components
+
 ## 1.2.3 (2025-12-07)
 
 * Update WebRTC ver & code maintenance. (#41)
