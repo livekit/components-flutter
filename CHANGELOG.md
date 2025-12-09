@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.3 (2025-10-01)
+## 1.2.3 (2025-12-07)
 
 * Update WebRTC ver & code maintenance. (#41)
 

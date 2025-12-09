@@ -107,6 +107,65 @@ class MyApp extends StatelessWidget {
 
 You can find a complete example in the [example](./example) folder.
 
+### Session UI (Agents)
+
+Use the agent `Session` from `livekit_client` with `SessionContext` to make it
+available to widgets like `ChatScrollView`:
+
+```dart
+import 'package:livekit_client/livekit_client.dart';
+import 'package:livekit_components/livekit_components.dart';
+
+class AgentChatView extends StatefulWidget {
+  const AgentChatView({super.key});
+
+  @override
+  State<AgentChatView> createState() => _AgentChatViewState();
+}
+
+class _AgentChatViewState extends State<AgentChatView> {
+  late final Session _session;
+
+  @override
+  void initState() {
+    super.initState();
+    _session = Session.withAgent(
+      'my-agent',
+      tokenSource: EndpointTokenSource(
+        url: Uri.parse('https://your-token-endpoint'),
+      ),
+      options: const SessionOptions(preConnectAudio: true),
+    );
+    unawaited(_session.start()); // start connecting the agent session
+  }
+
+  @override
+  void dispose() {
+    _session.dispose(); // ends the session and cleans up listeners
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SessionContext(
+      session: _session,
+      child: ChatScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        messageBuilder: (context, message) => ListTile(
+          title: Text(message.content.text),
+          subtitle: Text(message.timestamp.toLocal().toIso8601String()),
+        ),
+      ),
+    );
+  }
+}
+```
+
+- `ChatScrollView` auto-scrolls to the newest message (bottom). Pass a
+  `ScrollController` if you need manual control.
+- You can also pass `session:` directly to `ChatScrollView` instead of relying
+  on `SessionContext`.
+
 <!--BEGIN_REPO_NAV-->
 <br/><table>
 <thead><tr><th colspan="2">LiveKit Ecosystem</th></tr></thead>
