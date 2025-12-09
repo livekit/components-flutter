@@ -29,7 +29,7 @@ Add the following to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  livekit_components: ^1.0.0
+  livekit_components: ^1.3.0
 ```
 
 Then run `flutter pub get`.
