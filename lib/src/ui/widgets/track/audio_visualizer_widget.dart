@@ -11,6 +11,10 @@ import '../../../context/track_reference_context.dart';
 
 enum VisualizerState { thinking, listening, active }
 
+/// Configuration options for [AudioVisualizerWidget].
+///
+/// These options control the number of bars, sizing, animation cadence, and
+/// styling used to render a simple audio spectrum / agent-state indicator.
 class AudioVisualizerWidgetOptions {
   final int barCount;
   final bool centeredBands;
@@ -77,6 +81,24 @@ class AudioVisualizerWidget extends StatelessWidget {
   final AudioVisualizerWidgetOptions options;
   final Color backgroundColor;
 
+  /// Renders an animated bar visualizer for the current audio track.
+  ///
+  /// The widget consumes a [TrackReferenceContext] from the widget tree to
+  /// discover the [sdk.AudioTrack] and associated [sdk.Participant]. When the
+  /// participant is an agent, the visualizer also reacts to agent state changes:
+  ///
+  /// - `thinking`: highlights bars in sequence.
+  /// - `initializing` / `listening`: renders a subtle "listening" pulse.
+  /// - otherwise: uses live audio samples when available.
+  ///
+  /// Example:
+  /// ```dart
+  /// ParticipantTrack(
+  ///   participant: participant,
+  ///   track: publication,
+  ///   builder: (context) => const AudioVisualizerWidget(),
+  /// );
+  /// ```
   const AudioVisualizerWidget({
     Key? key,
     this.backgroundColor = Colors.transparent,
