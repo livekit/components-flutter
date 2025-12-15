@@ -84,7 +84,7 @@ class AudioVisualizerWidget extends StatelessWidget {
   /// Renders an animated bar visualizer for the current audio track.
   ///
   /// The widget consumes a [TrackReferenceContext] from the widget tree to
-  /// discover the [sdk.AudioTrack] and associated [sdk.Participant]. When the
+  /// discover the `sdk.AudioTrack` and associated `sdk.Participant`. When the
   /// participant is an agent, the visualizer also reacts to agent state changes:
   ///
   /// - `thinking`: highlights bars in sequence.
