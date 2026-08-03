@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.1
+
+* Changed: Remove the direct flutter_webrtc dependency, screen share now uses livekit_client helpers
+* Docs: Add AudioVisualizerWidget documentation
+
 ## 1.3.0
 
 * Added: Session components
