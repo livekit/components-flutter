@@ -60,4 +60,4 @@ dependency_overrides:
   livekit_client:
     git:
       url: https://github.com/livekit/client-sdk-flutter.git
-      ref: hiroshi/screenshare-typed-api
+      ref: release/v2.10.0
