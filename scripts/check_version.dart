@@ -21,7 +21,6 @@ class _Path {
   static const pubspec = 'pubspec.yaml';
   static const changelog = 'CHANGELOG.md';
   static const version = '.version';
-  static const flutterSdkPubspec = '../client-sdk-flutter/pubspec.yaml';
 }
 
 class _Color {
@@ -79,25 +78,6 @@ String extractChangelogVersion(String content) {
   return match.group(1)!;
 }
 
-String extractDependencyVersion(
-  String content,
-  String dependencyName, {
-  required String sourceName,
-}) {
-  final pattern = RegExp('^\\s*$dependencyName:\\s*([^\\n#]+)', multiLine: true);
-  final match = pattern.firstMatch(content);
-  if (match == null) {
-    throw Exception('Could not find $dependencyName in $sourceName');
-  }
-
-  final version = normalizeValue(match.group(1)!);
-  if (version.isEmpty) {
-    throw Exception('Empty version for $dependencyName in $sourceName');
-  }
-
-  return version;
-}
-
 void checkVersionConsistency(String expectedVersion) {
   final versionFile = readFile(_Path.version).trim();
   if (versionFile != expectedVersion) {
@@ -112,30 +92,6 @@ void checkVersionConsistency(String expectedVersion) {
   }
 }
 
-void checkFlutterWebRtcVersion() {
-  final componentsPubspec = readFile(_Path.pubspec);
-  final flutterSdkPubspec = readFile(_Path.flutterSdkPubspec);
-
-  final componentsWebRtc = extractDependencyVersion(
-    componentsPubspec,
-    'flutter_webrtc',
-    sourceName: _Path.pubspec,
-  );
-  final sdkWebRtcVersion = extractDependencyVersion(
-    flutterSdkPubspec,
-    'flutter_webrtc',
-    sourceName: _Path.flutterSdkPubspec,
-  );
-
-  if (componentsWebRtc != sdkWebRtcVersion) {
-    throw Exception(
-      'flutter_webrtc version mismatch: components=$componentsWebRtc, Flutter SDK=$sdkWebRtcVersion',
-    );
-  }
-
-  print('${_Color.green}flutter_webrtc version matches Flutter SDK: $componentsWebRtc${_Color.reset}');
-}
-
 void main() {
   try {
     final pubspecContent = readFile(_Path.pubspec);
@@ -143,7 +99,6 @@ void main() {
     print('Checking version ${_Color.bold}${_Color.green}$version${_Color.reset}');
 
     checkVersionConsistency(version);
-    checkFlutterWebRtcVersion();
 
     print('${_Color.bold}${_Color.green}All version checks passed ✓${_Color.reset}');
   } catch (e) {

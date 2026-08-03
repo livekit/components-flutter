@@ -53,3 +53,11 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+# Temporary until the typed screen share helpers ship in a livekit_client
+# release, keep in sync with the override in the package pubspec.
+dependency_overrides:
+  livekit_client:
+    git:
+      url: https://github.com/livekit/client-sdk-flutter.git
+      ref: hiroshi/screenshare-typed-api
