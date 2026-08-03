@@ -17,7 +17,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_background/flutter_background.dart';
-import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:livekit_client/livekit_client.dart';
 import 'package:provider/provider.dart';
 
@@ -190,18 +189,16 @@ class MediaDeviceContext extends ChangeNotifier {
   Future<void> enableScreenShare(BuildContext context) async {
     if (lkPlatformIsDesktop()) {
       try {
-        final source = await showDialog<DesktopCapturerSource>(
-          context: context,
-          builder: (context) => ScreenSelectDialog(),
-        );
-        if (source == null) {
+        // ignore: experimental_member_use
+        final sourceId = await ScreenSelectDialog.show(context);
+        if (sourceId == null) {
           Debug.log('cancelled screenshare');
           return;
         }
-        Debug.log('DesktopCapturerSource: ${source.id}');
+        Debug.log('screenshare source id: $sourceId');
         final track = await LocalVideoTrack.createScreenShareTrack(
           ScreenShareCaptureOptions(
-            sourceId: source.id,
+            sourceId: sourceId,
             maxFrameRate: 15.0,
           ),
         );
@@ -213,7 +210,8 @@ class MediaDeviceContext extends ChangeNotifier {
     }
     if (lkPlatformIs(PlatformType.android)) {
       // Android specific
-      final hasCapturePermission = await Helper.requestCapturePermission();
+      // ignore: experimental_member_use
+      final hasCapturePermission = await Hardware.instance.requestCapturePermission();
       if (!hasCapturePermission) {
         return;
       }

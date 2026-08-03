@@ -1,0 +1,1 @@
+patch type="changed" "Remove the direct flutter_webrtc dependency, screen share now uses livekit_client helpers"
