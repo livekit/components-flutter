@@ -1,6 +1,10 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  exclude:
+    # Xcode vendors Swift package checkouts under build when building for
+    # iOS or macOS, livekit_client ships Package.swift since 2.10.0.
+    - build/**
   errors:
     constant_identifier_names: ignore
     no_wildcard_variable_uses: ignore

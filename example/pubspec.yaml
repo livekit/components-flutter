@@ -27,7 +27,7 @@ dependencies:
 
   livekit_components:
     path: ..
-  livekit_client: ^2.5.4
+  livekit_client: ^2.10.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -54,10 +54,3 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-# Temporary until the typed screen share helpers ship in a livekit_client
-# release, keep in sync with the override in the package pubspec.
-dependency_overrides:
-  livekit_client:
-    git:
-      url: https://github.com/livekit/client-sdk-flutter.git
-      ref: release/v2.10.0

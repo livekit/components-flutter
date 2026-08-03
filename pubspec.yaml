@@ -10,7 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  livekit_client: ^2.9.0
+  livekit_client: ^2.10.0
   chat_bubbles: ^1.6.0
   collection: ^1.19.0
   flutter_background: ^1.3.0+1
@@ -19,13 +19,6 @@ dependencies:
   provider: ^6.1.2
   responsive_builder: ^0.7.1
 
-# Temporary until the typed screen share helpers ship in a livekit_client
-# release, then this override goes away and the constraint above gets bumped.
-dependency_overrides:
-  livekit_client:
-    git:
-      url: https://github.com/livekit/client-sdk-flutter.git
-      ref: release/v2.10.0
 
 dev_dependencies:
   flutter_test:
