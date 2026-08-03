@@ -1,6 +1,11 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  exclude:
+    # Xcode vendors Swift package checkouts under build when building the
+    # example, livekit_client ships Package.swift since 2.10.0.
+    - build/**
+    - example/build/**
   language:
     strict-casts: true
     strict-inference: true
