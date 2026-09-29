@@ -1,0 +1,1 @@
+patch type="fixed" "RoomContext.connect no longer replaces a non-LiveKitException error with a cast error"

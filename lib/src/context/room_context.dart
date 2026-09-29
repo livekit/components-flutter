@@ -184,7 +184,8 @@ class RoomContext extends ChangeNotifier with ChatContextMixin, TranscriptionCon
       _connectionState = ConnectionState.disconnected;
       _connecting = false;
       notifyListeners();
-      onError?.call(e as LiveKitException?);
+      // Not every failure is a LiveKitException; a cast here would replace the original error.
+      onError?.call(e is LiveKitException ? e : null);
       rethrow;
     }
   }
