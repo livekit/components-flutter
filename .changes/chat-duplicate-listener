@@ -1,0 +1,1 @@
+patch type="fixed" "Chat messages are no longer received several times after the room reconnects"

@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -65,13 +66,20 @@ mixin ChatContextMixin on ChangeNotifier {
   final List<ChatMessage> _messages = [];
   List<ChatMessage> get messages => _messages;
   LocalParticipant? _localParticipant;
-  EventsListener<RoomEvent>? _listener;
+  CancelListenFunc? _cancelListener;
 
   void chatContextSetup(EventsListener<RoomEvent>? listener, LocalParticipant? localParticipant) {
-    _listener = listener;
+    // The room listener outlives a disconnect, so drop the previous subscription. Otherwise
+    // every reconnect adds another one and each message is received several times.
+    final cancel = _cancelListener;
+    _cancelListener = null;
+    if (cancel != null) {
+      unawaited(cancel());
+    }
+
     _localParticipant = localParticipant;
     if (listener != null) {
-      _listener!.on<DataReceivedEvent>((event) {
+      _cancelListener = listener.on<DataReceivedEvent>((event) {
         Debug.event('ChatContext: DataReceivedEvent');
 
         if (event.topic == 'lk-chat-topic') {
@@ -79,7 +87,6 @@ mixin ChatContextMixin on ChangeNotifier {
         }
       });
     } else {
-      _listener = null;
       _messages.clear();
     }
   }
